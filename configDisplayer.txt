@@ -1,1 +1,1 @@
-displayer = extensions.Displayer
+class = extension.Displayer

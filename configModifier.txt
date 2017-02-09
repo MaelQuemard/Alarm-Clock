@@ -1,2 +1,2 @@
-modifier = extensions.ModifyIncH
+class = extension.ModifyIncH
 Name = PlusUn

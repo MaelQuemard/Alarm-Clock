@@ -60,7 +60,9 @@ public class EarthManager implements ITimeManager {
 
 	@Override
 	public void IAmNotify(int i) {
-		System.out.println("le modifieur numero :"+ i + "a été apellé");
+		IModify im = listModifiers.get(i);
+		im.modify();
+		System.out.println("le modifieur numero :"+ i + " a été apellé");
 		
 	}
 
@@ -76,6 +78,12 @@ public class EarthManager implements ITimeManager {
 	{
 		aff = a;
 	}
-	
 
+	public Time getTime() {
+		return t;
+	}
+
+	public void setTime(Time t) {
+		this.t = t;
+	}
 }

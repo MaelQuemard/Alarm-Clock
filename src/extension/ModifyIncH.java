@@ -1,10 +1,13 @@
 package extension;
 
+import client.Time;
 import framework.IModify;
+import framework.ITimeManager;
 
 public class ModifyIncH implements IModify{
 
 	private String name;
+	private ITimeManager it;
 	
 	public ModifyIncH() {
 		name = "";
@@ -13,6 +16,8 @@ public class ModifyIncH implements IModify{
 	@Override
 	public int modify()
 	{
+		it.getTime().actualizeTime();
+		it.updateAff();
 		return 1;
 	}
 
@@ -25,6 +30,11 @@ public class ModifyIncH implements IModify{
 		this.name = name;
 	}
 
-	
+	public ITimeManager getITimeManager() {
+		return it;
+	}
 
+	public void setITimeManager(ITimeManager it) {
+		this.it = it;
+	}
 }

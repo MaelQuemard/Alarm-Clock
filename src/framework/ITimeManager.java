@@ -1,5 +1,6 @@
 package framework;
 
+import client.Time;
 
 public interface ITimeManager {
 	public void IAmNotify(int i);
@@ -7,4 +8,6 @@ public interface ITimeManager {
 	public void  addModifiers();
 	public void updateAff();
 	public void setAffichage(IDisplayer a);
+	public Time getTime();
+	public void setTime(Time t);
 }

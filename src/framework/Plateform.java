@@ -80,6 +80,10 @@ public class Plateform
 		try 
 		{
 			res = cl.newInstance();
+			// Revoir le if
+			if (supercl == IModify.class) {
+				((IModify) res).setName((String)p.get("Name"));
+			}
 		} catch (InstantiationException | IllegalAccessException e) 
 		{
 			e.printStackTrace();
