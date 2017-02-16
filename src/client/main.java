@@ -30,6 +30,17 @@ public class main {
 		timeManager.addModifiers();
 		timeManager.updateAff();
 		
+		while (true) {
+			timeManager.getTime().actualizeTime();
+			timeManager.updateAff();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	/*	ITimeManager e = new  EarthManager();
 		IModify m = new ModifyIncH();
 		IDisplayer a =  new Displayer();

@@ -16,7 +16,7 @@ public class ModifyIncH implements IModify{
 	@Override
 	public int modify()
 	{
-		it.getTime().actualizeTime();
+		it.getTime().addHour();
 		it.updateAff();
 		return 1;
 	}

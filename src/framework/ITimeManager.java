@@ -10,4 +10,6 @@ public interface ITimeManager {
 	public void setAffichage(IDisplayer a);
 	public Time getTime();
 	public void setTime(Time t);
+	public int getModifyValue();
+	public void setModifyValue(int modifyValue);
 }
