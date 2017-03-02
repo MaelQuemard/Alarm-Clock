@@ -9,8 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import framework.IDisplayer;
-import framework.ITimeManager;
+import client.IDisplayer;
+import client.ITimeManager;
 
 
 public class Displayer implements IDisplayer {

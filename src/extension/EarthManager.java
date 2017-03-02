@@ -2,10 +2,10 @@ package extension;
 
 import java.util.ArrayList;
 
+import client.IDisplayer;
+import client.IModify;
+import client.ITimeManager;
 import client.Time;
-import framework.IDisplayer;
-import framework.IModify;
-import framework.ITimeManager;
 
 public class EarthManager implements ITimeManager {
 

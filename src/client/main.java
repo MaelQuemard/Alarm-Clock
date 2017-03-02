@@ -8,9 +8,6 @@ import extension.EarthManager;
 import extension.ModifyIncH;
 import framework.Constraint;
 import framework.ExtensionLoader;
-import framework.IDisplayer;
-import framework.IModify;
-import framework.ITimeManager;
 import framework.Plateform;
 
 public class main {

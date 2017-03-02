@@ -1,8 +1,8 @@
 package extension;
 
+import client.IModify;
+import client.ITimeManager;
 import client.Time;
-import framework.IModify;
-import framework.ITimeManager;
 
 public class ModifyIncH implements IModify{
 
