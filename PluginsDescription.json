@@ -1,0 +1,20 @@
+{
+	"Plugins": {
+		"Affichage1": {
+			"Name": "extension.Displayer",
+			"Tags":  ["IDisplayer", "Fr"]
+		}		
+		"Affichage2": {
+			"Name": "extension.Displayer",
+			"Tags":  ["IDisplayer", "En"]
+		}
+		"Time1": {
+			"Name": "extension.EarthManager",
+			"Tags":  ["ITimeManager", "En"]
+		}
+		"Modify1": {
+			"Name": "extension.ModifyIncH",
+			"Tags":  ["IModify", "En"]
+		}
+	}
+}

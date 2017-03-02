@@ -1,8 +1,13 @@
 package client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import extension.Displayer;
 import extension.EarthManager;
 import extension.ModifyIncH;
+import framework.Constraint;
+import framework.ExtensionLoader;
 import framework.IDisplayer;
 import framework.IModify;
 import framework.ITimeManager;
@@ -17,9 +22,29 @@ public class main {
 		IDisplayer displayer;
 		//TODO : Dynamisme avec loadBean ou autre 
 		
-		timeManager = (ITimeManager) Plateform.loadExtension("configManager.txt", ITimeManager.class);
+		/*timeManager = (ITimeManager) Plateform.loadExtension("configManager.txt", ITimeManager.class);
 		modify = (IModify) Plateform.loadExtension("configModifier.txt", IModify.class);
 		displayer = (IDisplayer) Plateform.loadExtension("configDisplayer.txt", IDisplayer.class);
+		*/
+		Constraint c1 = new Constraint();
+		
+		// Chargement du TimeManager
+		List<String> tags = new ArrayList<String>();
+		tags.add("ITimeManager");
+		c1.setConstraints(tags);
+		timeManager = (ITimeManager) ExtensionLoader.getInstance().getExtension(c1);
+		
+		// Chargement du modifieur
+		tags.clear();
+		tags.add("IModify");
+		c1.setConstraints(tags);
+		modify = (IModify) ExtensionLoader.getInstance().getExtension(c1);
+		
+		// Chargement de l'affichage
+		tags.clear();
+		tags.add("IDisplayer");
+		c1.setConstraints(tags);
+		displayer = (IDisplayer) ExtensionLoader.getInstance().getExtension(c1);
 		
 		modify.setITimeManager(timeManager);
 		
@@ -36,21 +61,9 @@ public class main {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-	/*	ITimeManager e = new  EarthManager();
-		IModify m = new ModifyIncH();
-		IDisplayer a =  new Displayer();
-		
-		a.setCore(e);
-		
-		e.setAffichage(a);
-		e.addModifier(m);
-		e.addModifiers();
-		e.updateAff();*/
 	}
 
 }
