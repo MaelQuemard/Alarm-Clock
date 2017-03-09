@@ -16,5 +16,13 @@
 			"Name": "extension.ModifyIncH",
 			"Tags":  ["IModify", "En"]
 		}
+		"RealPluginRunner": {
+			"Name": "extension.AppAlarm",
+			"Tags": ["IApp"]
+		}
+		"MonMonitor": {
+			"Name": "extension.Monitor",
+			"Tags": ["IMonitor"]
+		}
 	}
 }

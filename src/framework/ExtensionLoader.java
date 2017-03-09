@@ -7,9 +7,13 @@ import java.util.List;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import client.IApp;
+
 public class ExtensionLoader {
 
 	private static ExtensionLoader instance;
+	private static IMonitor monitor;
+	private List<IApp> listApp;
 	
 	protected ExtensionLoader() {}
 	
@@ -43,6 +47,7 @@ public class ExtensionLoader {
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			System.out.println(e.getMessage());
 		}
+		if(monitor != null) monitor.isLoad(p);
 		return o;
 	}
 	
@@ -70,5 +75,62 @@ public class ExtensionLoader {
         }
 		
 		return plugins;
+	}
+	
+	private void autorun() {
+		List<String> tags = new ArrayList<String>();
+		List<DescriptionPlugin> l;
+		Constraint c1 = new Constraint();
+		
+		// Chargement de l'affichage
+				
+		tags.add("IApp");
+		c1.setConstraints(tags);
+		
+		l = ExtensionLoader.getInstance().getExtension(c1); 
+		System.out.println("DESCRIPTION    : " + l.toString());
+		for(DescriptionPlugin d : l)
+		{
+			listApp.add((IApp) instance.load(d));
+		}
+		
+		instance.runApp();
+	}
+	
+	private void runApp() {
+		for (IApp a : listApp) {
+			a.run();
+		}
+	}
+	
+	public static void main(String[] args) {
+		
+		ExtensionLoader.getInstance().autorun();
+		
+		IMonitor monitor;
+		
+		List<String> tags = new ArrayList<String>();
+		List<DescriptionPlugin> l;
+		Constraint c1 = new Constraint();
+		
+		// Chargement du monitor
+		tags.add("IMonitor");
+		c1.setConstraints(tags);
+		l = ExtensionLoader.getInstance().getExtension(c1);
+		monitor = (IMonitor) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
+		
+		// execution of autorun
+		//monitor.autorun();
+		
+		int i = 0;
+		
+		// run of 5 cycle of allPlugin
+		/*while(i<5)
+		{
+			monitor.runApp();
+			++i;
+		}*/
+		monitor.kill(1);
+		monitor.killAll();
 	}
 }

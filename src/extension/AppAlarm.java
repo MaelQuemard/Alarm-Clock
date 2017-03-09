@@ -1,23 +1,23 @@
-package client;
+package extension;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import extension.Displayer;
-import extension.EarthManager;
-import extension.ModifyIncH;
+import client.IApp;
+import client.IDisplayer;
+import client.IModify;
+import client.ITimeManager;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
-import framework.Plateform;
 
-public class main {
+public class AppAlarm implements IApp {
+
+	private ITimeManager timeManager;
+	private IModify modify;
+	private IDisplayer displayer;
 	
-	public static void main(String[] args) {
-		// Test branch
-		ITimeManager timeManager;
-		IModify modify;
-		IDisplayer displayer;
+	public AppAlarm() {
 		//TODO : Dynamisme avec loadBean ou autre 
 		
 		Constraint c1 = new Constraint();
@@ -54,9 +54,7 @@ public class main {
 		l = ExtensionLoader.getInstance().getExtension(c1); 
 		//d = ???
 		modify = (IModify) ExtensionLoader.getInstance().load(l.get(0)); //FIXME with d
-		
-		
-		
+			
 		modify.setITimeManager(timeManager);
 		
 		displayer.setCore(timeManager);
@@ -65,16 +63,16 @@ public class main {
 		timeManager.addModifier(modify);
 		timeManager.addModifiers();
 		timeManager.updateAff();
-		
-		while (true) {
-			timeManager.getTime().actualizeTime();
-			timeManager.updateAff();
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
+	@Override
+	public void run() {
+		timeManager.getTime().actualizeTime();
+		timeManager.updateAff();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 }
