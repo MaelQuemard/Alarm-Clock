@@ -7,6 +7,7 @@ import extension.Displayer;
 import extension.EarthManager;
 import extension.ModifyIncH;
 import framework.Constraint;
+import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
 import framework.Plateform;
 
@@ -19,29 +20,42 @@ public class main {
 		IDisplayer displayer;
 		//TODO : Dynamisme avec loadBean ou autre 
 		
-		/*timeManager = (ITimeManager) Plateform.loadExtension("configManager.txt", ITimeManager.class);
-		modify = (IModify) Plateform.loadExtension("configModifier.txt", IModify.class);
-		displayer = (IDisplayer) Plateform.loadExtension("configDisplayer.txt", IDisplayer.class);
-		*/
 		Constraint c1 = new Constraint();
+		List<String> tags = new ArrayList<String>();
+		List<DescriptionPlugin> l;
+		DescriptionPlugin d;
+		
+		// Chargement de l'affichage
+				
+		tags.add("IDisplayer");
+		c1.setConstraints(tags);
+		
+		l = ExtensionLoader.getInstance().getExtension(c1); 
+		//d = ???
+		
+		displayer = (IDisplayer) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
 		
 		// Chargement du TimeManager
-		List<String> tags = new ArrayList<String>();
+		tags.clear();
 		tags.add("ITimeManager");
 		c1.setConstraints(tags);
-		timeManager = (ITimeManager) ExtensionLoader.getInstance().getExtension(c1);
+		// get list descriptionPlugin
+		l = ExtensionLoader.getInstance().getExtension(c1); 
+		// affichage des choix possible
+		// TODO get it with afficher
+		// d = ???
+		//loading du plugin cible
+		timeManager = (ITimeManager) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
 		
 		// Chargement du modifieur
 		tags.clear();
 		tags.add("IModify");
 		c1.setConstraints(tags);
-		modify = (IModify) ExtensionLoader.getInstance().getExtension(c1);
+		l = ExtensionLoader.getInstance().getExtension(c1); 
+		//d = ???
+		modify = (IModify) ExtensionLoader.getInstance().load(l.get(0)); //FIXME with d
 		
-		// Chargement de l'affichage
-		tags.clear();
-		tags.add("IDisplayer");
-		c1.setConstraints(tags);
-		displayer = (IDisplayer) ExtensionLoader.getInstance().getExtension(c1);
+		
 		
 		modify.setITimeManager(timeManager);
 		

@@ -11,42 +11,43 @@ public class ExtensionLoader {
 
 	private static ExtensionLoader instance;
 	
-	private ExtensionLoader() {}
+	protected ExtensionLoader() {}
 	
 	public static ExtensionLoader getInstance() {
 		if (instance == null) {
-			instance = new ExtensionLoader();
+			instance = DecoratorLog.getInstance();
 		}
 		return instance;
 	}
 
-	public Object getExtension(Constraint c1) {
+	public List<DescriptionPlugin> getExtension(Constraint c1) {
 		// get listPlugin (respectent contraintes)
-		Object o = null;
+		
 		List<DescriptionPlugin> listPlugins = this.getListPlugins();
 		List<DescriptionPlugin> listPluginsValid = new ArrayList<DescriptionPlugin>();
 		for(DescriptionPlugin d : listPlugins) {
 			if (d.getTags().containsAll(c1.getConstraints()))
 				listPluginsValid.add(d);
 		}
-			
-		// generate object with one of the item list
-		if (listPluginsValid.isEmpty()) {
-			System.out.println("Aucun plugins chargeable");
-		}
-		else {
-			try {
-				Class<?> cl = Class.forName(listPluginsValid.get(0).getNom());
-				o = cl.newInstance();
-			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-				System.out.println(e.getMessage());
-			}
+		return listPluginsValid;		
+	}
+	
+	public Object load(DescriptionPlugin p)
+	{
+		Object o = null;
+		// generate object with one of the item list	
+		try {
+			Class<?> cl = Class.forName(p.getNom());
+			// choose the target plugin in the list	
+			o = cl.newInstance();
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+			System.out.println(e.getMessage());
 		}
 		return o;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<DescriptionPlugin> getListPlugins()
+	private List<DescriptionPlugin> getListPlugins()
 	{
 		List<DescriptionPlugin> plugins = new ArrayList<DescriptionPlugin>();
 		
