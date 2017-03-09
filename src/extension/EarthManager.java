@@ -30,7 +30,7 @@ public class EarthManager implements ITimeManager {
 		this.minuteLimit = 60;
 		this.secondLimit = 60;
 		
-		this.t = new Time(this.hourLimit,this.minuteLimit,this.secondLimit);
+		this.t = new Time(this.hourLimit,this.minuteLimit,this.secondLimit, false);
 		
 
 		/*

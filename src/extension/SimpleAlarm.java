@@ -14,11 +14,13 @@ public class SimpleAlarm implements IAlarm
 		this.behaviour = "RING RING";
 	}
 
-	public Time getTime() {
+	public Time getTime() 
+	{
 		return t;
 	}
 
-	public void setTime(Time t) {
+	public void setTime(Time t) 
+	{
 		this.t = t;
 	}
 	
@@ -28,14 +30,14 @@ public class SimpleAlarm implements IAlarm
 	}
 
 	@Override
-	public String getBehaviour() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getBehaviour() 
+	{
+		return this.behaviour;
 	}
 
 	@Override
-	public void setBehaviour(String b) {
-		// TODO Auto-generated method stub
-		
+	public void setBehaviour(String b)
+	{
+		this.behaviour = b;
 	}
 }

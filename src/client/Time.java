@@ -9,6 +9,7 @@ public class Time{
 	private int s;
 	
 	private long initialTime;
+	private long actualTime;
 	
 	
 	public Time() {
@@ -17,18 +18,29 @@ public class Time{
 		this.setM(0);
 		this.setS(0);
 		this.initialTime = System.currentTimeMillis();
-		
+		this.actualTime = 0;
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	public Time(int hourLimit, int minuteLimit, int secondLimit)
+	public Time(int hourLimit, int minuteLimit, int secondLimit, boolean fixe)
 	{
-		Date d = new Date();
-		this.setH(d.getHours() % hourLimit);
-		this.setM(d.getMinutes() % minuteLimit);
-		this.setS(d.getSeconds() % secondLimit);
-		initialTime = System.currentTimeMillis();
+		if (fixe)
+		{
+			this.h = hourLimit;
+			this.m = minuteLimit;
+			this.s = secondLimit;
+		}
+		else
+		{
+			Date d = new Date();
+			this.setH(d.getHours() % hourLimit);
+			this.setM(d.getMinutes() % minuteLimit);
+			this.setS(d.getSeconds() % secondLimit);
+			initialTime = System.currentTimeMillis(); // Choice made to start the clock at the current time on Earth
+		}
+
 	}
+
 	
 	@SuppressWarnings("deprecation")
 	public void actualizeTime()
@@ -38,11 +50,12 @@ public class Time{
 		this.setM(d.getMinutes());
 		this.setS(d.getSeconds());
 		System.out.println();
-		System.currentTimeMillis(); // time in millisecond
+		//System.currentTimeMillis(); // time in millisecond
+		actualTime = (System.currentTimeMillis() - initialTime)%86400000;
 	}
 	
 	public String toString(){
-		long actualTime = System.currentTimeMillis() - initialTime;
+		actualTime = (System.currentTimeMillis() - initialTime)%86400000;
 		System.out.println("they call me : Timer.toString : " + (actualTime/3600000)%24 + ":" +(actualTime/60000)%60 + ":"+(actualTime/1000)%60);
 		return( (actualTime/3600000)%24 + ":" +(actualTime/60000)%60 + ":"+(actualTime/1000)%60);
 		//return ( h + ":" + m + ":" + s );
@@ -81,5 +94,14 @@ public class Time{
 		return ((this.h * 3600) + (this.m * 60) + this.s);
 	}
 
+	
+	public long getActualTime() {
+		return actualTime;
+	}
+
+	public void setActualTime(long actualTime) {
+		this.actualTime = actualTime;
+	}
+	
 
 }

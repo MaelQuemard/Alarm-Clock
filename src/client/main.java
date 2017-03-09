@@ -66,8 +66,22 @@ public class main {
 		timeManager.addModifiers();
 		timeManager.updateAff();
 		
-		while (true) {
+		// Test fonctionnement alarme
+		AlarmManager al = new AlarmManager();
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new Time(20,0,0,true),"Simple"); // A implementer sur l'interface graphique
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new Time(22,0,0,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new Time(23,0,0,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new Time(12,0,10,true),"Simple");
+
+		while (true) 
+		{
 			timeManager.getTime().actualizeTime();
+			
+			if (al.shouldRing(timeManager.getTime().getActualTime()/1000))
+			{
+				al.ring();
+			}
+			
 			timeManager.updateAff();
 			try {
 				Thread.sleep(1000);
