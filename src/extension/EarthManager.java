@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import client.IDisplayer;
 import client.IModify;
 import client.ITimeManager;
-import client.Time;
 
 public class EarthManager implements ITimeManager {
 
 	private ArrayList<IModify> listModifiers;
 	private IDisplayer aff;
-	private Time t;
+	private EarthTime t;
 	private int modifyValue;
 	
 	private int hourLimit;
@@ -30,7 +29,7 @@ public class EarthManager implements ITimeManager {
 		this.minuteLimit = 60;
 		this.secondLimit = 60;
 		
-		this.t = new Time(this.hourLimit,this.minuteLimit,this.secondLimit, false);
+		this.t = new EarthTime(this.hourLimit,this.minuteLimit,this.secondLimit, false);
 		
 
 		/*
@@ -95,11 +94,11 @@ public class EarthManager implements ITimeManager {
 		aff = a;
 	}
 
-	public Time getTime() {
+	public EarthTime getTime() {
 		return t;
 	}
 
-	public void setTime(Time t) {
+	public void setTime(EarthTime t) {
 		this.t = t;
 	}
 
