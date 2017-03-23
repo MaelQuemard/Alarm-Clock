@@ -1,27 +1,27 @@
 package extension;
 
 import client.IAlarm;
-import client.Time;
+import client.ITime;
 
 public class SimpleAlarm implements IAlarm
 {
-	private Time t;
+	private ITime t;
 	private String behaviour;
 
-	public SimpleAlarm(Time t)
+	public SimpleAlarm(ITime t)
 	{
 		this.setTime(t);
 		this.behaviour = "RING RING";
 	}
 
-	public Time getTime() 
+	public ITime getTime() 
 	{
 		return t;
 	}
 
-	public void setTime(Time t) 
+	public void setTime(ITime t2) 
 	{
-		this.t = t;
+		this.t = t2;
 	}
 	
 	public void ring()
