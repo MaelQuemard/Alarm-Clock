@@ -18,7 +18,7 @@ public class AlarmManager
 		return alarms;
 	}
 	
-	public void addAlarm(long at, Time t, String type)
+	public void addAlarm(long at, ITime t, String type)
 	{
 		int as = t.getTotalS(); // alarm time total seconds
 		boolean put = false;
@@ -47,7 +47,7 @@ public class AlarmManager
 			while(i<alarms.size() && !put)
 			{
 
-				Time ti = alarms.get(i).getTime();
+				ITime ti = alarms.get(i).getTime();
 				int tis = ti.getTotalS();
 				
 				if (tis < at)
@@ -73,7 +73,7 @@ public class AlarmManager
 			
 			while(i<alarms.size() && !put)
 			{
-				Time ti = alarms.get(i).getTime();
+				ITime ti = alarms.get(i).getTime();
 				int tis = ti.getTotalS();
 				
 				if (tis < at)
@@ -103,7 +103,6 @@ public class AlarmManager
 	public void ring()
 	{
 		alarms.get(0).ring();
-		//alarms.remove(0);
 		IAlarm alarmToMove = alarms.get(0);
 		alarms.add(alarmToMove);
 		alarms.remove(0);
