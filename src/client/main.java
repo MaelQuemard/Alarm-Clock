@@ -6,6 +6,7 @@ import java.util.List;
 import extension.Displayer;
 import extension.EarthManager;
 import extension.ModifyIncH;
+import extension.EarthTime;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
@@ -16,7 +17,7 @@ public class main {
 	public static void main(String[] args) {
 		
 		ITimeManager timeManager;
-		IModify modify;
+		IModify modify,modify2,modify3,modify4;
 		IDisplayer displayer;
 		//TODO : Dynamisme avec loadBean ou autre 
 		
@@ -54,24 +55,33 @@ public class main {
 		l = ExtensionLoader.getInstance().getExtension(c1); 
 		//d = ???
 		modify = (IModify) ExtensionLoader.getInstance().load(l.get(0)); //FIXME with d
+		modify2 = (IModify) ExtensionLoader.getInstance().load(l.get(1)); //FIXME with d
+		modify3 = (IModify) ExtensionLoader.getInstance().load(l.get(2)); //FIXME with d
+		modify4 = (IModify) ExtensionLoader.getInstance().load(l.get(3)); //FIXME with d
 		
 		
 		
 		modify.setITimeManager(timeManager);
+		modify2.setITimeManager(timeManager);
+		modify3.setITimeManager(timeManager);
+		modify4.setITimeManager(timeManager);
 		
 		displayer.setCore(timeManager);
 		
 		timeManager.setAffichage(displayer);
 		timeManager.addModifier(modify);
+		timeManager.addModifier(modify2);
+		timeManager.addModifier(modify3);
+		timeManager.addModifier(modify4);
 		timeManager.addModifiers();
 		timeManager.updateAff();
 		
 		// Test fonctionnement alarme
 		AlarmManager al = new AlarmManager();
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new Time(20,0,0,true),"Simple"); // A implementer sur l'interface graphique
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new Time(22,0,0,true),"Simple");
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new Time(23,0,0,true),"Simple");
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new Time(12,0,10,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(20,0,0,true),"Simple"); // A implementer sur l'interface graphique
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(22,0,0,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(23,0,0,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,0,10,true),"Simple");
 
 		while (true) 
 		{
