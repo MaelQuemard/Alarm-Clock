@@ -3,19 +3,19 @@ package extension;
 import client.IModify;
 import client.ITimeManager;
 
-public class ModifyIncH implements IModify{
+public class ModifyIncM implements IModify{
 
 	private String name;
 	private ITimeManager it;
 	
-	public ModifyIncH() {
-		name = "+1 hour";
+	public ModifyIncM() {
+		name = "+1 min";
 	}
 
 	@Override
 	public int modify()
 	{
-		it.getTime().addHour();
+		it.getTime().addMin();
 		it.updateAff();
 		return 1;
 	}

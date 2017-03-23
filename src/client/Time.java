@@ -64,6 +64,10 @@ public class Time{
 	public void addHour() {
 		initialTime -= 3600000;
 	}
+	
+	public void addMin() {
+		initialTime -= 60000;
+	}
 
 	public int getH() {
 		return h;
