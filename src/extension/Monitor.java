@@ -9,62 +9,41 @@ import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
 import framework.IMonitor;
+import framework.ISignalMonitor;
 
 public class Monitor implements IMonitor {
-
-	List<IApp> listAutorunApp;
-	List<DescriptionPlugin> listLoadPlugins;
 	
 	public Monitor()
 	{
-		listAutorunApp = new ArrayList<IApp>();
-		listLoadPlugins = new ArrayList<DescriptionPlugin>();
-	}
-	@Override
-	public void autorun() {
 		
+	}
+	
+	public void writeLog(String log) {
+		System.out.println("MONITOR : " + log);
+	}
+	
+	public void test() {
 		List<String> tags = new ArrayList<String>();
-		List<DescriptionPlugin> l;
 		Constraint c1 = new Constraint();
-		
-		// Chargement de l'affichage
-				
-		tags.add("autorun");
+		List<String> listAttribut = ((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0))
+				.getAttributsPlugin();
+		System.out.println(listAttribut.toString());
+		tags.clear();
+		tags.add("I"+listAttribut.get(0));
 		c1.setConstraints(tags);
-		
-		l = ExtensionLoader.getInstance().getExtension(c1); 
-		for(DescriptionPlugin d : l)
-		{
-			listAutorunApp.add((IApp) ExtensionLoader.getInstance().load(d));
-		}
-			
+		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).modifyAttribut(
+				listAttribut.get(0), 
+				ExtensionLoader.getInstance().load(ExtensionLoader.getInstance().getExtension(c1).get(0)));
+		this.kill(ExtensionLoader.getInstance().getListApp().get(0), "TimeManager");
 	}
-
-	@Override
-	public void runApp() {
-		for(IApp a : listAutorunApp)
-		{
-			a.run();
-		}
-		
-	}
-
-	@Override
-	public void kill(int i) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void killAll() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void isLoad(DescriptionPlugin p) {
-		System.out.println(p.toString());
-		
+	
+	/**
+	 * Cette méthode permet de kill plugin associé a une application
+	 * @param appRunning, application ou se trouve le plugin a kill
+	 * @param subPluginToKill plugin a kill
+	 */
+	public void kill(IApp appRunning, String subPluginToKill) {
+		((ISignalMonitor) appRunning).kill(subPluginToKill);
 	}
 
 }

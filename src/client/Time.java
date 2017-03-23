@@ -37,13 +37,12 @@ public class Time{
 		this.setH(d.getHours());
 		this.setM(d.getMinutes());
 		this.setS(d.getSeconds());
-		System.out.println();
 		System.currentTimeMillis(); // time in millisecond
 	}
 	
 	public String toString(){
 		long actualTime = System.currentTimeMillis() - initialTime;
-		System.out.println("they call me : Timer.toString : " + (actualTime/3600000)%24 + ":" +(actualTime/60000)%60 + ":"+(actualTime/1000)%60);
+		//System.out.println("they call me : Timer.toString : " + (actualTime/3600000)%24 + ":" +(actualTime/60000)%60 + ":"+(actualTime/1000)%60);
 		return( (actualTime/3600000)%24 + ":" +(actualTime/60000)%60 + ":"+(actualTime/1000)%60);
 		//return ( h + ":" + m + ":" + s );
 	}

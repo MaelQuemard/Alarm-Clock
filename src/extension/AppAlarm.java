@@ -10,6 +10,7 @@ import client.ITimeManager;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
+//import framework.Test;
 
 public class AppAlarm implements IApp {
 
@@ -74,5 +75,31 @@ public class AppAlarm implements IApp {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public ITimeManager getTimeManager() {
+		return timeManager;
+	}
+
+	public void setTimeManager(ITimeManager timeManager) {
+		System.out.println("APPALARM TIME MANAGER : "+timeManager);
+		this.timeManager = timeManager;
+		this.timeManager.setAffichage(this.displayer);
+	}
+
+	public IModify getModify() {
+		return modify;
+	}
+
+	public void setModify(IModify modify) {
+		this.modify = modify;
+	}
+
+	public IDisplayer getDisplayer() {
+		return displayer;
+	}
+
+	public void setDisplayer(IDisplayer displayer) {
+		this.displayer = displayer;
 	}
 }
