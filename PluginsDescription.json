@@ -12,8 +12,20 @@
 			"Name": "extension.EarthManager",
 			"Tags":  ["ITimeManager", "En"]
 		}
-		"Modify1": {
+		"ModifyIncH": {
 			"Name": "extension.ModifyIncH",
+			"Tags":  ["IModify", "En"]
+		}
+		"ModifyDecH": {
+			"Name": "extension.ModifyDecH",
+			"Tags":  ["IModify", "En"]
+		}
+		"ModifyIncM": {
+			"Name": "extension.ModifyIncM",
+			"Tags":  ["IModify", "En"]
+		}
+		"ModifyDecM": {
+			"Name": "extension.ModifyDecM",
 			"Tags":  ["IModify", "En"]
 		}
 	}
