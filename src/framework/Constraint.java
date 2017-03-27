@@ -3,6 +3,10 @@ package framework;
 import java.util.ArrayList;
 import java.util.List;
 
+/** class représentant les contraint que doit respecter un plugin, sous la forme d'une list de tag (String)
+ * @author quemard
+ *
+ */
 public class Constraint {
 	
 	private List<String> constraints;

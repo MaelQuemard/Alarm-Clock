@@ -2,6 +2,7 @@ package client;
 
 public interface IApp {
 	
-	public void run();
+	void run();
+	String getName();
 
 }

@@ -2,27 +2,33 @@
 	"Plugins": {
 		"Affichage1": {
 			"Name": "extension.Displayer",
-			"Tags":  ["IDisplayer", "Fr"]
+			"Tags":  ["IDisplayer", "Fr"],
+			"Killable": true
 		}		
 		"Affichage2": {
 			"Name": "extension.Displayer",
-			"Tags":  ["IDisplayer", "En"]
+			"Tags":  ["IDisplayer", "En"],
+			"Killable": true
 		}
 		"Time1": {
 			"Name": "extension.EarthManager",
-			"Tags":  ["ITimeManager", "En"]
+			"Tags":  ["ITimeManager", "En"],
+			"Killable": false
 		}
 		"Modify1": {
 			"Name": "extension.ModifyIncH",
-			"Tags":  ["IModify", "En"]
+			"Tags":  ["IModify", "En"],
+			"Killable": true
 		}
 		"RealPluginRunner": {
 			"Name": "extension.AppAlarm",
 			"Tags": ["IApp"]
+			"Killable": true
 		}
 		"MonMonitor": {
 			"Name": "extension.Monitor",
-			"Tags": ["IMonitor"]
+			"Tags": ["IMonitor"],
+			"Killable": true
 		}
 	}
 }

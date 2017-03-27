@@ -1,7 +1,6 @@
 package framework;
 
 import java.io.FileReader;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -73,9 +72,8 @@ public class ExtensionLoader {
 			// choose the target plugin in the list	
 			//o = cl.newInstance();
 			
-			//FIXME : Implement proxy and handler
 			if (p.getTags().contains("IApp")) {
-				o = getProxyFor(cl.newInstance(), cl);
+				o = getProxyFor(cl.newInstance());
 			} else {
 				o = cl.newInstance();
 			}
@@ -91,7 +89,7 @@ public class ExtensionLoader {
 	 * @return liste de {@link DescriptionPlugin}
 	 */
 	@SuppressWarnings("unchecked")
-	private List<DescriptionPlugin> getListPlugins()
+	public List<DescriptionPlugin> getListPlugins()
 	{
 		List<DescriptionPlugin> plugins = new ArrayList<DescriptionPlugin>();
 		
@@ -105,7 +103,7 @@ public class ExtensionLoader {
             
             while (iteratorPlugins.hasNext()) {
             	JSONObject plugin = iteratorPlugins.next();
-            	DescriptionPlugin descriptionPlugin = new DescriptionPlugin((String) plugin.get("Name"), (List<String>) plugin.get("Tags"));;
+            	DescriptionPlugin descriptionPlugin = new DescriptionPlugin((String) plugin.get("Name"), (List<String>) plugin.get("Tags"), (boolean) plugin.get("Killable"));;
             	plugins.add(descriptionPlugin);
             }
             
@@ -134,7 +132,8 @@ public class ExtensionLoader {
 		for(DescriptionPlugin d : l)
 		{
 			System.out.println("   autorun de ->"+d.toString());
-			listApp.add((IApp) instance.load(d));
+			Object obj = instance.load(d);
+			listApp.add((IApp) obj);
 			System.out.println("   sucess autorun");
 		}
 		
@@ -151,6 +150,9 @@ public class ExtensionLoader {
 		}
 	}
 	
+	/** getter de ListApp
+	 * @return
+	 */
 	public List<IApp> getListApp()
 	{
 		return this.listApp;
@@ -160,18 +162,17 @@ public class ExtensionLoader {
 		
 		ExtensionLoader.getInstance().autorun();
 		
-		IMonitor monitor;
-		monitor = new Monitor();
-		
 		List<String> tags = new ArrayList<String>();
 		List<DescriptionPlugin> l;
 		Constraint c1 = new Constraint();
 		
 		// Chargement du monitor
+		IMonitor monitor;
 		tags.add("IMonitor");
 		c1.setConstraints(tags);
 		l = ExtensionLoader.getInstance().getExtension(c1);
-//		monitor = (IMonitor) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
+		monitor = (IMonitor) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
+		ExtensionLoader.getInstance().setMonitor(monitor);
 		
 		// run of 5 cycle of allPlugin*/
 		int i = 0;
@@ -194,10 +195,16 @@ public class ExtensionLoader {
 	 * @param o Objet à encapsuler
 	 * @return Le {@link Proxy} créé 
 	 */
-	public static Object getProxyFor(Object o, Class<?> cl) {
+	public static Object getProxyFor(Object o) {
+		System.out.println("ExtensionLoader::load()");
+		System.out.println("	Mes interfaces sont les suivantes :");
+		for( Class<?> c :  o.getClass().getInterfaces())
+		{
+			System.out.println("	 - " + c.getName());
+		}
 		return Proxy.newProxyInstance(
-				cl.getClassLoader(), 
-				concat(cl.getInterfaces(), ISignalMonitor.class), 
+				o.getClass().getClassLoader(), 
+				concat(o.getClass().getInterfaces(), ISignalMonitor.class), 
 				new MonitorHandler(o)
 			);
 	}
@@ -220,5 +227,15 @@ public class ExtensionLoader {
 		interfaces[interfaces.length-1] = newInterface;
 		
 		return interfaces;
+	}
+	
+	public void setMonitor(IMonitor m)
+	{
+		monitor = m;
+	}
+	
+	public IMonitor getMonitor()
+	{
+		return this.monitor;
 	}
 }

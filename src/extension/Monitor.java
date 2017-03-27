@@ -11,17 +11,30 @@ import framework.ExtensionLoader;
 import framework.IMonitor;
 import framework.ISignalMonitor;
 
+/**
+ * @author quemard
+ *
+ */
 public class Monitor implements IMonitor {
 	
+	DisplayerMonitor aff;
 	public Monitor()
 	{
-		
+		aff = new DisplayerMonitor();
+		aff.doStuff();
 	}
 	
+	/* (non-Javadoc)
+	 * @see framework.IMonitor#writeLog(java.lang.String)
+	 */
 	public void writeLog(String log) {
 		System.out.println("MONITOR : " + log);
 	}
 	
+	
+	/* (non-Javadoc)
+	 * @see framework.IMonitor#test()
+	 */
 	public void test() {
 		List<String> tags = new ArrayList<String>();
 		Constraint c1 = new Constraint();
@@ -34,16 +47,29 @@ public class Monitor implements IMonitor {
 		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).modifyAttribut(
 				listAttribut.get(0), 
 				ExtensionLoader.getInstance().load(ExtensionLoader.getInstance().getExtension(c1).get(0)));
-		this.kill(ExtensionLoader.getInstance().getListApp().get(0), "TimeManager");
+		//this.kill(ExtensionLoader.getInstance().getListApp().get(0), "TimeManager");
 	}
 	
-	/**
-	 * Cette méthode permet de kill plugin associé a une application
-	 * @param appRunning, application ou se trouve le plugin a kill
-	 * @param subPluginToKill plugin a kill
+	/* (non-Javadoc)
+	 * @see framework.IMonitor#kill(client.IApp, java.lang.String)
 	 */
 	public void kill(IApp appRunning, String subPluginToKill) {
 		((ISignalMonitor) appRunning).kill(subPluginToKill);
 	}
-
+	
+	/* (non-Javadoc)
+	 * @see framework.IMonitor#replace(client.IApp, java.lang.String, java.lang.String)
+	 */
+	public void replace(IApp appRunning, String subPluginToReplace, String replacePlugin)
+	{
+		((ISignalMonitor) appRunning).modifyAttribut(subPluginToReplace, replacePlugin);
+	}
+	
+	/* (non-Javadoc)
+	 * @see framework.IMonitor#getSubPlugin()
+	 */
+	public List<String> getSubPlugin(IApp appRunning)
+	{
+		return ((ISignalMonitor) appRunning).getAttributsPlugin();
+	}
 }

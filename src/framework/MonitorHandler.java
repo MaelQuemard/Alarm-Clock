@@ -1,10 +1,17 @@
 package framework;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import client.IApp;
+
+/** implémentation de {@link InvocationHandler}, permettant de monitorer un objet.
+ * @author 
+ *
+ */
 public class MonitorHandler implements InvocationHandler {
 
 	private Object target;
@@ -18,6 +25,9 @@ public class MonitorHandler implements InvocationHandler {
 		monitor = null;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+	 */
 	@Override
 	public Object invoke(Object proxy, Method m, Object[] args) throws Throwable {
 		if(m.getName().equals("turnMonitor"))
@@ -32,8 +42,7 @@ public class MonitorHandler implements InvocationHandler {
 			for(Method met : target.getClass().getMethods())
 			{
 				if(met.getName().contains("set")) 
-				listAttribut.add(met.getName().substring(3));
-				
+				listAttribut.add(met.getName().substring(3));				
 			}
 			return listAttribut;
 		}
@@ -48,24 +57,33 @@ public class MonitorHandler implements InvocationHandler {
 			
 		}
 		if (m.getName().equals("kill")) {
-			for(Method met : target.getClass().getMethods())
-			{
-				if(met.getName().contains("set"+args[0])){
-					System.out.println("MonitorHandler::invoke      kill"+args[0].toString());
-					args[0]=null;
-					met.invoke(target, args[0]);
+			try {
+				List<DescriptionPlugin> dp = ExtensionLoader.getInstance().getListPlugins();
+				for (DescriptionPlugin d : dp) {
+					if (d.getNom().equals(target.getClass().getMethod("get"+args[0]).invoke(target).getClass().getName()) && d.isKillable()) {
+						for(Method met : target.getClass().getMethods())
+						{
+							if(met.getName().contains("set"+args[0])){
+								System.out.println("MonitorHandler::invoke      kill : "+args[0].toString());
+								args[0]=null;
+								met.invoke(target, args[0]);
+								return null;
+							}
+						}
+					}
 				}
+			}
+			catch (Exception e) {
+				return null;
 			}
 			return null;
 		}
+		
 		if(m.getName().contains("run") && active)
 		{	
-			
-			/*monitor.writeLog("L'attribut suivant: "+
-					m.getName().substring(3)+
-					"\n		par la valeur suivante:"
-					+ args.toString()
-					);*/
+			// TODO 
+			Class<?> cl = target.getClass();
+			System.out.println(cl.getFields().toString());
 		}
 		
 		return m.invoke(target, args);

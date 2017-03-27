@@ -17,10 +17,11 @@ public class AppAlarm implements IApp {
 	private ITimeManager timeManager;
 	private IModify modify;
 	private IDisplayer displayer;
+	private String name;
 	
 	public AppAlarm() {
 		//TODO : Dynamisme avec loadBean ou autre 
-		
+		name = "AppAlarm";
 		Constraint c1 = new Constraint();
 		List<String> tags = new ArrayList<String>();
 		List<DescriptionPlugin> l;
@@ -101,5 +102,10 @@ public class AppAlarm implements IApp {
 
 	public void setDisplayer(IDisplayer displayer) {
 		this.displayer = displayer;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 }
