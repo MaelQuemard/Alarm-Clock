@@ -18,18 +18,15 @@ public class AppAlarm implements IApp {
 
 	private ITimeManager timeManager;
 	//TODO : Creer une liste de modifieur, modifier le Handler pour gerer l'ajout dans liste (verification du type de l'attribut, si list alors ...)
-	private IModify modify;
+	private List<IModify> modify;
 	private IDisplayer displayer;
 	private String name;
 
 	public DescriptionPlugin pluginChooseByUser;
 	public boolean inConfig =true;
 	
-	
-	//TODO: Ajouter état configuration (Gerer dans le main)
-	
-	
-	public AppAlarm() {		
+	public AppAlarm() {
+		modify = new ArrayList<IModify>();
 		//TODO : Dynamisme avec loadBean ou autre 
 		name = "AppAlarm";
 		Constraint c1 = new Constraint();
@@ -64,6 +61,7 @@ public class AppAlarm implements IApp {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}}
+		
 		//loading du plugin cible
 		timeManager = (ITimeManager) ExtensionLoader.getInstance().load(pluginChooseByUser); // FIXME with d
 		
@@ -73,28 +71,28 @@ public class AppAlarm implements IApp {
 		c1.setConstraints(tags);
 		l = ExtensionLoader.getInstance().getExtension(c1); 
 		//d = ???
-		//TODO toUser with multi chooce
 		
-		modify = (IModify) ExtensionLoader.getInstance().load(l.get(0)); //FIXME with d
-		IModify modify2 = (IModify) ExtensionLoader.getInstance().load(l.get(1)); //FIXME with d
-		modify.setITimeManager(timeManager);
-		modify2.setITimeManager(timeManager);
+		//TODO toUser with multi chooce
+		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(0))); //FIXME with d
+		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(1))); //FIXME with d
+		for (IModify im : modify) {
+			im.setITimeManager(timeManager);
+			timeManager.addModifier(im);
+		}
 		
 		displayer.setCore(timeManager);
 		
 		timeManager.setAffichage(displayer);
-		timeManager.addModifier(modify);
-		timeManager.addModifier(modify2);
 		timeManager.addModifiers();
 		timeManager.updateAff();
 		
 		//TODO: Passer en IAlarmManager et utiliser loader
 		// Test fonctionnement alarme
-		AlarmManager al = new AlarmManager();
+		/* AlarmManager al = new AlarmManager();
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,0,0,true),"Simple"); // A implementer sur l'interface graphique
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(15,0,0,true),"Simple");
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,36,0,true),"Simple");
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(8,0,10,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(8,0,10,true),"Simple");*/
 	}
 
 	@Override
@@ -102,6 +100,7 @@ public class AppAlarm implements IApp {
 		timeManager.getTime().actualizeTime();
 		timeManager.updateAff();
 		try {
+			System.out.println("Sleep :: timeManager.getRefresh() : "+timeManager.getRefresh());
 			Thread.sleep(timeManager.getRefresh());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -117,12 +116,12 @@ public class AppAlarm implements IApp {
 		this.timeManager.setAffichage(this.displayer);
 	}
 
-	public IModify getModify() {
+	public List<IModify> getModify() {
 		return modify;
 	}
 
 	public void setModify(IModify modify) {
-		this.modify = modify;
+		this.modify.add(modify);
 	}
 
 	public IDisplayer getDisplayer() {

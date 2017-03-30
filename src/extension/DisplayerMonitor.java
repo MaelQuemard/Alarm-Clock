@@ -3,10 +3,12 @@ package extension;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -14,26 +16,22 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
 import client.IApp;
+import framework.Constraint;
+import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
 import framework.IMonitor;
 import framework.ISignalMonitor;
 
 public class DisplayerMonitor {
-	// TODO: Faire un truc beau
 
 	private JFrame frame;
-	private JPanel panel;
-	private JPanel panel2;
+	private BoxLayout bxLayoutFrame;
 	
 	public DisplayerMonitor()
 	{
 		frame = new JFrame();
-		panel = new JPanel();
-		panel2 = new JPanel();
-		panel.add(panel2);
-		frame.add(panel);
-		frame.setSize(400, 400);
-		frame.setVisible(true);
+		bxLayoutFrame = new BoxLayout(frame, 0);
+		frame.setSize(800, 360);
 	}
 	
 	public void doStuff()
@@ -41,34 +39,51 @@ public class DisplayerMonitor {
 		for(IApp i : ExtensionLoader.getInstance().getListApp())
 		{
 			System.out.println(i.getName());
-			//panel.add(new JLabel(i.getName()));
+			JPanel panelApp = new JPanel();;
+			GridLayout gdLayoutApp = new GridLayout(2, 0);
+			panelApp.setLayout(gdLayoutApp);
+			JPanel header = new JPanel();
+			header.add(new JLabel(i.getName()));
+			panelApp.add(header);
 			
-			GridLayout gl = new GridLayout(0, 2);
-			JPanel p = new JPanel();
-			p.setLayout(gl);
-			p.add(new JLabel(i.getName()));
+			JPanel panelSubPlugins = new JPanel();
 			
-			JButton button = new JButton("Voir sous plugins");
-			button.addActionListener(new ActionListenerMonitor(i, this, p));
-			p.add(button);
-			panel2.add(p);
-		}
-		frame.setVisible(true);
-	}
-	
-	public void displaySubPlugin(IApp i, JPanel p) {
-		List<String> subPlugins = null;
-		for (Object appRunning : ExtensionLoader.getInstance().getListApp()) {
-			System.out.println("DisplaySubPlugin:: i : " + i.toString() + "appRunnig : "+appRunning);
-			if (i == appRunning) {
-				System.out.println("DisplaySubPlugin");
-				subPlugins = ((ISignalMonitor) appRunning).getAttributsPlugin();
+			List<String> subPlugins = null;
+			for (Object appRunning : ExtensionLoader.getInstance().getListApp()) {
+				System.out.println("DisplaySubPlugin:: i : " + i.toString() + "appRunnig : "+appRunning);
+				if (i == appRunning) {
+					System.out.println("DisplaySubPlugin");
+					subPlugins = ((ISignalMonitor) appRunning).getAttributsPlugin();
+				}
 			}
-		}
-		for ( String s : subPlugins ) {
-			JButton plugin = new JButton(s);
-			plugin.addActionListener(new ActionListenerMonitor(i, this, p));
-			p.add(plugin);
+
+			List<String> tags = new ArrayList<String>();
+			List<DescriptionPlugin> l;
+			Constraint c1 = new Constraint();
+			
+			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size(), 3);
+			panelSubPlugins.setLayout(gdLayoutSubPlugin);
+			
+			for ( String s : subPlugins ) {
+				
+				tags.add("I" + s);
+				c1.setConstraints(tags);
+				l = ExtensionLoader.getInstance().getExtension(c1);
+				JLabel labelSubPlugin = new JLabel(s);
+				JButton killPlugin = new JButton("kill");
+				JComboBox<String> cbPlugin = new JComboBox<String>();
+				
+				for (DescriptionPlugin dp : l) {
+					cbPlugin.addItem(dp.getNom());
+				}
+				
+				killPlugin.addActionListener(new ActionListenerMonitor(i, this, s));
+				panelSubPlugins.add(labelSubPlugin);
+				panelSubPlugins.add(killPlugin);
+				panelSubPlugins.add(cbPlugin);
+			}
+			panelApp.add(panelSubPlugins);
+			frame.add(panelApp);
 		}
 		frame.setVisible(true);
 	}

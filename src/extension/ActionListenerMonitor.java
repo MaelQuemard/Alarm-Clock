@@ -11,22 +11,18 @@ public class ActionListenerMonitor implements ActionListener {
 
 	private IApp i;
 	private DisplayerMonitor dm;
-	private JPanel p;
+	private String namePlugin;
 	
-	public ActionListenerMonitor(IApp i, DisplayerMonitor dm, JPanel p) {
+	public ActionListenerMonitor(IApp i, DisplayerMonitor dm, String s) {
+		this.namePlugin = s;
 		this.i = i;
 		this.dm = dm;
-		this.p = p;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		if (command.equals("Voir sous plugins")) {
-			dm.displaySubPlugin(i, p);
-		} else {
-			ExtensionLoader.getInstance().getMonitor().kill(i, command);
-		}
+		ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin);
 	}
 
 }

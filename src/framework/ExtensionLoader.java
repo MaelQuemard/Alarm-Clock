@@ -175,8 +175,6 @@ public class ExtensionLoader {
 		ExtensionLoader.getInstance().setMonitor(monitor);
 		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitor);
 		
-		
-		
 		// run of 5 cycle of allPlugin*/
 		int i = 0;
 		while(i<5)
@@ -185,8 +183,9 @@ public class ExtensionLoader {
 			ExtensionLoader.getInstance().runApp();
 			++i;
 		}
-		
-		
+		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitor);
+	//	monitor.test();
+		i = 0;
 		while(i<100)
 		{
 			ExtensionLoader.getInstance().runApp();

@@ -13,12 +13,12 @@
 		"Time1": {
 			"Name": "extension.EarthManager",
 			"Tags":  ["ITimeManager", "En"],
-			"Killable": false
+			"Killable": true
 		}
 		"Time2": {
 			"Name": "extension.PandoraManager",
 			"Tags":  ["ITimeManager", "En"],
-			"Killable": false
+			"Killable": true
 		}
 		"ModifyIncH": {
 			"Name": "extension.ModifyIncH",
