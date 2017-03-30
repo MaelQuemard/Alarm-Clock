@@ -16,7 +16,6 @@ public class ModifyIncM implements IModify{
 	public int modify()
 	{
 		it.getTime().addMin();
-		it.updateAff();
 		return 1;
 	}
 

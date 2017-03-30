@@ -26,5 +26,7 @@ public interface ITime {
 	public long getActualTime();
 
 	public void setActualTime(long actualTime);
+	
+	public int getRefresh();
 
 }

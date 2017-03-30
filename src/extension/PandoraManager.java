@@ -110,4 +110,9 @@ public class PandoraManager implements ITimeManager {
 	public void setModifyValue(int modifyValue) {
 		this.modifyValue = modifyValue;
 	}
+
+	@Override
+	public int getRefresh() {
+		return t.getRefresh();
+	}
 }

@@ -12,7 +12,12 @@ import client.IDisplayer;
 import client.ITimeManager;
 
 
+/**
+ * @author quemard
+ *
+ */
 public class Displayer implements IDisplayer {
+	//TODO : faire le panel config
 
 	private JFrame frame;
 	private JPanel panel;
@@ -25,15 +30,22 @@ public class Displayer implements IDisplayer {
 		label = new JLabel();
 		panel.add(label);
 		frame.add(panel);
-		frame.setSize(800, 800);
+		frame.setSize(400, 400);
+		frame.setLocation(401, 0);
 		frame.setVisible(true);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#showInfo(java.lang.String)
+	 */
 	@Override
 	public void showInfo(String time) {
 		label.setText(time);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#addButtons(java.lang.String, int)
+	 */
 	@Override
 	public void addButtons(String nameButton, final int numButton) {
 		JButton button = new JButton(nameButton);
@@ -48,11 +60,17 @@ public class Displayer implements IDisplayer {
 		panel.add(button);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#notifyCore(int)
+	 */
 	@Override
 	public void notifyCore(int numButton) {
 		ic.IAmNotify(numButton);
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#setCore(client.ITimeManager)
+	 */
 	@Override
 	public void setCore(ITimeManager ic) {
 		this.ic = ic;

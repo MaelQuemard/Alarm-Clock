@@ -11,4 +11,5 @@ public interface ITimeManager {
 	public void setTime(ITime t);
 	public int getModifyValue();
 	public void setModifyValue(int modifyValue);
+	public int getRefresh();
 }

@@ -16,7 +16,6 @@ public class ModifyDecH implements IModify{
 	public int modify()
 	{
 		it.getTime().decHour();
-		it.updateAff();
 		return 1;
 	}
 

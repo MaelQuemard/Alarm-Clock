@@ -132,6 +132,11 @@ public class PandoraTime implements ITime
 	public void setActualTime(long actualTime) {
 		this.actualTime = actualTime;
 	}
+
+	@Override
+	public int getRefresh() {
+		return nbSMPandora;
+	}
 	
 
 }

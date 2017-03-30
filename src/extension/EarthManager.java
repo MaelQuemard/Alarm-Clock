@@ -17,12 +17,7 @@ public class EarthManager implements ITimeManager {
 	private int hourLimit;
 	private int minuteLimit;
 	private int secondLimit;
-	
-	/*
-	private ArrayList<Observer> observers;
-	
 
-	 */
 	public EarthManager() {
 		listModifiers = new ArrayList<IModify>();
 		
@@ -109,5 +104,10 @@ public class EarthManager implements ITimeManager {
 
 	public void setModifyValue(int modifyValue) {
 		this.modifyValue = modifyValue;
+	}
+
+	@Override
+	public int getRefresh() {
+		return t.getRefresh();
 	}
 }

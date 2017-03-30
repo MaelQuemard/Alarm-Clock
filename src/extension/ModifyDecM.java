@@ -16,7 +16,6 @@ public class ModifyDecM implements IModify{
 	public int modify()
 	{
 		it.getTime().decMin();
-		it.updateAff();
 		return 1;
 	}
 

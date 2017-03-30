@@ -2,35 +2,53 @@
 	"Plugins": {
 		"Affichage1": {
 			"Name": "extension.Displayer",
-			"Tags":  ["IDisplayer", "Fr"]
+			"Tags":  ["IDisplayer", "Fr"],
+			"Killable": true
 		}		
 		"Affichage2": {
 			"Name": "extension.Displayer",
-			"Tags":  ["IDisplayer", "En"]
+			"Tags":  ["IDisplayer", "En"],
+			"Killable": true
 		}
 		"Time1": {
 			"Name": "extension.EarthManager",
-			"Tags":  ["ITimeManager", "En"]
+			"Tags":  ["ITimeManager", "En"],
+			"Killable": false
 		}
 		"Time2": {
 			"Name": "extension.PandoraManager",
-			"Tags":  ["ITimeManager", "En"]
+			"Tags":  ["ITimeManager", "En"],
+			"Killable": false
 		}
 		"ModifyIncH": {
 			"Name": "extension.ModifyIncH",
-			"Tags":  ["IModify", "En"]
+			"Tags":  ["IModify", "En"],
+			"Killable": true
+		}
+		"RealPluginRunner": {
+			"Name": "extension.AppAlarm",
+			"Tags": ["IApp"]
+			"Killable": true
+		}
+		"MonMonitor": {
+			"Name": "extension.Monitor",
+			"Tags": ["IMonitor"],
+			"Killable": true
 		}
 		"ModifyDecH": {
 			"Name": "extension.ModifyDecH",
-			"Tags":  ["IModify", "En"]
+			"Tags":  ["IModify", "En"],
+			"Killable": true
 		}
 		"ModifyIncM": {
 			"Name": "extension.ModifyIncM",
-			"Tags":  ["IModify", "En"]
+			"Tags":  ["IModify", "En"],
+			"Killable": true
 		}
 		"ModifyDecM": {
 			"Name": "extension.ModifyDecM",
-			"Tags":  ["IModify", "En"]
+			"Tags":  ["IModify", "En"],
+			"Killable": true
 		}
 	}
 }

@@ -16,7 +16,6 @@ public class ModifyIncH implements IModify{
 	public int modify()
 	{
 		it.getTime().addHour();
-		it.updateAff();
 		return 1;
 	}
 

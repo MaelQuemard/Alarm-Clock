@@ -1,26 +1,31 @@
-package client;
+package extension;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import extension.Displayer;
 import extension.EarthManager;
 import extension.ModifyIncH;
 import extension.EarthTime;
+import client.IApp;
+import client.IDisplayer;
+import client.IModify;
+import client.ITimeManager;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
-import framework.Plateform;
 
-public class main {
+public class AppAlarm implements IApp {
+	//TODO: Ajouter état configuration (Gerer dans le main)
+
+	private ITimeManager timeManager;
+	//TODO : Creer une liste de modifieur, modifier le Handler pour gerer l'ajout dans liste (verification du type de l'attribut, si list alors ...)
+	private IModify modify;
+	private IDisplayer displayer;
+	private String name;
 	
-	public static void main(String[] args) {
-		
-		ITimeManager timeManager;
-		IModify modify,modify2,modify3,modify4;
-		IDisplayer displayer;
+	public AppAlarm() {
 		//TODO : Dynamisme avec loadBean ou autre 
-		
+		name = "AppAlarm";
 		Constraint c1 = new Constraint();
 		List<String> tags = new ArrayList<String>();
 		List<DescriptionPlugin> l;
@@ -55,50 +60,66 @@ public class main {
 		l = ExtensionLoader.getInstance().getExtension(c1); 
 		//d = ???
 		modify = (IModify) ExtensionLoader.getInstance().load(l.get(0)); //FIXME with d
-		modify2 = (IModify) ExtensionLoader.getInstance().load(l.get(1)); //FIXME with d
-		modify3 = (IModify) ExtensionLoader.getInstance().load(l.get(2)); //FIXME with d
-		modify4 = (IModify) ExtensionLoader.getInstance().load(l.get(3)); //FIXME with d
-		
-		
-		
+		IModify modify2 = (IModify) ExtensionLoader.getInstance().load(l.get(1)); //FIXME with d
 		modify.setITimeManager(timeManager);
 		modify2.setITimeManager(timeManager);
-		modify3.setITimeManager(timeManager);
-		modify4.setITimeManager(timeManager);
 		
 		displayer.setCore(timeManager);
 		
 		timeManager.setAffichage(displayer);
 		timeManager.addModifier(modify);
 		timeManager.addModifier(modify2);
-		timeManager.addModifier(modify3);
-		timeManager.addModifier(modify4);
 		timeManager.addModifiers();
 		timeManager.updateAff();
 		
+		//TODO: Passer en IAlarmManager et utiliser loader
 		// Test fonctionnement alarme
 		AlarmManager al = new AlarmManager();
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,0,0,true),"Simple"); // A implementer sur l'interface graphique
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(15,0,0,true),"Simple");
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,36,0,true),"Simple");
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(8,0,10,true),"Simple");
+	}
 
-		while (true) 
-		{
-			timeManager.getTime().actualizeTime();
-			
-			if (al.shouldRing(timeManager.getTime().getActualTime()/423))
-			{
-				al.ring();
-			}
-			
-			timeManager.updateAff();
-			try {
-				Thread.sleep(423);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+	@Override
+	public void run() {
+		timeManager.getTime().actualizeTime();
+		timeManager.updateAff();
+		try {
+			Thread.sleep(timeManager.getRefresh());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
+	public ITimeManager getTimeManager() {
+		return timeManager;
+	}
+
+	public void setTimeManager(ITimeManager timeManager) {
+		System.out.println("APPALARM TIME MANAGER : "+timeManager);
+		this.timeManager = timeManager;
+		this.timeManager.setAffichage(this.displayer);
+	}
+
+	public IModify getModify() {
+		return modify;
+	}
+
+	public void setModify(IModify modify) {
+		this.modify = modify;
+	}
+
+	public IDisplayer getDisplayer() {
+		return displayer;
+	}
+
+	public void setDisplayer(IDisplayer displayer) {
+		this.displayer = displayer;
+	}
+
+	@Override
+	public String getName() {
+		return name;
+	}
 }
