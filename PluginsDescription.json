@@ -12,6 +12,10 @@
 			"Name": "extension.EarthManager",
 			"Tags":  ["ITimeManager", "En"]
 		}
+		"Time2": {
+			"Name": "extension.PandoraManager",
+			"Tags":  ["ITimeManager", "En"]
+		}
 		"ModifyIncH": {
 			"Name": "extension.ModifyIncH",
 			"Tags":  ["IModify", "En"]

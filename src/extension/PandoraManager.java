@@ -7,11 +7,11 @@ import client.IModify;
 import client.ITime;
 import client.ITimeManager;
 
-public class EarthManager implements ITimeManager {
+public class PandoraManager implements ITimeManager {
 
 	private ArrayList<IModify> listModifiers;
 	private IDisplayer aff;
-	private EarthTime t;
+	private PandoraTime t;
 	private int modifyValue;
 	
 	private int hourLimit;
@@ -23,14 +23,14 @@ public class EarthManager implements ITimeManager {
 	
 
 	 */
-	public EarthManager() {
+	public PandoraManager() {
 		listModifiers = new ArrayList<IModify>();
 		
-		this.hourLimit = 24;
-		this.minuteLimit = 60;
-		this.secondLimit = 60;
+		this.hourLimit = 20;
+		this.minuteLimit = 100;
+		this.secondLimit = 100;
 		
-		this.t = new EarthTime(this.hourLimit,this.minuteLimit,this.secondLimit, false);
+		this.t = new PandoraTime(this.hourLimit,this.minuteLimit,this.secondLimit, false);
 		
 
 		/*
@@ -100,7 +100,7 @@ public class EarthManager implements ITimeManager {
 	}
 
 	public void setTime(ITime t) {
-		this.t = (EarthTime) t;
+		this.t = (PandoraTime) t;
 	}
 
 	public int getModifyValue() {

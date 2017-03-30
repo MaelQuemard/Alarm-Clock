@@ -3,17 +3,17 @@ package extension;
 import java.util.Date;
 import client.ITime;
 
-public class EarthTime implements ITime
+public class PandoraTime implements ITime
 {
 	private static int totalSec = 86400000;
 
-	private static int nbSMEarth = 60;
-	private static int nbHEarth = 24;
-
-	private static int sEarth = 1000;
-	private static int mEarth = 60000;
-	private static int hEarth = 3600000;
-
+	private static int nbSMPandora = 100;
+	private static int nbHPandora = 20;
+	
+	private static int sPandora = 423;
+	private static int mPandora = 42300;
+	private static int hPandora = 4230000;
+	
 	private int h;
 	private int m;
 	private int s;
@@ -22,7 +22,7 @@ public class EarthTime implements ITime
 	private long actualTime;
 	
 	
-	public EarthTime() {
+	public PandoraTime() {
 		//Date d = new Date();
 		this.setH(0);
 		this.setM(0);
@@ -32,7 +32,7 @@ public class EarthTime implements ITime
 	}
 
 	@SuppressWarnings("deprecation")
-	public EarthTime(int hourLimit, int minuteLimit, int secondLimit, boolean fixe)
+	public PandoraTime(int hourLimit, int minuteLimit, int secondLimit, boolean fixe)
 	{
 		if (fixe)
 		{
@@ -74,25 +74,25 @@ public class EarthTime implements ITime
 		{
 			actualTime = totalSec + actualTime;
 		}
-		System.out.println("they call me : Timer.toString : " + (actualTime/hEarth)%nbHEarth + ":" +(actualTime/mEarth)%nbSMEarth + ":"+(actualTime/sEarth)%nbSMEarth);
-		return( (actualTime/hEarth)%nbHEarth + ":" +(actualTime/mEarth)%nbSMEarth + ":"+(actualTime/sEarth)%nbSMEarth);
+		System.out.println("they call me : Timer.toString : " + (actualTime/hPandora)%nbHPandora + ":" +(actualTime/mPandora)%nbSMPandora + ":"+(actualTime/sPandora)%nbSMPandora);
+		return( (actualTime/hPandora)%nbHPandora + ":" +(actualTime/mPandora)%nbSMPandora + ":"+(actualTime/sPandora)%nbSMPandora);
 		//return ( h + ":" + m + ":" + s );
 	}
 	
 	public void addHour() {
-		initialTime -= hEarth;
+		initialTime -= hPandora;
 	}
 	
 	public void addMin() {
-		initialTime -= mEarth;
+		initialTime -= mPandora;
 	}
 	
 	public void decHour() {
-		initialTime += hEarth;
+		initialTime += hPandora;
 	}
 	
 	public void decMin() {
-		initialTime += mEarth;
+		initialTime += mPandora;
 	}
 
 	public int getH() {
@@ -121,7 +121,7 @@ public class EarthTime implements ITime
 	
 	public int getTotalS()
 	{
-		return ((this.h * nbSMEarth * nbSMEarth) + (this.m * nbSMEarth) + this.s);
+		return ((this.h * nbSMPandora * nbSMPandora) + (this.m * nbSMPandora) + this.s);
 	}
 
 	

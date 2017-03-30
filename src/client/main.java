@@ -78,23 +78,23 @@ public class main {
 		
 		// Test fonctionnement alarme
 		AlarmManager al = new AlarmManager();
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(20,0,0,true),"Simple"); // A implementer sur l'interface graphique
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(22,0,0,true),"Simple");
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(23,0,0,true),"Simple");
-		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,0,10,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,0,0,true),"Simple"); // A implementer sur l'interface graphique
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(15,0,0,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,36,0,true),"Simple");
+		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(8,0,10,true),"Simple");
 
 		while (true) 
 		{
 			timeManager.getTime().actualizeTime();
 			
-			if (al.shouldRing(timeManager.getTime().getActualTime()/1000))
+			if (al.shouldRing(timeManager.getTime().getActualTime()/423))
 			{
 				al.ring();
 			}
 			
 			timeManager.updateAff();
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(423);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
