@@ -135,7 +135,7 @@ public class PandoraTime implements ITime
 
 	@Override
 	public int getRefresh() {
-		return nbSMPandora;
+		return sPandora;
 	}
 	
 

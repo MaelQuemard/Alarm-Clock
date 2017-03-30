@@ -7,13 +7,13 @@ import javax.swing.*;
 import client.IApp;
 import framework.ExtensionLoader;
 
-public class MyActionListener implements ActionListener {
+public class ActionListenerMonitor implements ActionListener {
 
 	private IApp i;
 	private DisplayerMonitor dm;
 	private JPanel p;
 	
-	public MyActionListener(IApp i, DisplayerMonitor dm, JPanel p) {
+	public ActionListenerMonitor(IApp i, DisplayerMonitor dm, JPanel p) {
 		this.i = i;
 		this.dm = dm;
 		this.p = p;

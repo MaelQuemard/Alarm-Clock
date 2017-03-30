@@ -49,7 +49,7 @@ public class DisplayerMonitor {
 			p.add(new JLabel(i.getName()));
 			
 			JButton button = new JButton("Voir sous plugins");
-			button.addActionListener(new MyActionListener(i, this, p));
+			button.addActionListener(new ActionListenerMonitor(i, this, p));
 			p.add(button);
 			panel2.add(p);
 		}
@@ -67,7 +67,7 @@ public class DisplayerMonitor {
 		}
 		for ( String s : subPlugins ) {
 			JButton plugin = new JButton(s);
-			plugin.addActionListener(new MyActionListener(i, this, p));
+			plugin.addActionListener(new ActionListenerMonitor(i, this, p));
 			p.add(plugin);
 		}
 		frame.setVisible(true);

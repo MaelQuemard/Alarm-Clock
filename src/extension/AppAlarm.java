@@ -15,15 +15,21 @@ import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
 
 public class AppAlarm implements IApp {
-	//TODO: Ajouter état configuration (Gerer dans le main)
 
 	private ITimeManager timeManager;
 	//TODO : Creer une liste de modifieur, modifier le Handler pour gerer l'ajout dans liste (verification du type de l'attribut, si list alors ...)
 	private IModify modify;
 	private IDisplayer displayer;
 	private String name;
+
+	public DescriptionPlugin pluginChooseByUser;
+	public boolean inConfig =true;
 	
-	public AppAlarm() {
+	
+	//TODO: Ajouter état configuration (Gerer dans le main)
+	
+	
+	public AppAlarm() {		
 		//TODO : Dynamisme avec loadBean ou autre 
 		name = "AppAlarm";
 		Constraint c1 = new Constraint();
@@ -49,9 +55,17 @@ public class AppAlarm implements IApp {
 		l = ExtensionLoader.getInstance().getExtension(c1); 
 		// affichage des choix possible
 		// TODO get it with afficher
-		// d = ???
+		
+		inConfig = true;
+		displayer.selectedPlugin(l,this);
+		while(inConfig){try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
 		//loading du plugin cible
-		timeManager = (ITimeManager) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
+		timeManager = (ITimeManager) ExtensionLoader.getInstance().load(pluginChooseByUser); // FIXME with d
 		
 		// Chargement du modifieur
 		tags.clear();
@@ -59,6 +73,8 @@ public class AppAlarm implements IApp {
 		c1.setConstraints(tags);
 		l = ExtensionLoader.getInstance().getExtension(c1); 
 		//d = ???
+		//TODO toUser with multi chooce
+		
 		modify = (IModify) ExtensionLoader.getInstance().load(l.get(0)); //FIXME with d
 		IModify modify2 = (IModify) ExtensionLoader.getInstance().load(l.get(1)); //FIXME with d
 		modify.setITimeManager(timeManager);
@@ -97,7 +113,6 @@ public class AppAlarm implements IApp {
 	}
 
 	public void setTimeManager(ITimeManager timeManager) {
-		System.out.println("APPALARM TIME MANAGER : "+timeManager);
 		this.timeManager = timeManager;
 		this.timeManager.setAffichage(this.displayer);
 	}
@@ -121,5 +136,13 @@ public class AppAlarm implements IApp {
 	@Override
 	public String getName() {
 		return name;
+	}
+
+	public void setDescriptionPluginChooseByUser(DescriptionPlugin dp) {
+		pluginChooseByUser = dp;
+	}
+
+	public void setConfiguration() {
+		inConfig = !inConfig;
 	}
 }

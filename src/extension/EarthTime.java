@@ -135,7 +135,7 @@ public class EarthTime implements ITime
 
 	@Override
 	public int getRefresh() {
-		return nbSMEarth;
+		return sEarth;
 	}
 	
 

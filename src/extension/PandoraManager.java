@@ -31,12 +31,6 @@ public class PandoraManager implements ITimeManager {
 		this.secondLimit = 100;
 		
 		this.t = new PandoraTime(this.hourLimit,this.minuteLimit,this.secondLimit, false);
-		
-
-		/*
-		this.observers = new ArrayList<Observer>();
-		this.t = new Time();
-		*/
 	}
 
 	public void addModifiers(){
@@ -49,36 +43,14 @@ public class PandoraManager implements ITimeManager {
 	
 	public void updateAff()
 	{
-		System.out.println(modifyValue);
-		//t.addHour(modifyValue,this.hourLimit);
 		aff.showInfo(t.toString());
 	}
 	
-	/*
-	@Override
-	public void notifyObservers() {
-		t.actualizeTime();
-		for (Observer o : observers) {
-			o.refresh(this);
-		}
-	}
-
-	@Override
-	public void addObserver(Observer o) {
-		this.observers.add(o);
-	}
-
-	@Override
-	public void deleteObserver(Observer o) {
-		this.observers.remove(o);
-	}
-	*/
 
 	@Override
 	public void IAmNotify(int i) {
 		IModify im = listModifiers.get(i);
 		im.modify();
-		System.out.println("le modifieur numero :"+ i + " a été apellé");
 		
 	}
 

@@ -10,6 +10,7 @@ public class AlarmManager implements IAlarmManager
 {
 	private ArrayList<IAlarm> alarms;
 	
+	
 	public AlarmManager()
 	{
 		alarms = new ArrayList<IAlarm>();
@@ -33,30 +34,18 @@ public class AlarmManager implements IAlarmManager
 		int as = t.getTotalS(); // alarm time total seconds
 		boolean put = false;
 		
-		//int diff = t.getTotalS() - ct.getTotalS();
-		
 		IAlarm alarm = null;
 		
 		if(type.equals("Simple"))
 		{
 			alarm = new SimpleAlarm(t);
 		}
-		/*
-		else if (type.equals("autre chose...")
-		{
-		...}
-		
-		*/
-		
-		
-		// Si l'alarme est entre l'heure actuelle et 23:59
 		if (as > at)
 		{
 			int i = 0;
 			
 			while(i<alarms.size() && !put)
 			{
-
 				ITime ti = alarms.get(i).getTime();
 				int tis = ti.getTotalS();
 				
@@ -70,7 +59,6 @@ public class AlarmManager implements IAlarmManager
 					alarms.add(i,alarm);
 					put = true;
 				}
-				
 				++i;
 			}
 		}

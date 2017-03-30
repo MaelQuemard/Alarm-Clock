@@ -165,6 +165,7 @@ public class ExtensionLoader {
 		List<DescriptionPlugin> l;
 		Constraint c1 = new Constraint();
 		
+
 		// Chargement du monitor
 		IMonitor monitor;
 		tags.add("IMonitor");
@@ -172,17 +173,21 @@ public class ExtensionLoader {
 		l = ExtensionLoader.getInstance().getExtension(c1);
 		monitor = (IMonitor) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
 		ExtensionLoader.getInstance().setMonitor(monitor);
+		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitor);
+		
+		
 		
 		// run of 5 cycle of allPlugin*/
 		int i = 0;
 		while(i<5)
 		{
+			System.out.println("ExtensionLoader::main -- actual run : " +i);
 			ExtensionLoader.getInstance().runApp();
 			++i;
 		}
-		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitor);
-		monitor.test();
-		while(i<10)
+		
+		
+		while(i<100)
 		{
 			ExtensionLoader.getInstance().runApp();
 			++i;
