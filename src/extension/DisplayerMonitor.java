@@ -64,7 +64,7 @@ public class DisplayerMonitor {
 				}
 			}*/
 
-			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size()+5, 3);
+			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size()+2, 3);
 			panelSubPlugins.setLayout(gdLayoutSubPlugin);
 			
 			for ( String s : subPlugins ) {

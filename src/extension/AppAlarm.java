@@ -108,10 +108,12 @@ public class AppAlarm implements IApp {
 		}
 	}
 
+	@AnnotationPlugin(value=true)
 	public ITimeManager getTimeManager() {
 		return timeManager;
 	}
 
+	@AnnotationPlugin(value=true)
 	public void setTimeManager(ITimeManager timeManager) {
 		for (IModify im : modify) {
 			this.timeManager.removeModifier(im);
@@ -126,37 +128,44 @@ public class AppAlarm implements IApp {
 		this.timeManager.addModifiers();
 	}
 
+	@AnnotationPlugin(value=true)
 	public List<IModify> getModify() {
 		return modify;
 	}
 
+	@AnnotationPlugin(value=true)
 	public void addModify(IModify modify) {
 		this.modify.add(modify);
 	}
 	
+	@AnnotationPlugin(value=true)
 	public void removeModify(IModify modify) {
 		System.out.println("AppAlarm::removeModify : modify : " + modify.getName());
 		timeManager.removeModifier(modify);
 		this.modify.remove(modify);
 	}
 
+	@AnnotationPlugin(value=true)
 	public IDisplayer getDisplayer() {
 		return displayer;
 	}
 
+	@AnnotationPlugin(value=true)
 	public void setDisplayer(IDisplayer displayer) {
 		this.displayer = displayer;
 	}
 
-	@Override
+	@AnnotationPlugin(value=false)
 	public String getName() {
 		return name;
 	}
 
+	@AnnotationPlugin(value=false)
 	public void setDescriptionPluginChooseByUser(DescriptionPlugin dp) {
 		pluginChooseByUser = dp;
 	}
 
+	@AnnotationPlugin(value=false)
 	public void setConfiguration() {
 		inConfig = !inConfig;
 	}

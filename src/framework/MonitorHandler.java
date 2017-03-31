@@ -1,5 +1,7 @@
 package framework;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import client.IApp;
+import extension.AnnotationPlugin;
 
 /** implémentation de {@link InvocationHandler}, permettant de monitorer un objet.
  * @author 
@@ -43,8 +46,12 @@ public class MonitorHandler implements InvocationHandler {
 			List<String> listAttribut = new ArrayList<String>();
 			for(Method met : target.getClass().getMethods())
 			{
-				if(met.getName().contains("set") || met.getName().contains("add")) 
-				listAttribut.add(met.getName().substring(3));				
+				if(met.getName().contains("set") || met.getName().contains("add")) {
+					AnnotationPlugin an = met.getDeclaredAnnotation(AnnotationPlugin.class);
+					if (an != null && an.value()) {
+						listAttribut.add(met.getName().substring(3));
+					}			
+				}
 			}
 			return listAttribut;
 		}
@@ -114,6 +121,9 @@ public class MonitorHandler implements InvocationHandler {
 			System.out.println(cl.getFields().toString());
 		}
 		
+		if (active) {
+			monitor.writeLog(m.getName());
+		}
 		return m.invoke(target, args);
 	}
 
