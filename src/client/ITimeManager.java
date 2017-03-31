@@ -12,4 +12,10 @@ public interface ITimeManager {
 	public int getModifyValue();
 	public void setModifyValue(int modifyValue);
 	public int getRefresh();
+	
+	/**
+	 * Cette methode permet de suprimer un modifieur
+	 * @param im, modify a supprimer
+	 */
+	public void removeModifier(IModify im);
 }

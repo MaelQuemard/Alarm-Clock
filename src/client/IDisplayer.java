@@ -15,4 +15,10 @@ public interface IDisplayer {
 	public void notifyCore(int numButton);
 	public void setCore(ITimeManager ic);
 	public void selectedPlugin(List<DescriptionPlugin> l,AppAlarm a);
+	
+	/**
+	 * Cette méthode permet de supprimer un bouton grâce a son nom
+	 * @param nameButton, nom du bouton a supprimer
+	 */
+	public void removeButton(String nameButton);
 }

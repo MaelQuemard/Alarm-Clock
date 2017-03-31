@@ -57,10 +57,14 @@ public class Monitor implements IMonitor {
 		((ISignalMonitor) appRunning).kill(subPluginToKill);
 	}
 	
+	public void kill(IApp appRunning, String subPluginToKill, String nameSubPlugin) {
+		((ISignalMonitor) appRunning).kill(subPluginToKill, nameSubPlugin);
+	}
+	
 	/* (non-Javadoc)
 	 * @see framework.IMonitor#replace(client.IApp, java.lang.String, java.lang.String)
 	 */
-	public void replace(IApp appRunning, String subPluginToReplace, String replacePlugin)
+	public void replace(IApp appRunning, String subPluginToReplace, Object replacePlugin)
 	{
 		((ISignalMonitor) appRunning).modifyAttribut(subPluginToReplace, replacePlugin);
 	}

@@ -12,9 +12,11 @@ public class ActionListenerMonitor implements ActionListener {
 	private IApp i;
 	private DisplayerMonitor dm;
 	private String namePlugin;
+	private String nameSubPlugin;
 	
-	public ActionListenerMonitor(IApp i, DisplayerMonitor dm, String s) {
-		this.namePlugin = s;
+	public ActionListenerMonitor(IApp i, DisplayerMonitor dm, String namePlugin, String nameSubPlugin) {
+		this.namePlugin = namePlugin;
+		this.nameSubPlugin = nameSubPlugin;
 		this.i = i;
 		this.dm = dm;
 	}
@@ -22,7 +24,11 @@ public class ActionListenerMonitor implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin);
+		if (nameSubPlugin == null) {
+			ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin);
+		} else {
+			ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin, nameSubPlugin);
+		}
 	}
 
 }

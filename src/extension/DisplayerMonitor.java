@@ -3,6 +3,8 @@ package extension;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
 import client.IApp;
+import client.IModify;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
@@ -38,6 +41,7 @@ public class DisplayerMonitor {
 	{
 		for(IApp i : ExtensionLoader.getInstance().getListApp())
 		{
+			Object appRun = null;
 			System.out.println(i.getName());
 			JPanel panelApp = new JPanel();;
 			GridLayout gdLayoutApp = new GridLayout(2, 0);
@@ -49,42 +53,94 @@ public class DisplayerMonitor {
 			JPanel panelSubPlugins = new JPanel();
 			
 			List<String> subPlugins = null;
-			for (Object appRunning : ExtensionLoader.getInstance().getListApp()) {
+			subPlugins = ((ISignalMonitor) i).getAttributsPlugin();
+
+			/*for (Object appRunning : ExtensionLoader.getInstance().getListApp()) {
 				System.out.println("DisplaySubPlugin:: i : " + i.toString() + "appRunnig : "+appRunning);
 				if (i == appRunning) {
+					appRun = appRunning;
 					System.out.println("DisplaySubPlugin");
 					subPlugins = ((ISignalMonitor) appRunning).getAttributsPlugin();
 				}
-			}
+			}*/
 
-			List<String> tags = new ArrayList<String>();
-			List<DescriptionPlugin> l;
-			Constraint c1 = new Constraint();
-			
-			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size(), 3);
+			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size()+5, 3);
 			panelSubPlugins.setLayout(gdLayoutSubPlugin);
 			
 			for ( String s : subPlugins ) {
 				
-				tags.add("I" + s);
-				c1.setConstraints(tags);
-				l = ExtensionLoader.getInstance().getExtension(c1);
-				JLabel labelSubPlugin = new JLabel(s);
-				JButton killPlugin = new JButton("kill");
-				JComboBox<String> cbPlugin = new JComboBox<String>();
-				
-				for (DescriptionPlugin dp : l) {
-					cbPlugin.addItem(dp.getNom());
-				}
-				
-				killPlugin.addActionListener(new ActionListenerMonitor(i, this, s));
-				panelSubPlugins.add(labelSubPlugin);
-				panelSubPlugins.add(killPlugin);
-				panelSubPlugins.add(cbPlugin);
+				if (s.equals("Modify")) {
+					System.out.println("DisplayMonitor::IModify ");
+					List<String> tags = new ArrayList<String>();
+					List<DescriptionPlugin> l;
+					Constraint c1 = new Constraint();
+					tags.add("I" + s);
+					c1.setConstraints(tags);
+					l = ExtensionLoader.getInstance().getExtension(c1);
+					
+					for (IModify im : ((IApp) i).getModify()) {
+						JLabel labelSubPlugin = new JLabel(im.getName());
+						JButton killPlugin = new JButton("kill");
+						JComboBox<String> cbPlugin = new JComboBox<String>();
+						for (DescriptionPlugin dp : l) {
+							cbPlugin.addItem(dp.getNom());
+						}
+						killPlugin.addActionListener(new ActionListenerMonitor(i, this, s, im.getName()));
+						cbPlugin.addActionListener(new ActionListenerComboBox(i, s, cbPlugin));
+						panelSubPlugins.add(labelSubPlugin);
+						panelSubPlugins.add(killPlugin);
+						panelSubPlugins.add(cbPlugin);
+					}
+				} else {
+					System.out.println("DisplayMonitor::I"+s);
+					List<String> tags = new ArrayList<String>();
+					List<DescriptionPlugin> l;
+					Constraint c1 = new Constraint();
+					tags.add("I" + s);
+					c1.setConstraints(tags);
+					l = ExtensionLoader.getInstance().getExtension(c1);
+					JLabel labelSubPlugin = new JLabel(s);
+					JButton killPlugin = new JButton("kill");
+					JComboBox<String> cbPlugin = new JComboBox<String>();
+					
+					for (DescriptionPlugin dp : l) {
+						cbPlugin.addItem(dp.getNom());
+					}
+					
+					killPlugin.addActionListener(new ActionListenerMonitor(i, this, s, null));
+					cbPlugin.addActionListener(new ActionListenerComboBox(i, s, cbPlugin));
+					panelSubPlugins.add(labelSubPlugin);
+					panelSubPlugins.add(killPlugin);
+					panelSubPlugins.add(cbPlugin);
+				}				
 			}
 			panelApp.add(panelSubPlugins);
 			frame.add(panelApp);
 		}
 		frame.setVisible(true);
+	}
+	
+	public class ActionListenerComboBox implements ActionListener {
+		
+		private IApp appRunning;
+		private JComboBox cb;
+		private String nameCurrentPlugin;
+		
+		public ActionListenerComboBox(IApp appRunning , String nameCurrentPlugin, JComboBox cb) {
+			this.appRunning = appRunning;
+			this.nameCurrentPlugin = nameCurrentPlugin;
+			this.cb = cb;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			for (DescriptionPlugin p : ExtensionLoader.getInstance().getListPlugins()) {
+				if (p.getNom().equals(cb.getSelectedItem())) {
+					System.out.println("ActionListenerComboBox:: descrPlugin :" + p.getNom());
+					ExtensionLoader.getInstance().getMonitor().replace(appRunning, nameCurrentPlugin, ExtensionLoader.getInstance().load(p));
+				}
+			}
+		}
+		
 	}
 }

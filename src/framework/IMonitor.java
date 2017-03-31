@@ -22,13 +22,20 @@ public interface IMonitor {
 	 */
 	void kill(IApp appRunning, String subPluginToKill);
 	
+	/**
+	 * Cette méthode permet de kill plugin associé a une application
+	 * @param appRunning, application ou se trouve le plugin a kill
+	 * @param subPluginToKill plugin a kill
+	 */
+	void kill(IApp appRunning, String subPluginToKill, String nameSubPlugin);
+	
 	/** methode permettant de remplacer un plugin par un autre
 	 * @param appRunning l'application où l'on souhaite modifier un plugin
 	 * @param subPluginToReplace le plugin a remplacer
-	 * @param replacePlugin le plugn de remplacement
+	 * @param newPlugin le plugn de remplacement
 	 * @warning verifier que le nouveau plugin partage bien l'interface commune au deux plugins {@link ExtensionLoader} et la methode getExtension
 	 */
-	public void replace(IApp appRunning, String subPluginToReplace, String replacePlugin);
+	public void replace(IApp appRunning, String subPluginToReplace, Object newPlugin);
 	
 	/**
 	 * Methode qui permet d'obtenir les subPlugins d'une application

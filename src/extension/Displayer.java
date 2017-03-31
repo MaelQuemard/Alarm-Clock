@@ -1,4 +1,5 @@
 package extension;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -69,6 +70,16 @@ public class Displayer implements IDisplayer {
 		panel.add(button);
 	}
 	
+	public void removeButton(String nameButton) {
+		for (Component c : panel.getComponents()) {
+			if (c instanceof JButton) {
+				if (((JButton) c).getLabel().equals(nameButton)) {
+					panel.remove(c);
+				}
+			}
+		}
+	}
+	
 	/* (non-Javadoc)
 	 * @see client.IDisplayer#notifyCore(int)
 	 */
@@ -90,6 +101,7 @@ public class Displayer implements IDisplayer {
 		panel.add(combo);
 		
 		combo.addActionListener(new ActionListenerLoading(listdp,app));
+		frame.setVisible(true);
 	}
 	
 

@@ -49,6 +49,7 @@ public class PandoraManager implements ITimeManager {
 
 	@Override
 	public void IAmNotify(int i) {
+		System.out.println("PandoraManager::IAmNotify : i :"+i+" taile listModifiers : "+listModifiers.size());
 		IModify im = listModifiers.get(i);
 		im.modify();
 		
@@ -56,9 +57,15 @@ public class PandoraManager implements ITimeManager {
 
 	@Override
 	public void addModifier(IModify m) {
+		System.out.println("PandoraManager::addModifiers : modify : "+m.getName()+" taille listModifiers : "+listModifiers.size());
 		this.listModifiers.add(m);
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void removeModifier(IModify im) {
+		this.listModifiers.remove(im);
+		this.aff.removeButton(im.getName());
 	}
 
 	

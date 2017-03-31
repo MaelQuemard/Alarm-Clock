@@ -75,6 +75,7 @@ public class AppAlarm implements IApp {
 		//TODO toUser with multi chooce
 		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(0))); //FIXME with d
 		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(1))); //FIXME with d
+		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(2)));
 		for (IModify im : modify) {
 			im.setITimeManager(timeManager);
 			timeManager.addModifier(im);
@@ -112,16 +113,31 @@ public class AppAlarm implements IApp {
 	}
 
 	public void setTimeManager(ITimeManager timeManager) {
+		for (IModify im : modify) {
+			this.timeManager.removeModifier(im);
+		}
 		this.timeManager = timeManager;
+		this.displayer.setCore(this.timeManager);
 		this.timeManager.setAffichage(this.displayer);
+		for (IModify im : modify) {
+			im.setITimeManager(this.timeManager);
+			this.timeManager.addModifier(im);
+		}
+		this.timeManager.addModifiers();
 	}
 
 	public List<IModify> getModify() {
 		return modify;
 	}
 
-	public void setModify(IModify modify) {
+	public void addModify(IModify modify) {
 		this.modify.add(modify);
+	}
+	
+	public void removeModify(IModify modify) {
+		System.out.println("AppAlarm::removeModify : modify : " + modify.getName());
+		timeManager.removeModifier(modify);
+		this.modify.remove(modify);
 	}
 
 	public IDisplayer getDisplayer() {

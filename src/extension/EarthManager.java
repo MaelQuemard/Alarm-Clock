@@ -36,6 +36,11 @@ public class EarthManager implements ITimeManager {
 		}
 	}
 	
+	public void removeModifier(IModify im) {
+		this.listModifiers.remove(im);
+		this.aff.removeButton(im.getName());
+	}
+	
 	public void updateAff()
 	{
 		aff.showInfo(t.toString());
@@ -43,6 +48,7 @@ public class EarthManager implements ITimeManager {
 	
 	@Override
 	public void IAmNotify(int i) {
+		System.out.println("EarthManager::IAmNotify : i :"+i+" taile listModifiers : "+listModifiers.size());
 		IModify im = listModifiers.get(i);
 		im.modify();
 		
@@ -50,6 +56,7 @@ public class EarthManager implements ITimeManager {
 
 	@Override
 	public void addModifier(IModify m) {
+		System.out.println("EarthManager::addModifiers : modify : "+m.getName()+" taille listModifiers : "+listModifiers.size());
 		this.listModifiers.add(m);
 		// TODO Auto-generated method stub
 		
