@@ -26,8 +26,10 @@ public class ActionListenerMonitor implements ActionListener {
 		String command = e.getActionCommand();
 		if (nameSubPlugin == null) {
 			ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin);
+			dm.doStuff();
 		} else {
 			ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin, nameSubPlugin);
+			dm.doStuff();
 		}
 	}
 

@@ -39,6 +39,7 @@ public class DisplayerMonitor {
 	
 	public void doStuff()
 	{
+		System.out.println("DisplayerMonitor::ListAppRunning : "+ExtensionLoader.getInstance().getListApp().toString());
 		for(IApp i : ExtensionLoader.getInstance().getListApp())
 		{
 			Object appRun = null;
@@ -138,6 +139,7 @@ public class DisplayerMonitor {
 				if (p.getNom().equals(cb.getSelectedItem())) {
 					System.out.println("ActionListenerComboBox:: descrPlugin :" + p.getNom());
 					ExtensionLoader.getInstance().getMonitor().replace(appRunning, nameCurrentPlugin, ExtensionLoader.getInstance().load(p));
+					doStuff();
 				}
 			}
 		}

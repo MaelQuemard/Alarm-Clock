@@ -183,8 +183,7 @@ public class ExtensionLoader {
 			ExtensionLoader.getInstance().runApp();
 			++i;
 		}
-		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitor);
-	//	monitor.test();
+		
 		i = 0;
 		while(i<100)
 		{
