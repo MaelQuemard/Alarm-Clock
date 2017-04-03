@@ -30,6 +30,9 @@ public class DisplayerMonitor {
 	private JFrame frame;
 	private BoxLayout bxLayoutFrame;
 	
+	/** Constructeur DisplayerMonitor
+	 * 
+	 */
 	public DisplayerMonitor()
 	{
 		frame = new JFrame();
@@ -37,6 +40,9 @@ public class DisplayerMonitor {
 		frame.setSize(800, 360);
 	}
 	
+	/** Methode permettant de charger la fenetre graphique.
+	 * 
+	 */
 	public void doStuff()
 	{
 		System.out.println("DisplayerMonitor::ListAppRunning : "+ExtensionLoader.getInstance().getListApp().toString());
@@ -133,6 +139,9 @@ public class DisplayerMonitor {
 			this.cb = cb;
 		}
 		
+		/* (non-Javadoc)
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			for (DescriptionPlugin p : ExtensionLoader.getInstance().getListPlugins()) {

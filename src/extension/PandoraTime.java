@@ -22,6 +22,9 @@ public class PandoraTime implements ITime
 	private long actualTime;
 	
 	
+	/** Constructeur PandoraTime
+	 * 
+	 */
 	public PandoraTime() {
 		//Date d = new Date();
 		this.setH(0);
@@ -52,6 +55,9 @@ public class PandoraTime implements ITime
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see client.ITime#actualizeTime()
+	 */
 	@SuppressWarnings("deprecation")
 	public void actualizeTime()
 	{
@@ -68,6 +74,9 @@ public class PandoraTime implements ITime
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString(){
 		actualTime = (System.currentTimeMillis() - initialTime)%totalSec;
 		if (actualTime < 0)
@@ -79,60 +88,102 @@ public class PandoraTime implements ITime
 		//return ( h + ":" + m + ":" + s );
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.ITime#addHour()
+	 */
 	public void addHour() {
 		initialTime -= hPandora;
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.ITime#addMin()
+	 */
 	public void addMin() {
 		initialTime -= mPandora;
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.ITime#decHour()
+	 */
 	public void decHour() {
 		initialTime += hPandora;
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.ITime#decMin()
+	 */
 	public void decMin() {
 		initialTime += mPandora;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITime#getH()
+	 */
 	public int getH() {
 		return h;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITime#setH(int)
+	 */
 	public void setH(int h) {
 		this.h = h;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITime#getM()
+	 */
 	public int getM() {
 		return m;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITime#setM(int)
+	 */
 	public void setM(int m) {
 		this.m = m;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITime#getS()
+	 */
 	public int getS() {
 		return s;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITime#setS(int)
+	 */
 	public void setS(int s) {
 		this.s = s;
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.ITime#getTotalS()
+	 */
 	public int getTotalS()
 	{
 		return ((this.h * nbSMPandora * nbSMPandora) + (this.m * nbSMPandora) + this.s);
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see client.ITime#getActualTime()
+	 */
 	public long getActualTime() {
 		return actualTime;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITime#setActualTime(long)
+	 */
 	public void setActualTime(long actualTime) {
 		this.actualTime = actualTime;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITime#getRefresh()
+	 */
 	@Override
 	public int getRefresh() {
 		return sPandora;

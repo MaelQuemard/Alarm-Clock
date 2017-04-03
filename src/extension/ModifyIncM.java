@@ -12,6 +12,9 @@ public class ModifyIncM implements IModify{
 		name = "+1 min";
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IModify#modify()
+	 */
 	@Override
 	public int modify()
 	{
@@ -19,19 +22,31 @@ public class ModifyIncM implements IModify{
 		return 1;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IModify#getName()
+	 */
 	@Override
 	public String getName() {
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IModify#setName(java.lang.String)
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IModify#getITimeManager()
+	 */
 	public ITimeManager getITimeManager() {
 		return it;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IModify#setITimeManager(client.ITimeManager)
+	 */
 	public void setITimeManager(ITimeManager it) {
 		this.it = it;
 	}

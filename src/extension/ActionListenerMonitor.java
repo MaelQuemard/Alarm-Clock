@@ -14,6 +14,12 @@ public class ActionListenerMonitor implements ActionListener {
 	private String namePlugin;
 	private String nameSubPlugin;
 	
+	/** constructeur de ActionListenerMonitor
+	 * @param i IApp
+	 * @param dm DisplayerMonitor
+	 * @param namePlugin String
+	 * @param nameSubPlugin String
+	 */
 	public ActionListenerMonitor(IApp i, DisplayerMonitor dm, String namePlugin, String nameSubPlugin) {
 		this.namePlugin = namePlugin;
 		this.nameSubPlugin = nameSubPlugin;
@@ -21,6 +27,9 @@ public class ActionListenerMonitor implements ActionListener {
 		this.dm = dm;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();

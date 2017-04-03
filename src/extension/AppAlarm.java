@@ -25,6 +25,9 @@ public class AppAlarm implements IApp {
 	public DescriptionPlugin pluginChooseByUser;
 	public boolean inConfig =true;
 	
+	/** Constructeur d'AppAlarm
+	 * 
+	 */
 	public AppAlarm() {
 		modify = new ArrayList<IModify>();
 		//TODO : Dynamisme avec loadBean ou autre 
@@ -96,6 +99,9 @@ public class AppAlarm implements IApp {
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(8,0,10,true),"Simple");*/
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#run()
+	 */
 	@Override
 	public void run() {
 		timeManager.getTime().actualizeTime();
@@ -108,11 +114,17 @@ public class AppAlarm implements IApp {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#getTimeManager()
+	 */
 	@AnnotationPlugin(value=true)
 	public ITimeManager getTimeManager() {
 		return timeManager;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#setTimeManager(client.ITimeManager)
+	 */
 	@AnnotationPlugin(value=true)
 	public void setTimeManager(ITimeManager timeManager) {
 		for (IModify im : modify) {
@@ -128,16 +140,25 @@ public class AppAlarm implements IApp {
 		this.timeManager.addModifiers();
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#getModify()
+	 */
 	@AnnotationPlugin(value=true)
 	public List<IModify> getModify() {
 		return modify;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#addModify(client.IModify)
+	 */
 	@AnnotationPlugin(value=true)
 	public void addModify(IModify modify) {
 		this.modify.add(modify);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IApp#removeModify(client.IModify)
+	 */
 	@AnnotationPlugin(value=true)
 	public void removeModify(IModify modify) {
 		System.out.println("AppAlarm::removeModify : modify : " + modify.getName());
@@ -145,26 +166,41 @@ public class AppAlarm implements IApp {
 		this.modify.remove(modify);
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#getDisplayer()
+	 */
 	@AnnotationPlugin(value=true)
 	public IDisplayer getDisplayer() {
 		return displayer;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#setDisplayer(client.IDisplayer)
+	 */
 	@AnnotationPlugin(value=true)
 	public void setDisplayer(IDisplayer displayer) {
 		this.displayer = displayer;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#getName()
+	 */
 	@AnnotationPlugin(value=false)
 	public String getName() {
 		return name;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#setDescriptionPluginChooseByUser(framework.DescriptionPlugin)
+	 */
 	@AnnotationPlugin(value=false)
 	public void setDescriptionPluginChooseByUser(DescriptionPlugin dp) {
 		pluginChooseByUser = dp;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.IApp#setConfiguration()
+	 */
 	@AnnotationPlugin(value=false)
 	public void setConfiguration() {
 		inConfig = !inConfig;

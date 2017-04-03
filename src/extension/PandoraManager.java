@@ -23,6 +23,9 @@ public class PandoraManager implements ITimeManager {
 	
 
 	 */
+	/** Constructeur PandoraManager
+	 * 
+	 */
 	public PandoraManager() {
 		listModifiers = new ArrayList<IModify>();
 		
@@ -33,6 +36,9 @@ public class PandoraManager implements ITimeManager {
 		this.t = new PandoraTime(this.hourLimit,this.minuteLimit,this.secondLimit, false);
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#addModifiers()
+	 */
 	public void addModifiers(){
 		int i = 0;
 		for (IModify m : listModifiers) {
@@ -41,12 +47,18 @@ public class PandoraManager implements ITimeManager {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#updateAff()
+	 */
 	public void updateAff()
 	{
 		aff.showInfo(t.toString());
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#IAmNotify(int)
+	 */
 	@Override
 	public void IAmNotify(int i) {
 		System.out.println("PandoraManager::IAmNotify : i :"+i+" taile listModifiers : "+listModifiers.size());
@@ -55,6 +67,9 @@ public class PandoraManager implements ITimeManager {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#addModifier(client.IModify)
+	 */
 	@Override
 	public void addModifier(IModify m) {
 		System.out.println("PandoraManager::addModifiers : modify : "+m.getName()+" taille listModifiers : "+listModifiers.size());
@@ -63,33 +78,54 @@ public class PandoraManager implements ITimeManager {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#removeModifier(client.IModify)
+	 */
 	public void removeModifier(IModify im) {
 		this.listModifiers.remove(im);
 		this.aff.removeButton(im.getName());
 	}
 
 	
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#setAffichage(client.IDisplayer)
+	 */
 	public void setAffichage(IDisplayer a)
 	{
 		aff = a;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#getTime()
+	 */
 	public ITime getTime() {
 		return t;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#setTime(client.ITime)
+	 */
 	public void setTime(ITime t) {
 		this.t = (PandoraTime) t;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#getModifyValue()
+	 */
 	public int getModifyValue() {
 		return modifyValue;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#setModifyValue(int)
+	 */
 	public void setModifyValue(int modifyValue) {
 		this.modifyValue = modifyValue;
 	}
 
+	/* (non-Javadoc)
+	 * @see client.ITimeManager#getRefresh()
+	 */
 	@Override
 	public int getRefresh() {
 		return t.getRefresh();

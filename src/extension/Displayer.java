@@ -33,6 +33,9 @@ public class Displayer implements IDisplayer {
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
 	
+	/** Constructeur Displayer
+	 * 
+	 */
 	public Displayer() {
 		frame = new JFrame();
 		panel = new JPanel();
@@ -70,6 +73,9 @@ public class Displayer implements IDisplayer {
 		panel.add(button);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#removeButton(java.lang.String)
+	 */
 	public void removeButton(String nameButton) {
 		for (Component c : panel.getComponents()) {
 			if (c instanceof JButton) {
@@ -89,6 +95,9 @@ public class Displayer implements IDisplayer {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#selectedPlugin(java.util.List, extension.AppAlarm)
+	 */
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
 		//DescriptionPlugin selectedPl;
 
@@ -113,18 +122,30 @@ public class Displayer implements IDisplayer {
 		this.ic = ic;
 	}
 
+	/** return le DP
+	 * @return DescriptionPlugin
+	 */
 	public DescriptionPlugin getDescPlug() {
 		return descPlug;
 	}
 
+	/** setter de DecriptionPlugin
+	 * @param descPlug DescriptionPlugin, nouveau DescriptionPlugin
+	 */
 	public void setDescPlug(DescriptionPlugin descPlug) {
 		this.descPlug = descPlug;
 	}
 
+	/** getter de DescriptionPlugin
+	 * @return String, nom de DescriptionPlugin
+	 */
 	public String getNameDP() {
 		return nameDP;
 	}
 
+	/** setter du nom du DescritptionPlugin
+	 * @param nameDP String, nom du DescriptionPlugin
+	 */
 	public void setNameDP(String nameDP) {
 		this.nameDP = nameDP;
 	}

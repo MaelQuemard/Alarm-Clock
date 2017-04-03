@@ -11,6 +11,9 @@ public class AlarmManager implements IAlarmManager
 	private ArrayList<IAlarm> alarms;
 	
 	
+	/** Constructeur d'AlarmManager
+	 * 
+	 */
 	public AlarmManager()
 	{
 		alarms = new ArrayList<IAlarm>();
