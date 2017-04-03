@@ -162,6 +162,7 @@ public class ExtensionLoader {
 	public static void main(String[] args) {
 		
 
+		@SuppressWarnings("resource")
 		Scanner s = new Scanner(System.in);
 		System.out.println("Voulez vous lancer le monitor : Yes/No ?");
 		String response = s.nextLine();
@@ -234,6 +235,7 @@ public class ExtensionLoader {
 		monitor = m;
 	}
 	
+	@SuppressWarnings("static-access")
 	public IMonitor getMonitor()
 	{
 		return this.monitor;

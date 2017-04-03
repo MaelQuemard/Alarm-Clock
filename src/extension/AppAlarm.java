@@ -2,10 +2,6 @@ package extension;
 
 import java.util.ArrayList;
 import java.util.List;
-import extension.Displayer;
-import extension.EarthManager;
-import extension.ModifyIncH;
-import extension.EarthTime;
 import client.IAlarmManager;
 import client.IApp;
 import client.IDisplayer;
@@ -35,12 +31,10 @@ public class AppAlarm implements IApp, IPlugin {
 	 */
 	public AppAlarm() {
 		modify = new ArrayList<IModify>();
-		//TODO : Dynamisme avec loadBean ou autre 
 		name = "AppAlarm";
 		Constraint c1 = new Constraint();
 		List<String> tags = new ArrayList<String>();
 		List<DescriptionPlugin> l;
-		DescriptionPlugin d;
 		
 		// Chargement de l'affichage
 				
@@ -48,9 +42,9 @@ public class AppAlarm implements IApp, IPlugin {
 		c1.setConstraints(tags);
 		
 		l = ExtensionLoader.getInstance().getExtension(c1); 
-		//d = ???
 		
-		displayer = (IDisplayer) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
+		// TODO do it with a pop up, currently set by default
+		displayer = (IDisplayer) ExtensionLoader.getInstance().load(l.get(0)); 
 		
 		// Chargement du TimeManager
 		tags.clear();
@@ -59,19 +53,17 @@ public class AppAlarm implements IApp, IPlugin {
 		// get list descriptionPlugin
 		l = ExtensionLoader.getInstance().getExtension(c1); 
 		// affichage des choix possible
-		// TODO get it with afficher
 		
 		inConfig = true;
 		displayer.selectedPlugin(l,this);
 		while(inConfig){try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}}
 		
 		//loading du plugin cible
-		timeManager = (ITimeManager) ExtensionLoader.getInstance().load(pluginChooseByUser); // FIXME with d
+		timeManager = (ITimeManager) ExtensionLoader.getInstance().load(pluginChooseByUser);
 		
 		// Chargement du modifieur
 		tags.clear();
@@ -79,7 +71,6 @@ public class AppAlarm implements IApp, IPlugin {
 		c1.setConstraints(tags);
 		l = ExtensionLoader.getInstance().getExtension(c1); 
 		
-		//TODO toUser with multi chooce
 		setConfiguration();
 		displayer.selectMultiPlugin(l, this);
 		
@@ -87,7 +78,6 @@ public class AppAlarm implements IApp, IPlugin {
 			System.out.println("ExtensionLoader::inConfig::Imodifier::test");
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}}
 		
@@ -101,8 +91,7 @@ public class AppAlarm implements IApp, IPlugin {
 		}
 		
 		
-		//TODO: Passer en IAlarmManager et utiliser loader
-		// Test fonctionnement alarme
+		
 
 		tags.clear();
 		tags.add("IAlarmManager");
@@ -110,7 +99,7 @@ public class AppAlarm implements IApp, IPlugin {
 		l = ExtensionLoader.getInstance().getExtension(c1);
 		System.out.println("AppAlarm::loadngAlarm"+l.toString());
 		
-		//TODO toUser with multi chooce
+
 		setConfiguration();
 		displayer.selectedPlugin(l, this);
 		

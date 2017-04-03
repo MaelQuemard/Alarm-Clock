@@ -1,6 +1,5 @@
 package framework;
 
-import java.util.List;
 import java.util.Map;
 
 import client.IApp;

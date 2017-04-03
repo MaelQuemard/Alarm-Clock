@@ -1,14 +1,9 @@
 package extension;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
 
 import client.IApp;
-import client.IDisplayer;
-import framework.Constraint;
-import framework.DescriptionPlugin;
-import framework.ExtensionLoader;
 import framework.IMonitor;
 import framework.ISignalMonitor;
 

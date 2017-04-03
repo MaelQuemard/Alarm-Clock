@@ -24,6 +24,7 @@ import framework.ISignalMonitor;
 public class DisplayerMonitor {
 
 	private JFrame frame;
+	@SuppressWarnings("unused")
 	private BoxLayout bxLayoutFrame;
 	
 	/** Constructeur DisplayerMonitor

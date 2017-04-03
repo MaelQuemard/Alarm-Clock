@@ -2,7 +2,6 @@ package extension;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
 
 import client.IApp;
 import framework.ExtensionLoader;
@@ -32,7 +31,6 @@ public class ActionListenerMonitor implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String command = e.getActionCommand();
 		if (nameSubPlugin == null) {
 			ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin);
 			dm.doStuff();
