@@ -33,5 +33,10 @@ public interface IAlarmManager {
 	 * @return boolean, true si devrait sonner, false sinon
 	 */
 	boolean shouldRing(long at);
+	
+	/**
+	 * Supprime toutes les alarmes du manager
+	 */
+	public void removeAllAlarm();
 
 }

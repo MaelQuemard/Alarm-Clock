@@ -1,9 +1,11 @@
 package extension;
 
 import java.util.Date;
+
+import client.IPlugin;
 import client.ITime;
 
-public class PandoraTime implements ITime
+public class PandoraTime implements ITime, IPlugin
 {
 	private static int totalSec = 86400000;
 
@@ -187,6 +189,11 @@ public class PandoraTime implements ITime
 	@Override
 	public int getRefresh() {
 		return sPandora;
+	}
+
+	@Override
+	public String getName() {
+		return "PandoraTime";
 	}
 	
 

@@ -1,20 +1,34 @@
 package framework;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ISignalMonitor {
 	
 	/**
-	 * Méthode qui permet d'activer le monitor
+	 * Méthode qui permet d'activer le monitor dans le handler
 	 * @param m, monitor concret
 	 */
 	public void turnMonitor(IMonitor m);
 	
 	/**
+	 * Méthode qui permet d'activer le monitor
+	 * @param m, monitor concret
+	 */
+	public void activateMonitor();
+	
+	/**
 	 * Méthode que permet de récuperer les noms plugins de l'application
 	 * @return Liste des noms des plugins
 	 */
-	public List<String> getAttributsPlugin();
+	public Map<String, Class<?>> getAttributsPlugin();
+	
+	/**
+	 * Méthode qui permet de retourner le contenu d'un getter
+	 * @param nameAttribut
+	 * @return
+	 */
+	public Object getAttribut(String nameAttribut);
 	
 	/**
 	 * Cette méthode permet de changer un plugin dynamiquement

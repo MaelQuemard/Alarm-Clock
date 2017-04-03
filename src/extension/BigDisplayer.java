@@ -1,5 +1,6 @@
 package extension;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +29,7 @@ import framework.DescriptionPlugin;
  * @author quemard
  *
  */
-public class Displayer implements IDisplayer, IPlugin {
+public class BigDisplayer implements IDisplayer, IPlugin {
 	//TODO : faire le panel config
 
 	private JFrame frame;
@@ -44,16 +45,13 @@ public class Displayer implements IDisplayer, IPlugin {
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
 	
-	/** Constructeur Displayer
-	 * 
-	 */
-	public Displayer() {
+	public BigDisplayer() {
 		frame = new JFrame();frame.setLayout(new GridLayout());
 		panel = new JPanel();
 		label = new JLabel();
 		panelAlarm = new JPanel();
 		combo = new JComboBox<String>();
-		
+		label.setFont(new Font(nameDP, 20, 20));
 		panel.add(label);
 		frame.add(panel);
 		frame.setSize(400, 400);
@@ -75,6 +73,7 @@ public class Displayer implements IDisplayer, IPlugin {
 	@Override
 	public void addButtons(String nameButton, final int numButton) {
 		JButton button = new JButton(nameButton);
+		button.setFont(new Font(nameButton, 20, 20));
 		button.addActionListener(new ActionListener() {
 
 			@Override
@@ -86,9 +85,6 @@ public class Displayer implements IDisplayer, IPlugin {
 		panel.add(button);
 	}
 	
-	/* (non-Javadoc)
-	 * @see client.IDisplayer#removeButton(java.lang.String)
-	 */
 	public void removeButton(String nameButton) {
 		for (Component c : panel.getComponents()) {
 			if (c instanceof JButton) {
@@ -129,9 +125,6 @@ public class Displayer implements IDisplayer, IPlugin {
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see client.IDisplayer#selectedPlugin(java.util.List, extension.AppAlarm)
-	 */
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
 		//DescriptionPlugin selectedPl;
 		System.out.println("Displayer::selectedPlugin()" + combo.toString());
@@ -156,30 +149,18 @@ public class Displayer implements IDisplayer, IPlugin {
 		this.ic = ic;
 	}
 
-	/** return le DP
-	 * @return DescriptionPlugin
-	 */
 	public DescriptionPlugin getDescPlug() {
 		return descPlug;
 	}
 
-	/** setter de DecriptionPlugin
-	 * @param descPlug DescriptionPlugin, nouveau DescriptionPlugin
-	 */
 	public void setDescPlug(DescriptionPlugin descPlug) {
 		this.descPlug = descPlug;
 	}
 
-	/** getter de DescriptionPlugin
-	 * @return String, nom de DescriptionPlugin
-	 */
 	public String getNameDP() {
 		return nameDP;
 	}
 
-	/** setter du nom du DescritptionPlugin
-	 * @param nameDP String, nom du DescriptionPlugin
-	 */
 	public void setNameDP(String nameDP) {
 		this.nameDP = nameDP;
 	}
@@ -283,6 +264,7 @@ public class Displayer implements IDisplayer, IPlugin {
 			a.setPluginsChooseByUser(pluginToLoad);
 			a.setConfiguration();
 			panel.remove(jList);
+
 			panel.remove(b);
 			panel.revalidate();
 			panel.repaint();

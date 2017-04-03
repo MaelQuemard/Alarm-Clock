@@ -15,6 +15,7 @@ public interface IApp {
 	 */
 	void run();
 	String getName();
+
 	
 	/** getter sur le TimeManager, implémentant le ITimeManager
 	 * @return ITimeManager, getter de timeManager

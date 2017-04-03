@@ -6,7 +6,7 @@
 			"Killable": true
 		}		
 		"Affichage2": {
-			"Name": "extension.Displayer",
+			"Name": "extension.BigDisplayer",
 			"Tags":  ["IDisplayer", "En"],
 			"Killable": true
 		}
@@ -48,6 +48,11 @@
 		"ModifyDecM": {
 			"Name": "extension.ModifyDecM",
 			"Tags":  ["IModify", "En"],
+			"Killable": true
+		}
+		"AlarmPlugin": {
+			"Name": "extension.AlarmManager",
+			"Tags":  ["IAlarmManager", "En"],
 			"Killable": true
 		}
 	}

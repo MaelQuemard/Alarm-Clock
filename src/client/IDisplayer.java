@@ -43,4 +43,22 @@ public interface IDisplayer {
 	 * @param nameButton, nom du bouton a supprimer
 	 */
 	public void removeButton(String nameButton);
+	
+	/**
+	 * Permet de fermer la fenetre
+	 */
+	public void dispose();
+	
+	/**
+	 * Methode permettant de proposer plusieurs pugin, en esperant un choix multiple
+	 * @param listdp list des plugins proposés
+	 * @param app l'application qui requete
+	 */
+	public void selectMultiPlugin(List<DescriptionPlugin> listdp,AppAlarm app);
+	
+	/** Setting de l'alarm manager pour le displayer
+	 * @param ia l'alarmeManager
+	 * @param it le format de temps courant
+	 */
+	public void setAlarm(IAlarmManager ia, ITimeManager it);
 }

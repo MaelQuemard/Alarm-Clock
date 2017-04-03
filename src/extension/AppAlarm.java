@@ -6,23 +6,28 @@ import extension.Displayer;
 import extension.EarthManager;
 import extension.ModifyIncH;
 import extension.EarthTime;
+import client.IAlarmManager;
 import client.IApp;
 import client.IDisplayer;
 import client.IModify;
+import client.IPlugin;
 import client.ITimeManager;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
 
-public class AppAlarm implements IApp {
+public class AppAlarm implements IApp, IPlugin {
 
 	private ITimeManager timeManager;
-	//TODO : Creer une liste de modifieur, modifier le Handler pour gerer l'ajout dans liste (verification du type de l'attribut, si list alors ...)
 	private List<IModify> modify;
 	private IDisplayer displayer;
 	private String name;
+	
 
 	public DescriptionPlugin pluginChooseByUser;
+	public List<DescriptionPlugin> pluginsChooseByUser;
+	
+	public IAlarmManager alarmManager;
 	public boolean inConfig =true;
 	
 	/** Constructeur d'AppAlarm
@@ -73,30 +78,63 @@ public class AppAlarm implements IApp {
 		tags.add("IModify");
 		c1.setConstraints(tags);
 		l = ExtensionLoader.getInstance().getExtension(c1); 
-		//d = ???
 		
 		//TODO toUser with multi chooce
-		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(0))); //FIXME with d
-		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(1))); //FIXME with d
-		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(2)));
+		setConfiguration();
+		displayer.selectMultiPlugin(l, this);
+		
+		while(inConfig){try {
+			System.out.println("ExtensionLoader::inConfig::Imodifier::test");
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+		
+		for(DescriptionPlugin desc : pluginsChooseByUser)
+		{
+			modify.add((IModify)ExtensionLoader.getInstance().load(desc));
+		}
 		for (IModify im : modify) {
 			im.setITimeManager(timeManager);
 			timeManager.addModifier(im);
 		}
 		
-		displayer.setCore(timeManager);
-		
-		timeManager.setAffichage(displayer);
-		timeManager.addModifiers();
-		timeManager.updateAff();
 		
 		//TODO: Passer en IAlarmManager et utiliser loader
 		// Test fonctionnement alarme
+
+		tags.clear();
+		tags.add("IAlarmManager");
+		c1.setConstraints(tags);
+		l = ExtensionLoader.getInstance().getExtension(c1);
+		System.out.println("AppAlarm::loadngAlarm"+l.toString());
+		
+		//TODO toUser with multi chooce
+		setConfiguration();
+		displayer.selectedPlugin(l, this);
+		
+		while(inConfig){try {
+			Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+		}
+		
+
+		alarmManager = (IAlarmManager)ExtensionLoader.getInstance().load(pluginChooseByUser);
+		displayer.setAlarm(alarmManager,timeManager);
 		/* AlarmManager al = new AlarmManager();
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,0,0,true),"Simple"); // A implementer sur l'interface graphique
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(15,0,0,true),"Simple");
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,36,0,true),"Simple");
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(8,0,10,true),"Simple");*/
+		
+		
+
+		displayer.setCore(timeManager);
+		
+		timeManager.setAffichage(displayer);
+		timeManager.addModifiers();
+		timeManager.updateAff();
 	}
 
 	/* (non-Javadoc)
@@ -106,6 +144,12 @@ public class AppAlarm implements IApp {
 	public void run() {
 		timeManager.getTime().actualizeTime();
 		timeManager.updateAff();
+		if(alarmManager!=null && alarmManager.shouldRing(timeManager.getTime().getActualTime() / timeManager.getRefresh()))
+		{
+			System.out.println("AppAlarm::run() __ RINGRINGRIGN");
+			alarmManager.ring();
+		}
+		
 		try {
 			System.out.println("Sleep :: timeManager.getRefresh() : "+timeManager.getRefresh());
 			Thread.sleep(timeManager.getRefresh());
@@ -137,7 +181,9 @@ public class AppAlarm implements IApp {
 			im.setITimeManager(this.timeManager);
 			this.timeManager.addModifier(im);
 		}
+		this.alarmManager.removeAllAlarm();
 		this.timeManager.addModifiers();
+		this.displayer.setAlarm(alarmManager, timeManager);
 	}
 
 	/* (non-Javadoc)
@@ -146,6 +192,11 @@ public class AppAlarm implements IApp {
 	@AnnotationPlugin(value=true)
 	public List<IModify> getModify() {
 		return modify;
+	}
+	
+	@AnnotationPlugin(value=true)
+	public void setModify(List<IModify> modify) {
+		this.modify = modify;
 	}
 
 	/* (non-Javadoc)
@@ -161,7 +212,6 @@ public class AppAlarm implements IApp {
 	 */
 	@AnnotationPlugin(value=true)
 	public void removeModify(IModify modify) {
-		System.out.println("AppAlarm::removeModify : modify : " + modify.getName());
 		timeManager.removeModifier(modify);
 		this.modify.remove(modify);
 	}
@@ -179,7 +229,12 @@ public class AppAlarm implements IApp {
 	 */
 	@AnnotationPlugin(value=true)
 	public void setDisplayer(IDisplayer displayer) {
+		this.displayer.dispose();
 		this.displayer = displayer;
+		this.timeManager.setAffichage(displayer);
+		this.displayer.setCore(timeManager);
+		this.timeManager.addModifiers();
+		this.displayer.setAlarm(alarmManager,timeManager);
 	}
 
 	/* (non-Javadoc)
@@ -205,4 +260,26 @@ public class AppAlarm implements IApp {
 	public void setConfiguration() {
 		inConfig = !inConfig;
 	}
+
+	@AnnotationPlugin(value=false)
+	public List<DescriptionPlugin> getPluginsChooseByUser() {
+		return pluginsChooseByUser;
+	}
+
+	@AnnotationPlugin(value=false)
+	public void setPluginsChooseByUser(List<DescriptionPlugin> pluginsChooseByUser) {
+		this.pluginsChooseByUser = pluginsChooseByUser;
+	}
+
+	@AnnotationPlugin(value=true)
+	public IAlarmManager getAlarmManager() {
+		return alarmManager;
+	}
+
+	@AnnotationPlugin(value=true)
+	public void setAlarmManager(IAlarmManager alarm) {
+		this.alarmManager = alarm;
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package client;
 
+import extension.EarthTime;
+
 
 /**
  * @author Gillier Pierre-Olivier, Gomez Killian, Jain Edwin, Ngamije Emmanuel, Quémard Maël, Vuylsteke Sylvain
@@ -56,6 +58,13 @@ public interface ITimeManager {
 	 * @return
 	 */
 	public int getRefresh();
+	public ITime getITime(int hour, int min, int s, boolean fixe);
+	
+	public int getHourLimit() ;
+
+	public int getMinuteLimit();
+
+	public int getSecondLimit();
 	
 	/**
 	 * Cette methode permet de suprimer un modifieur
