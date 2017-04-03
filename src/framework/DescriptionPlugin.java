@@ -3,7 +3,7 @@ package framework;
 import java.util.List;
 
 /** class decrivant un plugin, son nom (chemin d'accés au .class) et ses tags
- * @author 
+ * @author PO Gillier - K Gomes - E Jain - E Ngamije - M Quémard - S Vuylsteke 
  *
  */
 public class DescriptionPlugin {

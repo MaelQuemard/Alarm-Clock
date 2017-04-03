@@ -6,7 +6,7 @@ import extension.AppAlarm;
 import framework.DescriptionPlugin;
 
 /** l'afficheur graphique de l'app
- * @author @author Gillier Pierre-Olivier, Gomez Killian, Jain Edwin, Ngamije Emmanuel, Quémard Maël, Vuylsteke Sylvain
+ *  @author Gillier Pierre-Olivier, Gomez Killian, Jain Edwin, Ngamije Emmanuel, Quémard Maël, Vuylsteke Sylvain
  *
  */
 public interface IDisplayer {
@@ -33,7 +33,7 @@ public interface IDisplayer {
 	public void setCore(ITimeManager ic);
 	
 	/** affichage des plugins possible pour l'application
-	 * @param l List<DescriptionPlugin>, liste des plugins
+	 * @param l List de DescriptionPlugin, liste des plugins
 	 * @param a AppAlarm, application 
 	 */
 	public void selectedPlugin(List<DescriptionPlugin> l,AppAlarm a);

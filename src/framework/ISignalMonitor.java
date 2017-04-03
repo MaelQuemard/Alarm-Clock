@@ -12,7 +12,6 @@ public interface ISignalMonitor {
 	
 	/**
 	 * Méthode qui permet d'activer le monitor
-	 * @param m, monitor concret
 	 */
 	public void activateMonitor();
 	
@@ -24,8 +23,6 @@ public interface ISignalMonitor {
 	
 	/**
 	 * Méthode qui permet de retourner le contenu d'un getter
-	 * @param nameAttribut
-	 * @return
 	 */
 	public Object getAttribut(String nameAttribut);
 	
@@ -33,7 +30,7 @@ public interface ISignalMonitor {
 	 * Cette méthode permet de changer un plugin dynamiquement
 	 * @param attibut, Nom du plugin a remplacer
 	 * @param newAttribut, Plugin qui va prendre la place de celui présent
-	 * @warning Pour que cela fonctionne il faut que l'application soit bien implémenter
+	 * warning Pour que cela fonctionne il faut que l'application soit bien implémenter
 	 */
 	public void modifyAttribut(String attibut, Object newAttribut);
 	

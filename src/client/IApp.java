@@ -28,7 +28,6 @@ public interface IApp {
 	public void setTimeManager(ITimeManager timeManager);
 	
 	/** return la liste des IModify
-	 * @return List<IModify>, getter de la liste de Modifiers
 	 */
 	public List<IModify> getModify();
 	

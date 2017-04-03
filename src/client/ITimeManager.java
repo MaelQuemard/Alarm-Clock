@@ -54,7 +54,6 @@ public interface ITimeManager {
 	public void setModifyValue(int modifyValue);
 	
 	/** appel de getRefresh sur ITime
-	 * @return
 	 */
 	public int getRefresh();
 	public ITime getITime(int hour, int min, int s, boolean fixe);

@@ -9,7 +9,7 @@ import java.util.Map;
 import extension.AnnotationPlugin;
 
 /** implémentation de {@link InvocationHandler}, permettant de monitorer un objet.
- * @author 
+ * @author PO Gillier - K Gomes - E Jain - E Ngamije - M Quémard - S Vuylsteke 
  *
  */
 public class MonitorHandler implements InvocationHandler {
