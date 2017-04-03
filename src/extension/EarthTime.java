@@ -1,9 +1,11 @@
 package extension;
 
 import java.util.Date;
+
+import client.IPlugin;
 import client.ITime;
 
-public class EarthTime implements ITime
+public class EarthTime implements ITime, IPlugin
 {
 	private static int totalSec = 86400000;
 
@@ -137,6 +139,12 @@ public class EarthTime implements ITime
 	public int getRefresh() {
 		return sEarth;
 	}
-	
 
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return "EarthTime";
+	}
+	
+	
 }

@@ -21,4 +21,9 @@ public interface IDisplayer {
 	 * @param nameButton, nom du bouton a supprimer
 	 */
 	public void removeButton(String nameButton);
+	
+	/**
+	 * Permet de fermer la fenetre
+	 */
+	public void dispose();
 }

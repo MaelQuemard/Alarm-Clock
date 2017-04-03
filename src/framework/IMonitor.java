@@ -1,6 +1,7 @@
 package framework;
 
 import java.util.List;
+import java.util.Map;
 
 import client.IApp;
 
@@ -9,11 +10,6 @@ public interface IMonitor {
 	 * @param log la string a afficher
 	 */
 	void writeLog(String log);
-	
-	/**
-	 * 
-	 */
-	void test();
 	
 	/**
 	 * Cette méthode permet de kill plugin associé a une application
@@ -41,5 +37,5 @@ public interface IMonitor {
 	 * Methode qui permet d'obtenir les subPlugins d'une application
 	 * @param appRunning l'application où l'on souhaite modifier un plugin
 	 */
-	public List<String> getSubPlugin(IApp appRunning);
+	public Map<String, Class<?>> getSubPlugin(IApp appRunning);
 }

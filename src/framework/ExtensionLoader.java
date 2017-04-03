@@ -5,6 +5,8 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -159,36 +161,31 @@ public class ExtensionLoader {
 	
 	public static void main(String[] args) {
 		
+		Scanner s = new Scanner(System.in);
+		System.out.println("Voulez vous lancer le monitor : Yes/No ?");
+		String response = s.nextLine();
+		
 		ExtensionLoader.getInstance().autorun();
 		
 		List<String> tags = new ArrayList<String>();
 		List<DescriptionPlugin> l;
 		Constraint c1 = new Constraint();
-		
 
 		// Chargement du monitor
-		IMonitor monitor;
-		tags.add("IMonitor");
-		c1.setConstraints(tags);
-		l = ExtensionLoader.getInstance().getExtension(c1);
-		monitor = (IMonitor) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
-		ExtensionLoader.getInstance().setMonitor(monitor);
-		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitor);
-		
-		// run of 5 cycle of allPlugin*/
-		int i = 0;
-		while(i<5)
-		{
-			System.out.println("ExtensionLoader::main -- actual run : " +i);
-			ExtensionLoader.getInstance().runApp();
-			++i;
+		if (response.equals("Yes") || response.equals("y") || response.equals("Y") || response.equals("yes")) {
+			IMonitor monitor;
+			tags.add("IMonitor");
+			c1.setConstraints(tags);
+			l = ExtensionLoader.getInstance().getExtension(c1);
+			((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).activateMonitor();
+			monitor = (IMonitor) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
+			ExtensionLoader.getInstance().setMonitor(monitor);
+			((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitor);
 		}
 		
-		i = 0;
-		while(i<100)
+		while(true)
 		{
 			ExtensionLoader.getInstance().runApp();
-			++i;
 		}		
 	}
 	

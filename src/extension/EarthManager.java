@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import client.IDisplayer;
 import client.IModify;
+import client.IPlugin;
 import client.ITime;
 import client.ITimeManager;
 
-public class EarthManager implements ITimeManager {
+public class EarthManager implements ITimeManager, IPlugin {
 
 	private ArrayList<IModify> listModifiers;
 	private IDisplayer aff;
@@ -87,5 +88,9 @@ public class EarthManager implements ITimeManager {
 	@Override
 	public int getRefresh() {
 		return t.getRefresh();
+	}
+	
+	public String getName() {
+		return "EarthManager";
 	}
 }

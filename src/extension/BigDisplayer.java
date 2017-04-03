@@ -1,5 +1,7 @@
 package extension;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import framework.DescriptionPlugin;
  * @author quemard
  *
  */
-public class Displayer implements IDisplayer, IPlugin {
+public class BigDisplayer implements IDisplayer, IPlugin {
 	//TODO : faire le panel config
 
 	private JFrame frame;
@@ -34,11 +36,12 @@ public class Displayer implements IDisplayer, IPlugin {
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
 	
-	public Displayer() {
+	public BigDisplayer() {
 		frame = new JFrame();
 		panel = new JPanel();
 		label = new JLabel();
 		combo = new JComboBox<String>();
+		label.setFont(new Font(nameDP, 20, 20));
 		panel.add(label);
 		frame.add(panel);
 		frame.setSize(400, 400);
@@ -60,6 +63,7 @@ public class Displayer implements IDisplayer, IPlugin {
 	@Override
 	public void addButtons(String nameButton, final int numButton) {
 		JButton button = new JButton(nameButton);
+		button.setFont(new Font("test", 20, 20));
 		button.addActionListener(new ActionListener() {
 
 			@Override

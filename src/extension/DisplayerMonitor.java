@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import javax.swing.ListSelectionModel;
 
 import client.IApp;
 import client.IModify;
+import client.IPlugin;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
@@ -33,7 +35,7 @@ public class DisplayerMonitor {
 	public DisplayerMonitor()
 	{
 		frame = new JFrame();
-		bxLayoutFrame = new BoxLayout(frame, 0);
+		bxLayoutFrame = new BoxLayout(frame, 2);
 		frame.setSize(800, 360);
 	}
 	
@@ -53,44 +55,27 @@ public class DisplayerMonitor {
 			
 			JPanel panelSubPlugins = new JPanel();
 			
-			List<String> subPlugins = null;
+			Map<String, Class<?>> subPlugins = null;
 			subPlugins = ((ISignalMonitor) i).getAttributsPlugin();
-
-			/*for (Object appRunning : ExtensionLoader.getInstance().getListApp()) {
-				System.out.println("DisplaySubPlugin:: i : " + i.toString() + "appRunnig : "+appRunning);
-				if (i == appRunning) {
-					appRun = appRunning;
-					System.out.println("DisplaySubPlugin");
-					subPlugins = ((ISignalMonitor) appRunning).getAttributsPlugin();
-				}
-			}*/
 
 			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size()+2, 3);
 			panelSubPlugins.setLayout(gdLayoutSubPlugin);
 			
-			for ( String s : subPlugins ) {
+			System.out.println("DisplayerMonitor::Values Map :: "+subPlugins.values().toString());
+			
+			for ( String s : subPlugins.keySet() ) {
 				
-				if (s.equals("Modify")) {
+				if (subPlugins.get(s) == List.class) {
 					System.out.println("DisplayMonitor::IModify ");
-					List<String> tags = new ArrayList<String>();
-					List<DescriptionPlugin> l;
-					Constraint c1 = new Constraint();
-					tags.add("I" + s);
-					c1.setConstraints(tags);
-					l = ExtensionLoader.getInstance().getExtension(c1);
 					
-					for (IModify im : ((IApp) i).getModify()) {
-						JLabel labelSubPlugin = new JLabel(im.getName());
-						JButton killPlugin = new JButton("kill");
-						JComboBox<String> cbPlugin = new JComboBox<String>();
-						for (DescriptionPlugin dp : l) {
-							cbPlugin.addItem(dp.getNom());
-						}
-						killPlugin.addActionListener(new ActionListenerMonitor(i, this, s, im.getName()));
-						cbPlugin.addActionListener(new ActionListenerComboBox(i, s, cbPlugin));
-						panelSubPlugins.add(labelSubPlugin);
-						panelSubPlugins.add(killPlugin);
-						panelSubPlugins.add(cbPlugin);
+					for (Object im : (List<Object>)(((ISignalMonitor) i).getAttribut(s))) {
+							JLabel labelSubPlugin = new JLabel(((IPlugin) im).getName());
+							JButton killPlugin = new JButton("kill");
+							JLabel labelReplace = new JLabel("Non remplacable");
+							killPlugin.addActionListener(new ActionListenerKill(i, panelSubPlugins, labelSubPlugin, killPlugin, labelReplace, s, ((IPlugin) im).getName()));
+							panelSubPlugins.add(labelSubPlugin);
+							panelSubPlugins.add(killPlugin);
+							panelSubPlugins.add(labelReplace);
 					}
 				} else {
 					System.out.println("DisplayMonitor::I"+s);
@@ -108,7 +93,7 @@ public class DisplayerMonitor {
 						cbPlugin.addItem(dp.getNom());
 					}
 					
-					killPlugin.addActionListener(new ActionListenerMonitor(i, this, s, null));
+					killPlugin.addActionListener(new ActionListenerKill(i, panelSubPlugins, labelSubPlugin, killPlugin, cbPlugin, s, null));
 					cbPlugin.addActionListener(new ActionListenerComboBox(i, s, cbPlugin));
 					panelSubPlugins.add(labelSubPlugin);
 					panelSubPlugins.add(killPlugin);
@@ -144,5 +129,44 @@ public class DisplayerMonitor {
 			}
 		}
 		
+	}
+	
+	public class ActionListenerKill implements ActionListener {
+
+		private IApp i;
+		private JPanel panelContent;
+		private Component c1;
+		private Component c2;
+		private Component c3;
+		private String namePlugin;
+		private String nameSubPlugin;
+		
+		public ActionListenerKill(IApp i, JPanel panelContent, Component c1, Component c2, Component c3, String namePlugin, String nameSubPlugin) {
+			this.namePlugin = namePlugin;
+			this.nameSubPlugin = nameSubPlugin;
+			this.i = i;
+			this.panelContent = panelContent;
+			this.c1 = c1;
+			this.c2 = c2;
+			this.c3 = c3;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (nameSubPlugin == null) {
+				ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin);
+				panelContent.remove(c1);
+				panelContent.remove(c2);
+				panelContent.remove(c3);
+				panelContent.repaint();
+			} else {
+				ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin, nameSubPlugin);
+				panelContent.remove(c1);
+				panelContent.remove(c2);
+				panelContent.remove(c3);
+				panelContent.repaint();
+			}
+		}
+
 	}
 }

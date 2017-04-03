@@ -9,18 +9,19 @@ import extension.EarthTime;
 import client.IApp;
 import client.IDisplayer;
 import client.IModify;
+import client.IPlugin;
 import client.ITimeManager;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
 
-public class AppAlarm implements IApp {
+public class AppAlarm implements IApp, IPlugin {
 
 	private ITimeManager timeManager;
-	//TODO : Creer une liste de modifieur, modifier le Handler pour gerer l'ajout dans liste (verification du type de l'attribut, si list alors ...)
 	private List<IModify> modify;
 	private IDisplayer displayer;
 	private String name;
+	
 
 	public DescriptionPlugin pluginChooseByUser;
 	public boolean inConfig =true;
@@ -132,6 +133,11 @@ public class AppAlarm implements IApp {
 	public List<IModify> getModify() {
 		return modify;
 	}
+	
+	@AnnotationPlugin(value=true)
+	public void setModify(List<IModify> modify) {
+		this.modify = modify;
+	}
 
 	@AnnotationPlugin(value=true)
 	public void addModify(IModify modify) {
@@ -140,7 +146,6 @@ public class AppAlarm implements IApp {
 	
 	@AnnotationPlugin(value=true)
 	public void removeModify(IModify modify) {
-		System.out.println("AppAlarm::removeModify : modify : " + modify.getName());
 		timeManager.removeModifier(modify);
 		this.modify.remove(modify);
 	}
@@ -152,7 +157,11 @@ public class AppAlarm implements IApp {
 
 	@AnnotationPlugin(value=true)
 	public void setDisplayer(IDisplayer displayer) {
+		this.displayer.dispose();
 		this.displayer = displayer;
+		this.timeManager.setAffichage(displayer);
+		this.displayer.setCore(timeManager);
+		this.timeManager.addModifiers();
 	}
 
 	@AnnotationPlugin(value=false)
