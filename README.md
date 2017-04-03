@@ -78,6 +78,8 @@ La création d’un plugin revient donc à l’implémentation d’une classe qu
 Prenons un exemple. Un développeur veut adapter l’application pour les utilisateurs daltoniens. Son but est donc d’implémenter un nouveau **“Displayer”**.
 Pour ce faire, le développeur doit se référer à la classe **“IDisplayer”**. Sa nouvelle classe, appelons la “DisplayerColorBlind”, devra être placée dans le package “extensions” et devra implémenter l’interface **“IDisplayer”**, ainsi que toutes les méthodes de cette dernière, dans lesquelles il pourra spécifier le comportement souhaité.
 
+Lors de l’ajout d’un nouveau plugin, il faut penser à ajouter son fonctionnement dans le plugin **“IApp”**, ainsi que les getter et setter munis du nom de l’extension suivi de l’annotation avec la valeur **“true”**. 
+
 Par la suite, il faut aussi modifier le fichier JSON **“PluginsDescription”**, qui est le fichier de configuration de l’application. Il faut en effet ajouter le “bloc” correspondant au nouveau plugin (comme expliqué dans la section Description de la plateforme).
 
 ### Utilisation du framework
