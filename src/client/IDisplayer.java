@@ -23,6 +23,11 @@ public interface IDisplayer {
 	public void removeButton(String nameButton);
 	
 	/**
+	 * Permet de fermer la fenetre
+	 */
+	public void dispose();
+	
+	/**
 	 * Methode permettant de proposer plusieurs pugin, en esperant un choix multiple
 	 * @param listdp list des plugins proposés
 	 * @param app l'application qui requete

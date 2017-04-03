@@ -6,7 +6,7 @@
 			"Killable": true
 		}		
 		"Affichage2": {
-			"Name": "extension.Displayer",
+			"Name": "extension.BigDisplayer",
 			"Tags":  ["IDisplayer", "En"],
 			"Killable": true
 		}

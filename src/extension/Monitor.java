@@ -2,6 +2,7 @@ package extension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import client.IApp;
 import client.IDisplayer;
@@ -31,25 +32,6 @@ public class Monitor implements IMonitor {
 		System.out.println("MONITOR : " + log);
 	}
 	
-	// TODO: Virer cette methode
-	/* (non-Javadoc)
-	 * @see framework.IMonitor#test()
-	 */
-	public void test() {
-		List<String> tags = new ArrayList<String>();
-		Constraint c1 = new Constraint();
-		List<String> listAttribut = ((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0))
-				.getAttributsPlugin();
-		System.out.println(listAttribut.toString());
-		tags.clear();
-		tags.add("I"+listAttribut.get(0));
-		c1.setConstraints(tags);
-		((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).modifyAttribut(
-				listAttribut.get(0), 
-				ExtensionLoader.getInstance().load(ExtensionLoader.getInstance().getExtension(c1).get(0)));
-		//this.kill(ExtensionLoader.getInstance().getListApp().get(0), "TimeManager");
-	}
-	
 	/* (non-Javadoc)
 	 * @see framework.IMonitor#kill(client.IApp, java.lang.String)
 	 */
@@ -72,7 +54,7 @@ public class Monitor implements IMonitor {
 	/* (non-Javadoc)
 	 * @see framework.IMonitor#getSubPlugin()
 	 */
-	public List<String> getSubPlugin(IApp appRunning)
+	public Map<String, Class<?>> getSubPlugin(IApp appRunning)
 	{
 		return ((ISignalMonitor) appRunning).getAttributsPlugin();
 	}

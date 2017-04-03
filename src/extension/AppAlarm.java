@@ -10,23 +10,24 @@ import client.IAlarmManager;
 import client.IApp;
 import client.IDisplayer;
 import client.IModify;
+import client.IPlugin;
 import client.ITimeManager;
 import framework.Constraint;
 import framework.DescriptionPlugin;
 import framework.ExtensionLoader;
 
-public class AppAlarm implements IApp {
+public class AppAlarm implements IApp, IPlugin {
 
 	private ITimeManager timeManager;
-	//TODO : Creer une liste de modifieur, modifier le Handler pour gerer l'ajout dans liste (verification du type de l'attribut, si list alors ...)
 	private List<IModify> modify;
 	private IDisplayer displayer;
 	private String name;
+	
 
 	public DescriptionPlugin pluginChooseByUser;
 	public List<DescriptionPlugin> pluginsChooseByUser;
 	
-	public IAlarmManager alarm;
+	public IAlarmManager alarmManager;
 	public boolean inConfig =true;
 	
 	public AppAlarm() {
@@ -116,8 +117,8 @@ public class AppAlarm implements IApp {
 		}
 		
 
-		alarm = (IAlarmManager)ExtensionLoader.getInstance().load(pluginChooseByUser);
-		displayer.setAlarm(alarm,timeManager);
+		alarmManager = (IAlarmManager)ExtensionLoader.getInstance().load(pluginChooseByUser);
+		displayer.setAlarm(alarmManager,timeManager);
 		/* AlarmManager al = new AlarmManager();
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,0,0,true),"Simple"); // A implementer sur l'interface graphique
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(15,0,0,true),"Simple");
@@ -137,10 +138,10 @@ public class AppAlarm implements IApp {
 	public void run() {
 		timeManager.getTime().actualizeTime();
 		timeManager.updateAff();
-		if(alarm.shouldRing(timeManager.getTime().getActualTime() / timeManager.getRefresh()))
+		if(alarmManager!=null && alarmManager.shouldRing(timeManager.getTime().getActualTime() / timeManager.getRefresh()))
 		{
 			System.out.println("AppAlarm::run() __ RINGRINGRIGN");
-			alarm.ring();
+			alarmManager.ring();
 		}
 		
 		try {
@@ -175,6 +176,11 @@ public class AppAlarm implements IApp {
 	public List<IModify> getModify() {
 		return modify;
 	}
+	
+	@AnnotationPlugin(value=true)
+	public void setModify(List<IModify> modify) {
+		this.modify = modify;
+	}
 
 	@AnnotationPlugin(value=true)
 	public void addModify(IModify modify) {
@@ -183,7 +189,6 @@ public class AppAlarm implements IApp {
 	
 	@AnnotationPlugin(value=true)
 	public void removeModify(IModify modify) {
-		System.out.println("AppAlarm::removeModify : modify : " + modify.getName());
 		timeManager.removeModifier(modify);
 		this.modify.remove(modify);
 	}
@@ -195,7 +200,12 @@ public class AppAlarm implements IApp {
 
 	@AnnotationPlugin(value=true)
 	public void setDisplayer(IDisplayer displayer) {
+		this.displayer.dispose();
 		this.displayer = displayer;
+		this.timeManager.setAffichage(displayer);
+		this.displayer.setCore(timeManager);
+		this.timeManager.addModifiers();
+		this.displayer.setAlarm(alarmManager,timeManager);
 	}
 
 	@AnnotationPlugin(value=false)
@@ -222,4 +232,16 @@ public class AppAlarm implements IApp {
 	public void setPluginsChooseByUser(List<DescriptionPlugin> pluginsChooseByUser) {
 		this.pluginsChooseByUser = pluginsChooseByUser;
 	}
+
+	@AnnotationPlugin(value=true)
+	public IAlarmManager getAlarmManager() {
+		return alarmManager;
+	}
+
+	@AnnotationPlugin(value=true)
+	public void setAlarmManager(IAlarmManager alarm) {
+		this.alarmManager = alarm;
+	}
+	
+	
 }

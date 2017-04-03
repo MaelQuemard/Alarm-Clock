@@ -4,10 +4,11 @@ import java.util.ArrayList;
 
 import client.IDisplayer;
 import client.IModify;
+import client.IPlugin;
 import client.ITime;
 import client.ITimeManager;
 
-public class PandoraManager implements ITimeManager {
+public class PandoraManager implements ITimeManager, IPlugin {
 
 	private ArrayList<IModify> listModifiers;
 	private IDisplayer aff;
@@ -109,5 +110,9 @@ public class PandoraManager implements ITimeManager {
 	
 	public ITime getITime(int hour, int min, int s, boolean fixe){
 		return new PandoraTime(hour,min,s,fixe);
+	}
+		
+	public String getName() {
+		return "PandoraManager";
 	}
 }

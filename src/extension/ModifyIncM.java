@@ -1,9 +1,10 @@
 package extension;
 
 import client.IModify;
+import client.IPlugin;
 import client.ITimeManager;
 
-public class ModifyIncM implements IModify{
+public class ModifyIncM implements IModify, IPlugin {
 
 	private String name;
 	private ITimeManager it;
