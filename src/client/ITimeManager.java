@@ -1,5 +1,7 @@
 package client;
 
+import extension.EarthTime;
+
 
 public interface ITimeManager {
 	public void IAmNotify(int i);
@@ -12,6 +14,13 @@ public interface ITimeManager {
 	public int getModifyValue();
 	public void setModifyValue(int modifyValue);
 	public int getRefresh();
+	public ITime getITime(int hour, int min, int s, boolean fixe);
+	
+	public int getHourLimit() ;
+
+	public int getMinuteLimit();
+
+	public int getSecondLimit();
 	
 	/**
 	 * Cette methode permet de suprimer un modifieur

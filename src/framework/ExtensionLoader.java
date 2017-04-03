@@ -160,7 +160,6 @@ public class ExtensionLoader {
 	public static void main(String[] args) {
 		
 		ExtensionLoader.getInstance().autorun();
-		ExtensionLoader.getInstance().autorun();
 		
 		List<String> tags = new ArrayList<String>();
 		List<DescriptionPlugin> l;

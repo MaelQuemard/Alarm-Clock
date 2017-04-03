@@ -6,6 +6,7 @@ import extension.Displayer;
 import extension.EarthManager;
 import extension.ModifyIncH;
 import extension.EarthTime;
+import client.IAlarmManager;
 import client.IApp;
 import client.IDisplayer;
 import client.IModify;
@@ -24,6 +25,8 @@ public class AppAlarm implements IApp {
 
 	public DescriptionPlugin pluginChooseByUser;
 	public List<DescriptionPlugin> pluginsChooseByUser;
+	
+	public IAlarmManager alarm;
 	public boolean inConfig =true;
 	
 	public AppAlarm() {
@@ -71,7 +74,6 @@ public class AppAlarm implements IApp {
 		tags.add("IModify");
 		c1.setConstraints(tags);
 		l = ExtensionLoader.getInstance().getExtension(c1); 
-		//d = ???
 		
 		//TODO toUser with multi chooce
 		setConfiguration();
@@ -89,34 +91,58 @@ public class AppAlarm implements IApp {
 		{
 			modify.add((IModify)ExtensionLoader.getInstance().load(desc));
 		}
-//		
-//		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(0))); //FIXME with d
-//		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(1))); //FIXME with d
-//		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(2)));
 		for (IModify im : modify) {
 			im.setITimeManager(timeManager);
 			timeManager.addModifier(im);
 		}
 		
-		displayer.setCore(timeManager);
-		
-		timeManager.setAffichage(displayer);
-		timeManager.addModifiers();
-		timeManager.updateAff();
 		
 		//TODO: Passer en IAlarmManager et utiliser loader
 		// Test fonctionnement alarme
+
+		tags.clear();
+		tags.add("IAlarmManager");
+		c1.setConstraints(tags);
+		l = ExtensionLoader.getInstance().getExtension(c1);
+		System.out.println("AppAlarm::loadngAlarm"+l.toString());
+		
+		//TODO toUser with multi chooce
+		setConfiguration();
+		displayer.selectedPlugin(l, this);
+		
+		while(inConfig){try {
+			Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+		}
+		
+
+		alarm = (IAlarmManager)ExtensionLoader.getInstance().load(pluginChooseByUser);
+		displayer.setAlarm(alarm,timeManager);
 		/* AlarmManager al = new AlarmManager();
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,0,0,true),"Simple"); // A implementer sur l'interface graphique
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(15,0,0,true),"Simple");
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(12,36,0,true),"Simple");
 		al.addAlarm(timeManager.getTime().getActualTime()/1000,new EarthTime(8,0,10,true),"Simple");*/
+		
+		
+
+		displayer.setCore(timeManager);
+		
+		timeManager.setAffichage(displayer);
+		timeManager.addModifiers();
+		timeManager.updateAff();
 	}
 
 	@Override
 	public void run() {
 		timeManager.getTime().actualizeTime();
 		timeManager.updateAff();
+		if(alarm.shouldRing(timeManager.getTime().getActualTime() / timeManager.getRefresh()))
+		{
+			System.out.println("AppAlarm::run() __ RINGRINGRIGN");
+			alarm.ring();
+		}
+		
 		try {
 			System.out.println("Sleep :: timeManager.getRefresh() : "+timeManager.getRefresh());
 			Thread.sleep(timeManager.getRefresh());

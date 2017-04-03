@@ -28,4 +28,10 @@ public interface IDisplayer {
 	 * @param app l'application qui requete
 	 */
 	public void selectMultiPlugin(List<DescriptionPlugin> listdp,AppAlarm app);
+	
+	/** Setting de l'alarm manager pour le displayer
+	 * @param ia l'alarmeManager
+	 * @param it le format de temps courant
+	 */
+	public void setAlarm(IAlarmManager ia, ITimeManager it);
 }

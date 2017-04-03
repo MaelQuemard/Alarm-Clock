@@ -121,6 +121,7 @@ public class AlarmManager implements IAlarmManager
 	@Override
 	public boolean shouldRing(long at)
 	{
+		if(alarms.size()==0) return false;
 		System.out.println("alarm time : " + alarms.get(0).getTime().getTotalS());
 		System.out.println("current time : " + at);
 		

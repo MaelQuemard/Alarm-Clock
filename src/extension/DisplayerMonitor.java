@@ -58,7 +58,7 @@ public class DisplayerMonitor {
 			subPlugins = ((ISignalMonitor) i).getAttributsPlugin();
 
 
-			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size()+2, 3);
+			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size()+5, 3);
 			panelSubPlugins.setLayout(gdLayoutSubPlugin);
 			
 			for ( String s : subPlugins ) {

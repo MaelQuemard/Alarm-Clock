@@ -1,5 +1,6 @@
 package extension;
 import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,8 +14,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListModel;
 
+import client.IAlarm;
+import client.IAlarmManager;
 import client.IDisplayer;
+import client.ITime;
 import client.ITimeManager;
 import framework.DescriptionPlugin;
 
@@ -29,17 +34,21 @@ public class Displayer implements IDisplayer {
 	private JFrame frame;
 	private JPanel panel;
 	private JLabel label;
+	private JPanel panelAlarm;
 	private JComboBox<String> combo;
 	private ITimeManager ic;
 	private JList<String> jList;
+	
+	private IAlarmManager Ial;
 	
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
 	
 	public Displayer() {
-		frame = new JFrame();
+		frame = new JFrame();frame.setLayout(new GridLayout());
 		panel = new JPanel();
 		label = new JLabel();
+		panelAlarm = new JPanel();
 		combo = new JComboBox<String>();
 		
 		panel.add(label);
@@ -116,7 +125,8 @@ public class Displayer implements IDisplayer {
 	
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
 		//DescriptionPlugin selectedPl;
-
+		System.out.println("Displayer::selectedPlugin()" + combo.toString());
+		combo.removeAllItems();
 		panel.add(combo);
 		combo.setVisible(true);
 		
@@ -154,6 +164,49 @@ public class Displayer implements IDisplayer {
 	public void setNameDP(String nameDP) {
 		this.nameDP = nameDP;
 	}
+	
+	@Override
+	public void setAlarm(IAlarmManager ia, ITimeManager it) {
+		ic = it;
+		Ial = ia;
+		List<String> listAlarm = new ArrayList<String>();
+		for(IAlarm alarm : ia.getAlarms())
+		{
+			listAlarm.add("Alarme prévue à : " + alarm.getTime().getH() +":"+alarm.getTime().getM() +":"+alarm.getTime().getS()
+					+"\n Elle va :" + alarm.getBehaviour());
+			
+		}
+		panelAlarm.removeAll();
+		panelAlarm.add(new JList<String>(new Vector<String>(listAlarm)));
+		
+		JComboBox<Integer> comboHour = new JComboBox<Integer>();
+		JComboBox<Integer> comboMin = new JComboBox<Integer>();
+		JComboBox<Integer> comboS = new JComboBox<Integer>();
+		for(int i = 0; i<it.getHourLimit() ; ++i)
+		{
+			comboHour.addItem(i);
+		}
+		for(int i = 0; i<it.getMinuteLimit() ; ++i)
+		{
+			comboMin.addItem(i);
+		}
+		for(int i = 0; i<it.getSecondLimit() ; ++i)
+		{
+			comboS.addItem(i);
+		}
+		
+		JButton button = new JButton("Ajouter alarm");
+		button.addActionListener(new ActionListenerAlarmAdd(comboHour, comboMin, comboS,ia));
+		panelAlarm.add(comboHour);
+		panelAlarm.add(comboMin);
+		panelAlarm.add(comboS);
+		panelAlarm.add(button);
+		
+		frame.add(panelAlarm);
+		
+	}
+	
+	//  CLASS ActionListener
 	
 	public class ActionListenerLoading implements ActionListener {
 
@@ -212,6 +265,34 @@ public class Displayer implements IDisplayer {
 		
 	}
 
+	
+	public class ActionListenerAlarmAdd implements ActionListener {
+
+		JComboBox<Integer> comboHour;
+		JComboBox<Integer> comboMin;
+		JComboBox<Integer> comboS;
+		IAlarmManager ia;
+		
+		ActionListenerAlarmAdd(JComboBox<Integer> comboHour, JComboBox<Integer> comboMin,
+				JComboBox<Integer> comboS, IAlarmManager ia)
+		{
+			this.comboHour= comboHour;
+			this.comboMin = comboMin;
+			this.comboS = comboS;
+			this.ia = ia;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//TODO proposer les differents types d'alarm
+			ia.addAlarm(System.currentTimeMillis()/1000,
+					ic.getITime((Integer)comboHour.getSelectedItem(), (Integer)comboMin.getSelectedItem(),(Integer) comboS.getSelectedItem(), true),
+					"Simple");
+			setAlarm(ia,ic);
+			
+		}
+		
+	}
 	
 	
 }

@@ -50,5 +50,10 @@
 			"Tags":  ["IModify", "En"],
 			"Killable": true
 		}
+		"AlarmPlugin": {
+			"Name": "extension.AlarmManager",
+			"Tags":  ["IAlarmManager", "En"],
+			"Killable": true
+		}
 	}
 }
