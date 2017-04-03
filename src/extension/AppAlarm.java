@@ -23,6 +23,7 @@ public class AppAlarm implements IApp {
 	private String name;
 
 	public DescriptionPlugin pluginChooseByUser;
+	public List<DescriptionPlugin> pluginsChooseByUser;
 	public boolean inConfig =true;
 	
 	public AppAlarm() {
@@ -73,9 +74,25 @@ public class AppAlarm implements IApp {
 		//d = ???
 		
 		//TODO toUser with multi chooce
-		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(0))); //FIXME with d
-		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(1))); //FIXME with d
-		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(2)));
+		setConfiguration();
+		displayer.selectMultiPlugin(l, this);
+		
+		while(inConfig){try {
+			System.out.println("ExtensionLoader::inConfig::Imodifier::test");
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}}
+		
+		for(DescriptionPlugin desc : pluginsChooseByUser)
+		{
+			modify.add((IModify)ExtensionLoader.getInstance().load(desc));
+		}
+//		
+//		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(0))); //FIXME with d
+//		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(1))); //FIXME with d
+//		modify.add((IModify) ExtensionLoader.getInstance().load(l.get(2)));
 		for (IModify im : modify) {
 			im.setITimeManager(timeManager);
 			timeManager.addModifier(im);
@@ -168,5 +185,15 @@ public class AppAlarm implements IApp {
 	@AnnotationPlugin(value=false)
 	public void setConfiguration() {
 		inConfig = !inConfig;
+	}
+
+	@AnnotationPlugin(value=false)
+	public List<DescriptionPlugin> getPluginsChooseByUser() {
+		return pluginsChooseByUser;
+	}
+
+	@AnnotationPlugin(value=false)
+	public void setPluginsChooseByUser(List<DescriptionPlugin> pluginsChooseByUser) {
+		this.pluginsChooseByUser = pluginsChooseByUser;
 	}
 }

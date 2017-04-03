@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -33,22 +34,22 @@ public class DisplayerMonitor {
 	public DisplayerMonitor()
 	{
 		frame = new JFrame();
-		bxLayoutFrame = new BoxLayout(frame, 0);
+		bxLayoutFrame = new BoxLayout(frame, BoxLayout.Y_AXIS);
 		frame.setSize(800, 360);
 	}
 	
 	public void doStuff()
 	{
+		int j = 0;
 		System.out.println("DisplayerMonitor::ListAppRunning : "+ExtensionLoader.getInstance().getListApp().toString());
 		for(IApp i : ExtensionLoader.getInstance().getListApp())
 		{
-			Object appRun = null;
-			System.out.println(i.getName());
+			++j;
 			JPanel panelApp = new JPanel();;
 			GridLayout gdLayoutApp = new GridLayout(2, 0);
 			panelApp.setLayout(gdLayoutApp);
 			JPanel header = new JPanel();
-			header.add(new JLabel(i.getName()));
+			header.add(new JLabel(i.getName() + "__" + j));
 			panelApp.add(header);
 			
 			JPanel panelSubPlugins = new JPanel();
@@ -56,14 +57,6 @@ public class DisplayerMonitor {
 			List<String> subPlugins = null;
 			subPlugins = ((ISignalMonitor) i).getAttributsPlugin();
 
-			/*for (Object appRunning : ExtensionLoader.getInstance().getListApp()) {
-				System.out.println("DisplaySubPlugin:: i : " + i.toString() + "appRunnig : "+appRunning);
-				if (i == appRunning) {
-					appRun = appRunning;
-					System.out.println("DisplaySubPlugin");
-					subPlugins = ((ISignalMonitor) appRunning).getAttributsPlugin();
-				}
-			}*/
 
 			GridLayout gdLayoutSubPlugin = new GridLayout(subPlugins.size()+2, 3);
 			panelSubPlugins.setLayout(gdLayoutSubPlugin);
@@ -71,7 +64,6 @@ public class DisplayerMonitor {
 			for ( String s : subPlugins ) {
 				
 				if (s.equals("Modify")) {
-					System.out.println("DisplayMonitor::IModify ");
 					List<String> tags = new ArrayList<String>();
 					List<DescriptionPlugin> l;
 					Constraint c1 = new Constraint();
@@ -93,7 +85,6 @@ public class DisplayerMonitor {
 						panelSubPlugins.add(cbPlugin);
 					}
 				} else {
-					System.out.println("DisplayMonitor::I"+s);
 					List<String> tags = new ArrayList<String>();
 					List<DescriptionPlugin> l;
 					Constraint c1 = new Constraint();
@@ -118,7 +109,7 @@ public class DisplayerMonitor {
 			panelApp.add(panelSubPlugins);
 			frame.add(panelApp);
 		}
-		frame.setVisible(true);
+		frame.setVisible(true);		
 	}
 	
 	public class ActionListenerComboBox implements ActionListener {

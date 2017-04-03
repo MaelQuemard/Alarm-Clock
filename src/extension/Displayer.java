@@ -4,12 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import client.IDisplayer;
@@ -29,6 +31,7 @@ public class Displayer implements IDisplayer {
 	private JLabel label;
 	private JComboBox<String> combo;
 	private ITimeManager ic;
+	private JList<String> jList;
 	
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
@@ -38,6 +41,7 @@ public class Displayer implements IDisplayer {
 		panel = new JPanel();
 		label = new JLabel();
 		combo = new JComboBox<String>();
+		
 		panel.add(label);
 		frame.add(panel);
 		frame.setSize(400, 400);
@@ -88,6 +92,27 @@ public class Displayer implements IDisplayer {
 		ic.IAmNotify(numButton);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#selectMultiPlugin(java.util.List, extension.AppAlarm)
+	 */
+	public void selectMultiPlugin(List<DescriptionPlugin> listdp,AppAlarm app)
+	{
+		List<String> ls = new ArrayList<String>();
+		System.out.println("Displayer::selectMultiPlugin");
+		for(DescriptionPlugin d : listdp)
+		{
+			ls.add(d.getNom());
+		}
+		
+		jList = new JList<String>(new Vector<String>(ls));
+		panel.add(jList);
+		JButton butt = new JButton("Valider");
+		butt.addActionListener(new ActionListenerMultiLoading(listdp,app,butt));
+		panel.add(butt);
+
+		panel.repaint();
+	}
+	
 	
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
 		//DescriptionPlugin selectedPl;
@@ -102,6 +127,7 @@ public class Displayer implements IDisplayer {
 		
 		combo.addActionListener(new ActionListenerLoading(listdp,app));
 		frame.setVisible(true);
+		panel.repaint();
 	}
 	
 
@@ -150,6 +176,38 @@ public class Displayer implements IDisplayer {
 				}
 			}
 			panel.remove(combo);
+			panel.repaint();
+			
+		}
+		
+	}
+	
+	public class ActionListenerMultiLoading implements ActionListener {
+
+		AppAlarm a;
+		List<DescriptionPlugin> l;
+		JButton b;
+		
+		ActionListenerMultiLoading(List<DescriptionPlugin> list, AppAlarm alarm, JButton jb )
+		{
+			a = alarm;
+			b = jb;
+			l = list;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			List<DescriptionPlugin> pluginToLoad = new ArrayList<DescriptionPlugin>();
+			int[] tabIndice = jList.getSelectedIndices();
+			for(int i = 0 ; i<tabIndice.length ; ++i)
+			{
+				pluginToLoad.add(l.get(tabIndice[i]));
+			}
+			a.setPluginsChooseByUser(pluginToLoad);
+			a.setConfiguration();
+			panel.remove(jList);
+			panel.repaint();
+			panel.remove(b);
 		}
 		
 	}
