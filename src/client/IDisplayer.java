@@ -26,4 +26,11 @@ public interface IDisplayer {
 	 * Permet de fermer la fenetre
 	 */
 	public void dispose();
+	
+	/**
+	 * Methode permettant de proposer plusieurs pugin, en esperant un choix multiple
+	 * @param listdp list des plugins proposés
+	 * @param app l'application qui requete
+	 */
+	public void selectMultiPlugin(List<DescriptionPlugin> listdp,AppAlarm app);
 }

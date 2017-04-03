@@ -1,17 +1,18 @@
 package extension;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 
 import client.IDisplayer;
@@ -32,6 +33,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	private JLabel label;
 	private JComboBox<String> combo;
 	private ITimeManager ic;
+	private JList<String> jList;
 	
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
@@ -63,7 +65,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	@Override
 	public void addButtons(String nameButton, final int numButton) {
 		JButton button = new JButton(nameButton);
-		button.setFont(new Font("test", 20, 20));
+		button.setFont(new Font("font", 20, 20));
 		button.addActionListener(new ActionListener() {
 
 			@Override
@@ -93,6 +95,28 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		ic.IAmNotify(numButton);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#selectMultiPlugin(java.util.List, extension.AppAlarm)
+	 */
+	public void selectMultiPlugin(List<DescriptionPlugin> listdp,AppAlarm app)
+	{
+		List<String> ls = new ArrayList<String>();
+		System.out.println("Displayer::selectMultiPlugin");
+		for(DescriptionPlugin d : listdp)
+		{
+			ls.add(d.getNom());
+		}
+		
+		jList = new JList<String>(new Vector<String>(ls));
+		panel.add(jList);
+		JButton butt = new JButton("Valider");
+		butt.addActionListener(new ActionListenerMultiLoading(listdp,app,butt));
+		panel.add(butt);
+
+		panel.revalidate();
+		panel.repaint();
+	}
+	
 	
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
 		//DescriptionPlugin selectedPl;
@@ -107,6 +131,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		
 		combo.addActionListener(new ActionListenerLoading(listdp,app));
 		frame.setVisible(true);
+		panel.repaint();
 	}
 	
 
@@ -163,6 +188,37 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 				}
 			}
 			panel.remove(combo);
+			panel.repaint();
+		}
+		
+	}
+	
+	public class ActionListenerMultiLoading implements ActionListener {
+
+		AppAlarm a;
+		List<DescriptionPlugin> l;
+		JButton b;
+		
+		ActionListenerMultiLoading(List<DescriptionPlugin> list, AppAlarm alarm, JButton jb )
+		{
+			a = alarm;
+			b = jb;
+			l = list;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			List<DescriptionPlugin> pluginToLoad = new ArrayList<DescriptionPlugin>();
+			int[] tabIndice = jList.getSelectedIndices();
+			for(int i = 0 ; i<tabIndice.length ; ++i)
+			{
+				pluginToLoad.add(l.get(tabIndice[i]));
+			}
+			a.setPluginsChooseByUser(pluginToLoad);
+			a.setConfiguration();
+			panel.remove(jList);
+			panel.repaint();
+			panel.remove(b);
 		}
 		
 	}	
