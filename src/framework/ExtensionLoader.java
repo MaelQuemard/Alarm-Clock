@@ -151,9 +151,7 @@ public class ExtensionLoader {
 		}
 	}
 	
-	/** getter de ListApp
-	 * @return
-	 */
+	
 	public List<IApp> getListApp()
 	{
 		return this.listApp;
@@ -162,6 +160,7 @@ public class ExtensionLoader {
 	public static void main(String[] args) {
 		
 
+		@SuppressWarnings("resource")
 		Scanner s = new Scanner(System.in);
 		System.out.println("Voulez vous lancer le monitor : Yes/No ?");
 		String response = s.nextLine();
@@ -225,9 +224,7 @@ public class ExtensionLoader {
 	
 	
 	/**
-	 * Methode permettant de concatener un tableau de Class<?> avec un nouvel element Class<?>
-	 * @param oldIntefaces le tableau initial
-	 * @param newInterface l'element a ajouter
+	 * Methode permettant de concatener un tableau de Class avec un nouvel element Class
 	 * @return le nouveau tableau
 	 */
 	public static Class<?>[] concat(Class<?>[] oldInterfaces, Class<?> newInterface) {
@@ -248,6 +245,7 @@ public class ExtensionLoader {
 		monitor = m;
 	}
 	
+	@SuppressWarnings("static-access")
 	public IMonitor getMonitor()
 	{
 		return this.monitor;

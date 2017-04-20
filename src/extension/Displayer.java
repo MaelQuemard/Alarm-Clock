@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListModel;
 
 import client.IAlarm;
 import client.IAlarmManager;
@@ -42,11 +41,13 @@ public class Displayer implements IDisplayer, IPlugin {
 	private ITimeManager ic;
 	private JList<String> jList;
 	
-	private IAlarmManager Ial;
 	
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
 	
+	/** Constructeur Displayer
+	 * 
+	 */
 	public Displayer() {
 		frame = new JFrame();frame.setLayout(new GridLayout());
 		panel = new JPanel();
@@ -86,6 +87,10 @@ public class Displayer implements IDisplayer, IPlugin {
 		panel.add(button);
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#removeButton(java.lang.String)
+	 */
+	@SuppressWarnings("deprecation")
 	public void removeButton(String nameButton) {
 		for (Component c : panel.getComponents()) {
 			if (c instanceof JButton) {
@@ -127,6 +132,9 @@ public class Displayer implements IDisplayer, IPlugin {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#selectedPlugin(java.util.List, extension.AppAlarm)
+	 */
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
 		panel.removeAll();
 		combo.removeAllItems();
@@ -151,26 +159,40 @@ public class Displayer implements IDisplayer, IPlugin {
 		this.ic = ic;
 	}
 
+	/** return le DP
+	 * @return DescriptionPlugin
+	 */
 	public DescriptionPlugin getDescPlug() {
 		return descPlug;
 	}
 
+	/** setter de DecriptionPlugin
+	 * @param descPlug DescriptionPlugin, nouveau DescriptionPlugin
+	 */
 	public void setDescPlug(DescriptionPlugin descPlug) {
 		this.descPlug = descPlug;
 	}
 
+	/** getter de DescriptionPlugin
+	 * @return String, nom de DescriptionPlugin
+	 */
 	public String getNameDP() {
 		return nameDP;
 	}
 
+	/** setter du nom du DescritptionPlugin
+	 * @param nameDP String, nom du DescriptionPlugin
+	 */
 	public void setNameDP(String nameDP) {
 		this.nameDP = nameDP;
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#setAlarm(client.IAlarmManager, client.ITimeManager)
+	 */
 	@Override
 	public void setAlarm(IAlarmManager ia, ITimeManager it) {
 		ic = it;
-		Ial = ia;
 		List<String> listAlarm = new ArrayList<String>();
 		for(IAlarm alarm : ia.getAlarms())
 		{
@@ -197,13 +219,17 @@ public class Displayer implements IDisplayer, IPlugin {
 			comboS.addItem(i);
 		}
 		
-		JButton button = new JButton("Ajouter alarm");
+		JButton button = new JButton("Ajouter alarme");
 		button.addActionListener(new ActionListenerAlarmAdd(comboHour, comboMin, comboS,ia));
 		panelAlarm.add(new JLabel("Ajouter une alarme : "));
 		panelAlarm.add(comboHour);
 		panelAlarm.add(comboMin);
 		panelAlarm.add(comboS);
 		panelAlarm.add(button);
+		
+		JButton buttonRemove = new JButton("Supprimer les alarmes");
+		buttonRemove.addActionListener(new ActionListenerAlarmRemove(ia));
+		panelAlarm.add(buttonRemove);
 		
 		frame.add(panelAlarm);
 		
@@ -275,6 +301,21 @@ public class Displayer implements IDisplayer, IPlugin {
 		
 	}
 
+	public class ActionListenerAlarmRemove implements ActionListener{
+		
+		IAlarmManager manager;
+		ActionListenerAlarmRemove(IAlarmManager ia)
+		{
+			manager = ia;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			manager.removeAllAlarm();
+			setAlarm(manager,ic);
+			
+		}
+	}
 	
 	public class ActionListenerAlarmAdd implements ActionListener {
 

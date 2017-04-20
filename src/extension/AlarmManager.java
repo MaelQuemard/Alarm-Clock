@@ -11,6 +11,9 @@ public class AlarmManager implements IAlarmManager
 	private ArrayList<IAlarm> alarms;
 	
 	
+	/** Constructeur d'AlarmManager
+	 * 
+	 */
 	public AlarmManager()
 	{
 		alarms = new ArrayList<IAlarm>();
@@ -133,6 +136,11 @@ public class AlarmManager implements IAlarmManager
 		
 
 		//return this.t.getTotalSec()
+	}
+	
+	public void removeAllAlarm()
+	{
+		alarms.clear();
 	}
 
 }

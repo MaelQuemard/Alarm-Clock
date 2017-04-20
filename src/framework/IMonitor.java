@@ -1,6 +1,5 @@
 package framework;
 
-import java.util.List;
 import java.util.Map;
 
 import client.IApp;
@@ -22,6 +21,7 @@ public interface IMonitor {
 	 * Cette méthode permet de kill plugin associé a une application
 	 * @param appRunning, application ou se trouve le plugin a kill
 	 * @param subPluginToKill plugin a kill
+	 * @param nameSubPlugin nom du plugin a kill
 	 */
 	void kill(IApp appRunning, String subPluginToKill, String nameSubPlugin);
 	
@@ -29,13 +29,14 @@ public interface IMonitor {
 	 * @param appRunning l'application où l'on souhaite modifier un plugin
 	 * @param subPluginToReplace le plugin a remplacer
 	 * @param newPlugin le plugn de remplacement
-	 * @warning verifier que le nouveau plugin partage bien l'interface commune au deux plugins {@link ExtensionLoader} et la methode getExtension
+	 * warning verifier que le nouveau plugin partage bien l'interface commune au deux plugins {@link ExtensionLoader} et la methode getExtension
 	 */
 	public void replace(IApp appRunning, String subPluginToReplace, Object newPlugin);
 	
 	/**
 	 * Methode qui permet d'obtenir les subPlugins d'une application
 	 * @param appRunning l'application où l'on souhaite modifier un plugin
+	 * @return un map composé de : nom plugin et du type
 	 */
 	public Map<String, Class<?>> getSubPlugin(IApp appRunning);
 }

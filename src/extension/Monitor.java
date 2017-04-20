@@ -1,14 +1,9 @@
 package extension;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Map;
 
 import client.IApp;
-import client.IDisplayer;
-import framework.Constraint;
-import framework.DescriptionPlugin;
-import framework.ExtensionLoader;
 import framework.IMonitor;
 import framework.ISignalMonitor;
 
@@ -39,6 +34,9 @@ public class Monitor implements IMonitor {
 		((ISignalMonitor) appRunning).kill(subPluginToKill);
 	}
 	
+	/* (non-Javadoc)
+	 * @see framework.IMonitor#kill(client.IApp, java.lang.String, java.lang.String)
+	 */
 	public void kill(IApp appRunning, String subPluginToKill, String nameSubPlugin) {
 		((ISignalMonitor) appRunning).kill(subPluginToKill, nameSubPlugin);
 	}

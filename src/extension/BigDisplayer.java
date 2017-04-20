@@ -15,13 +15,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.ListModel;
 
 import client.IAlarm;
 import client.IAlarmManager;
 import client.IDisplayer;
 import client.IPlugin;
 import client.ITimeManager;
+import extension.Displayer.ActionListenerAlarmRemove;
 import framework.DescriptionPlugin;
 
 
@@ -40,7 +40,6 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	private ITimeManager ic;
 	private JList<String> jList;
 	
-	private IAlarmManager Ial;
 	
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
@@ -85,6 +84,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		panel.add(button);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void removeButton(String nameButton) {
 		for (Component c : panel.getComponents()) {
 			if (c instanceof JButton) {
@@ -126,6 +126,9 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	}
 	
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#selectedPlugin(java.util.List, extension.AppAlarm)
+	 */
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
 		panel.removeAll();
 		combo.removeAllItems();
@@ -166,10 +169,12 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		this.nameDP = nameDP;
 	}
 	
+	/* (non-Javadoc)
+	 * @see client.IDisplayer#setAlarm(client.IAlarmManager, client.ITimeManager)
+	 */
 	@Override
 	public void setAlarm(IAlarmManager ia, ITimeManager it) {
 		ic = it;
-		Ial = ia;
 		List<String> listAlarm = new ArrayList<String>();
 		for(IAlarm alarm : ia.getAlarms())
 		{
@@ -203,6 +208,10 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		panelAlarm.add(comboMin);
 		panelAlarm.add(comboS);
 		panelAlarm.add(button);
+		
+		JButton buttonRemove = new JButton("Supprimer les alarmes");
+		buttonRemove.addActionListener(new ActionListenerAlarmRemove(ia));
+		panelAlarm.add(buttonRemove);
 		
 		frame.add(panelAlarm);
 		
@@ -302,6 +311,22 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 			
 		}
 		
+	}
+	
+	public class ActionListenerAlarmRemove implements ActionListener{
+		
+		IAlarmManager manager;
+		ActionListenerAlarmRemove(IAlarmManager ia)
+		{
+			manager = ia;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			manager.removeAllAlarm();
+			setAlarm(manager,ic);
+			
+		}
 	}
 	
 	
