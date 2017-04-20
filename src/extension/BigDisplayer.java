@@ -114,8 +114,9 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		{
 			ls.add(d.getNom());
 		}
-		
+		panel.removeAll();
 		jList = new JList<String>(new Vector<String>(ls));
+		panel.add(new JLabel("<html> Choisissez un ou plusieurs <br> plugins parmis la liste suivante : <br> utilisez ctrl + clic</html>"));
 		panel.add(jList);
 		JButton butt = new JButton("Valider");
 		butt.addActionListener(new ActionListenerMultiLoading(listdp,app,butt));
@@ -126,8 +127,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	
 	
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
-		//DescriptionPlugin selectedPl;
-		System.out.println("Displayer::selectedPlugin()" + combo.toString());
+		panel.removeAll();
 		combo.removeAllItems();
 		panel.add(combo);
 		combo.setVisible(true);
@@ -135,6 +135,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		for(DescriptionPlugin pl : listdp){
 			combo.addItem(pl.getNom());			
 		}
+		panel.add(new JLabel("Choisissez un plugin parmis la liste suivante : "));
 		panel.add(combo);
 		
 		combo.addActionListener(new ActionListenerLoading(listdp,app));
@@ -197,6 +198,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		
 		JButton button = new JButton("Ajouter alarm");
 		button.addActionListener(new ActionListenerAlarmAdd(comboHour, comboMin, comboS,ia));
+		panelAlarm.add(new JLabel("Ajouter une alarme : "));
 		panelAlarm.add(comboHour);
 		panelAlarm.add(comboMin);
 		panelAlarm.add(comboS);

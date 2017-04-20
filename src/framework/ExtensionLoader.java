@@ -166,22 +166,36 @@ public class ExtensionLoader {
 		System.out.println("Voulez vous lancer le monitor : Yes/No ?");
 		String response = s.nextLine();
 		
-		ExtensionLoader.getInstance().autorun();
-		
 		List<String> tags = new ArrayList<String>();
-		List<DescriptionPlugin> l;
+		List<DescriptionPlugin> l = null;
 		Constraint c1 = new Constraint();
-
-		// Chargement du monitor
+		int i = 0;
+		IMonitor monitorTmp;
 		if (response.equals("Yes") || response.equals("y") || response.equals("Y") || response.equals("yes")) {
-			IMonitor monitor;
 			tags.add("IMonitor");
 			c1.setConstraints(tags);
 			l = ExtensionLoader.getInstance().getExtension(c1);
-			((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).activateMonitor();
-			monitor = (IMonitor) ExtensionLoader.getInstance().load(l.get(0)); // FIXME with d
-			ExtensionLoader.getInstance().setMonitor(monitor);
-			((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitor);
+			System.out.println("Choisissez un monitor parmis les suivants : ");
+			
+			for(DescriptionPlugin desc : l)
+			{
+				System.out.println( i + " pour : " + desc.getNom());
+				++i;
+			}
+			System.out.print("Entrez le numero associé : ");
+			i = s.nextInt();
+		}
+		
+		ExtensionLoader.getInstance().autorun();
+
+		// Chargement du monitor
+		if (response.equals("Yes") || response.equals("y") || response.equals("Y") || response.equals("yes")) {
+			for (int j = 0; j < ExtensionLoader.getInstance().getListApp().size(); j++) {
+				((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(j)).activateMonitor();
+			}
+			monitorTmp = (IMonitor) ExtensionLoader.getInstance().load(l.get(i));
+			ExtensionLoader.getInstance().setMonitor(monitorTmp);
+			((ISignalMonitor) ExtensionLoader.getInstance().getListApp().get(0)).turnMonitor(monitorTmp);
 		}
 		
 		while(true)

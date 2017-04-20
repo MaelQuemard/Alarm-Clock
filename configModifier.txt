@@ -1,2 +1,0 @@
-class = extension.ModifyIncH
-Name = PlusUn
