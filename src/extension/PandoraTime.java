@@ -67,8 +67,6 @@ public class PandoraTime implements ITime, IPlugin
 		this.setH(d.getHours());
 		this.setM(d.getMinutes());
 		this.setS(d.getSeconds());
-		System.out.println();
-		//System.currentTimeMillis(); // time in millisecond
 		actualTime = (System.currentTimeMillis() - initialTime)%totalSec;
 		if (actualTime < 0)
 		{
@@ -85,9 +83,7 @@ public class PandoraTime implements ITime, IPlugin
 		{
 			actualTime = totalSec + actualTime;
 		}
-		System.out.println("they call me : Timer.toString : " + (actualTime/hPandora)%nbHPandora + ":" +(actualTime/mPandora)%nbSMPandora + ":"+(actualTime/sPandora)%nbSMPandora);
 		return( (actualTime/hPandora)%nbHPandora + ":" +(actualTime/mPandora)%nbSMPandora + ":"+(actualTime/sPandora)%nbSMPandora);
-		//return ( h + ":" + m + ":" + s );
 	}
 	
 	/* (non-Javadoc)

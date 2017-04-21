@@ -17,7 +17,7 @@ public class Monitor implements IMonitor {
 	public Monitor()
 	{
 		aff = new DisplayerMonitor();
-		aff.doStuff();
+		aff.buildDisplayer();
 	}
 	
 	/* (non-Javadoc)

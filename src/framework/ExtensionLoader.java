@@ -1,6 +1,7 @@
 package framework;
 
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import client.IApp;
 
@@ -47,9 +49,7 @@ public class ExtensionLoader {
 	 * @param c1 contraintes des extensions
 	 * @return liste d'extensions
 	 */
-	public List<DescriptionPlugin> getExtension(Constraint c1) {
-		// get listPlugin (respectent contraintes)
-		
+	public List<DescriptionPlugin> getExtension(Constraint c1) {		
 		List<DescriptionPlugin> listPlugins = this.getListPlugins();
 		List<DescriptionPlugin> listPluginsValid = new ArrayList<DescriptionPlugin>();
 		for(DescriptionPlugin d : listPlugins) {
@@ -108,8 +108,8 @@ public class ExtensionLoader {
             	plugins.add(descriptionPlugin);
             }
             
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ParseException | IOException e) {
+            System.out.println("Impossible to open or parse the file, more details : \n " + e.getMessage());
         }
 		
 		return plugins;
@@ -129,16 +129,11 @@ public class ExtensionLoader {
 		c1.setConstraints(tags);
 		
 		l = ExtensionLoader.getInstance().getExtension(c1); 
-		System.out.println("DESCRIPTION    : " + l.toString());
 		for(DescriptionPlugin d : l)
 		{
-			System.out.println("   autorun de ->"+d.toString());
 			Object obj = instance.load(d);
 			listApp.add((IApp) obj);
-			System.out.println("   sucess autorun");
 		}
-		
-		//instance.runApp();
 	}
 	
 	/**
@@ -146,7 +141,6 @@ public class ExtensionLoader {
 	 */
 	private void runApp() {
 		for (IApp a : listApp) {
-			System.out.println("RUNAPP : " + a.toString());
 			a.run();
 		}
 	}
@@ -209,12 +203,6 @@ public class ExtensionLoader {
 	 * @return Le {@link Proxy} créé 
 	 */
 	public static Object getProxyFor(Object o) {
-		System.out.println("ExtensionLoader::load()");
-		System.out.println("	Mes interfaces sont les suivantes :");
-		for( Class<?> c :  o.getClass().getInterfaces())
-		{
-			System.out.println("	 - " + c.getName());
-		}
 		return Proxy.newProxyInstance(
 				o.getClass().getClassLoader(), 
 				concat(o.getClass().getInterfaces(), ISignalMonitor.class), 
@@ -231,7 +219,6 @@ public class ExtensionLoader {
 		Class<?>[] interfaces = new Class<?>[oldInterfaces.length+1];
 		int i = 0;
 		for (Class<?> in : oldInterfaces) {
-			System.out.println("Concat : "+in.getName());
 			interfaces[i] = in;
 			i++;
 		}

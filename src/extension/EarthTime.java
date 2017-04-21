@@ -19,11 +19,11 @@ public class EarthTime implements ITime, IPlugin
 	private int h;
 	private int m;
 	private int s;
-	
+
 	private long initialTime;
 	private long actualTime;
-	
-	
+
+
 	public EarthTime() {
 		//Date d = new Date();
 		this.setH(0);
@@ -53,7 +53,7 @@ public class EarthTime implements ITime, IPlugin
 
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see client.ITime#actualizeTime()
 	 */
@@ -64,7 +64,6 @@ public class EarthTime implements ITime, IPlugin
 		this.setH(d.getHours());
 		this.setM(d.getMinutes());
 		this.setS(d.getSeconds());
-		System.out.println();
 		//System.currentTimeMillis(); // time in millisecond
 		actualTime = (System.currentTimeMillis() - initialTime)%totalSec;
 		if (actualTime < 0)
@@ -72,7 +71,7 @@ public class EarthTime implements ITime, IPlugin
 			actualTime = totalSec + actualTime;
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -82,32 +81,31 @@ public class EarthTime implements ITime, IPlugin
 		{
 			actualTime = totalSec + actualTime;
 		}
-		System.out.println("they call me : Timer.toString : " + (actualTime/hEarth)%nbHEarth + ":" +(actualTime/mEarth)%nbSMEarth + ":"+(actualTime/sEarth)%nbSMEarth);
 		return( (actualTime/hEarth)%nbHEarth + ":" +(actualTime/mEarth)%nbSMEarth + ":"+(actualTime/sEarth)%nbSMEarth);
 		//return ( h + ":" + m + ":" + s );
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see client.ITime#addHour()
 	 */
 	public void addHour() {
 		initialTime -= hEarth;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see client.ITime#addMin()
 	 */
 	public void addMin() {
 		initialTime -= mEarth;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see client.ITime#decHour()
 	 */
 	public void decHour() {
 		initialTime += hEarth;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see client.ITime#decMin()
 	 */
@@ -156,7 +154,7 @@ public class EarthTime implements ITime, IPlugin
 	public void setS(int s) {
 		this.s = s;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see client.ITime#getTotalS()
 	 */
@@ -165,7 +163,7 @@ public class EarthTime implements ITime, IPlugin
 		return ((this.h * nbSMEarth * nbSMEarth) + (this.m * nbSMEarth) + this.s);
 	}
 
-	
+
 	/* (non-Javadoc)
 	 * @see client.ITime#getActualTime()
 	 */
@@ -193,6 +191,6 @@ public class EarthTime implements ITime, IPlugin
 		// TODO Auto-generated method stub
 		return "EarthTime";
 	}
-	
-	
+
+
 }

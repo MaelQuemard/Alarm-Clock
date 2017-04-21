@@ -40,10 +40,9 @@ public class DisplayerMonitor {
 	/** Methode permettant de charger la fenetre graphique.
 	 * 
 	 */
-	public void doStuff()
+	public void buildDisplayer()
 	{
 		int j = 0;
-		System.out.println("DisplayerMonitor::ListAppRunning : "+ExtensionLoader.getInstance().getListApp().toString());
 		for(IApp i : ExtensionLoader.getInstance().getListApp())
 		{
 			++j;
@@ -65,7 +64,6 @@ public class DisplayerMonitor {
 			for ( String s : subPlugins.keySet() ) {
 				
 				if (subPlugins.get(s) == List.class) {
-					System.out.println("DisplayMonitor::IModify ");
 					
 					for (Object im : (List<Object>)(((ISignalMonitor) i).getAttribut(s))) {
 							JLabel labelSubPlugin = new JLabel(((IPlugin) im).getName());
@@ -123,9 +121,8 @@ public class DisplayerMonitor {
 		public void actionPerformed(ActionEvent e) {
 			for (DescriptionPlugin p : ExtensionLoader.getInstance().getListPlugins()) {
 				if (p.getNom().equals(cb.getSelectedItem())) {
-					System.out.println("ActionListenerComboBox:: descrPlugin :" + p.getNom());
 					ExtensionLoader.getInstance().getMonitor().replace(appRunning, nameCurrentPlugin, ExtensionLoader.getInstance().load(p));
-					doStuff();
+					buildDisplayer();
 				}
 			}
 		}

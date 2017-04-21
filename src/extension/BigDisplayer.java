@@ -21,7 +21,6 @@ import client.IAlarmManager;
 import client.IDisplayer;
 import client.IPlugin;
 import client.ITimeManager;
-import extension.Displayer.ActionListenerAlarmRemove;
 import framework.DescriptionPlugin;
 
 
@@ -35,6 +34,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	private JFrame frame;
 	private JPanel panel;
 	private JLabel label;
+	private JLabel labelExplanation;
 	private JPanel panelAlarm;
 	private JComboBox<String> combo;
 	private ITimeManager ic;
@@ -48,6 +48,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		frame = new JFrame();frame.setLayout(new GridLayout());
 		panel = new JPanel();
 		label = new JLabel();
+		labelExplanation = new JLabel();
 		panelAlarm = new JPanel();
 		combo = new JComboBox<String>();
 		label.setFont(new Font(nameDP, 20, 20));
@@ -56,6 +57,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		frame.setSize(400, 400);
 		frame.setLocation(401, 0);
 		frame.setVisible(true);
+		frame.pack();
 	}
 	
 	/* (non-Javadoc)
@@ -109,19 +111,19 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	public void selectMultiPlugin(List<DescriptionPlugin> listdp,AppAlarm app)
 	{
 		List<String> ls = new ArrayList<String>();
-		System.out.println("Displayer::selectMultiPlugin");
 		for(DescriptionPlugin d : listdp)
 		{
 			ls.add(d.getNom());
 		}
-		panel.removeAll();
 		jList = new JList<String>(new Vector<String>(ls));
-		panel.add(new JLabel("<html> Choisissez un ou plusieurs <br> plugins parmis la liste suivante : <br> utilisez ctrl + clic</html>"));
+		labelExplanation.setText("<html> Choisissez un ou plusieurs <br> plugins parmis la liste suivante : <br> utilisez ctrl + clic</html>");
+		panel.add(labelExplanation);
 		panel.add(jList);
 		JButton butt = new JButton("Valider");
 		butt.addActionListener(new ActionListenerMultiLoading(listdp,app,butt));
 		panel.add(butt);
 		panel.revalidate();
+		frame.pack();
 		panel.repaint();
 	}
 	
@@ -130,7 +132,6 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	 * @see client.IDisplayer#selectedPlugin(java.util.List, extension.AppAlarm)
 	 */
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
-		panel.removeAll();
 		combo.removeAllItems();
 		panel.add(combo);
 		combo.setVisible(true);
@@ -138,10 +139,12 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 		for(DescriptionPlugin pl : listdp){
 			combo.addItem(pl.getNom());			
 		}
-		panel.add(new JLabel("Choisissez un plugin parmis la liste suivante : "));
+		labelExplanation.setText("Choisissez un plugin parmis la liste suivante : ");
+		panel.add(labelExplanation);
 		panel.add(combo);
 		
 		combo.addActionListener(new ActionListenerLoading(listdp,app));
+		frame.pack();
 	}
 	
 
@@ -174,6 +177,11 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 	 */
 	@Override
 	public void setAlarm(IAlarmManager ia, ITimeManager it) {
+		if (ia == null) {
+			panelAlarm.removeAll();
+			return;
+		}
+		
 		ic = it;
 		List<String> listAlarm = new ArrayList<String>();
 		for(IAlarm alarm : ia.getAlarms())
@@ -247,6 +255,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 				}
 			}
 			panel.remove(combo);
+			panel.remove(labelExplanation);
 		}
 		
 	}
@@ -275,7 +284,7 @@ public class BigDisplayer implements IDisplayer, IPlugin {
 			a.setPluginsChooseByUser(pluginToLoad);
 			a.setConfiguration();
 			panel.remove(jList);
-
+			panel.remove(labelExplanation);
 			panel.remove(b);
 			panel.revalidate();
 			panel.repaint();

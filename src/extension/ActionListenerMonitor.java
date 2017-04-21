@@ -33,10 +33,10 @@ public class ActionListenerMonitor implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (nameSubPlugin == null) {
 			ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin);
-			dm.doStuff();
+			dm.buildDisplayer();
 		} else {
 			ExtensionLoader.getInstance().getMonitor().kill(i, namePlugin, nameSubPlugin);
-			dm.doStuff();
+			dm.buildDisplayer();
 		}
 	}
 

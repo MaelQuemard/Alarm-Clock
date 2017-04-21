@@ -67,10 +67,7 @@ public class AlarmManager implements IAlarmManager
 		}
 		else // Si l'alarme est entre 00:00 et l'heure actuelle
 		{
-			int i = 0;
-			
-			System.out.println("alarms.size : " + alarms.size());
-			
+			int i = 0;			
 			
 			while(i<alarms.size() && !put)
 			{
@@ -125,13 +122,9 @@ public class AlarmManager implements IAlarmManager
 	public boolean shouldRing(long at)
 	{
 		if(alarms.size()==0) return false;
-		System.out.println("alarm time : " + alarms.get(0).getTime().getTotalS());
-		System.out.println("current time : " + at);
 		
 		int diff = (int)at - alarms.get(0).getTime().getTotalS();
-		
-		System.out.println(" diff : " + diff);
-		
+				
 		return (diff <= 5 && diff >= 0);
 		
 

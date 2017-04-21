@@ -20,9 +20,6 @@ import client.IAlarmManager;
 import client.IDisplayer;
 import client.IPlugin;
 import client.ITimeManager;
-import extension.BigDisplayer.ActionListenerAlarmAdd;
-import extension.BigDisplayer.ActionListenerLoading;
-import extension.BigDisplayer.ActionListenerMultiLoading;
 import framework.DescriptionPlugin;
 
 
@@ -36,6 +33,7 @@ public class Displayer implements IDisplayer, IPlugin {
 	private JFrame frame;
 	private JPanel panel;
 	private JLabel label;
+	private JLabel labelExplanation;
 	private JPanel panelAlarm;
 	private JComboBox<String> combo;
 	private ITimeManager ic;
@@ -45,21 +43,19 @@ public class Displayer implements IDisplayer, IPlugin {
 	private DescriptionPlugin descPlug;
 	private String nameDP = "";
 	
-	/** Constructeur Displayer
-	 * 
-	 */
 	public Displayer() {
 		frame = new JFrame();frame.setLayout(new GridLayout());
 		panel = new JPanel();
 		label = new JLabel();
+		labelExplanation = new JLabel();
 		panelAlarm = new JPanel();
 		combo = new JComboBox<String>();
-		
 		panel.add(label);
 		frame.add(panel);
 		frame.setSize(400, 400);
 		frame.setLocation(401, 0);
 		frame.setVisible(true);
+		frame.pack();
 	}
 	
 	/* (non-Javadoc)
@@ -87,9 +83,6 @@ public class Displayer implements IDisplayer, IPlugin {
 		panel.add(button);
 	}
 	
-	/* (non-Javadoc)
-	 * @see client.IDisplayer#removeButton(java.lang.String)
-	 */
 	@SuppressWarnings("deprecation")
 	public void removeButton(String nameButton) {
 		for (Component c : panel.getComponents()) {
@@ -115,19 +108,19 @@ public class Displayer implements IDisplayer, IPlugin {
 	public void selectMultiPlugin(List<DescriptionPlugin> listdp,AppAlarm app)
 	{
 		List<String> ls = new ArrayList<String>();
-		System.out.println("Displayer::selectMultiPlugin");
 		for(DescriptionPlugin d : listdp)
 		{
 			ls.add(d.getNom());
 		}
-		panel.removeAll();
 		jList = new JList<String>(new Vector<String>(ls));
-		panel.add(new JLabel("<html> Choisissez un ou plusieurs <br> plugins parmis la liste suivante : <br> utilisez ctrl + clic</html>"));
+		labelExplanation.setText("<html> Choisissez un ou plusieurs <br> plugins parmis la liste suivante : <br> utilisez ctrl + clic</html>");
+		panel.add(labelExplanation);
 		panel.add(jList);
 		JButton butt = new JButton("Valider");
 		butt.addActionListener(new ActionListenerMultiLoading(listdp,app,butt));
 		panel.add(butt);
 		panel.revalidate();
+		frame.pack();
 		panel.repaint();
 	}
 	
@@ -136,7 +129,6 @@ public class Displayer implements IDisplayer, IPlugin {
 	 * @see client.IDisplayer#selectedPlugin(java.util.List, extension.AppAlarm)
 	 */
 	public void selectedPlugin(List<DescriptionPlugin> listdp,AppAlarm app){
-		panel.removeAll();
 		combo.removeAllItems();
 		panel.add(combo);
 		combo.setVisible(true);
@@ -144,10 +136,12 @@ public class Displayer implements IDisplayer, IPlugin {
 		for(DescriptionPlugin pl : listdp){
 			combo.addItem(pl.getNom());			
 		}
-		panel.add(new JLabel("Choisissez un plugin parmis la liste suivante : "));
+		labelExplanation.setText("Choisissez un plugin parmis la liste suivante : ");
+		panel.add(labelExplanation);
 		panel.add(combo);
 		
 		combo.addActionListener(new ActionListenerLoading(listdp,app));
+		frame.pack();
 	}
 	
 
@@ -159,30 +153,18 @@ public class Displayer implements IDisplayer, IPlugin {
 		this.ic = ic;
 	}
 
-	/** return le DP
-	 * @return DescriptionPlugin
-	 */
 	public DescriptionPlugin getDescPlug() {
 		return descPlug;
 	}
 
-	/** setter de DecriptionPlugin
-	 * @param descPlug DescriptionPlugin, nouveau DescriptionPlugin
-	 */
 	public void setDescPlug(DescriptionPlugin descPlug) {
 		this.descPlug = descPlug;
 	}
 
-	/** getter de DescriptionPlugin
-	 * @return String, nom de DescriptionPlugin
-	 */
 	public String getNameDP() {
 		return nameDP;
 	}
 
-	/** setter du nom du DescritptionPlugin
-	 * @param nameDP String, nom du DescriptionPlugin
-	 */
 	public void setNameDP(String nameDP) {
 		this.nameDP = nameDP;
 	}
@@ -219,7 +201,7 @@ public class Displayer implements IDisplayer, IPlugin {
 			comboS.addItem(i);
 		}
 		
-		JButton button = new JButton("Ajouter alarme");
+		JButton button = new JButton("Ajouter alarm");
 		button.addActionListener(new ActionListenerAlarmAdd(comboHour, comboMin, comboS,ia));
 		panelAlarm.add(new JLabel("Ajouter une alarme : "));
 		panelAlarm.add(comboHour);
@@ -265,6 +247,7 @@ public class Displayer implements IDisplayer, IPlugin {
 				}
 			}
 			panel.remove(combo);
+			panel.remove(labelExplanation);
 		}
 		
 	}
@@ -293,6 +276,7 @@ public class Displayer implements IDisplayer, IPlugin {
 			a.setPluginsChooseByUser(pluginToLoad);
 			a.setConfiguration();
 			panel.remove(jList);
+			panel.remove(labelExplanation);
 			panel.remove(b);
 			panel.revalidate();
 			panel.repaint();
@@ -301,21 +285,6 @@ public class Displayer implements IDisplayer, IPlugin {
 		
 	}
 
-	public class ActionListenerAlarmRemove implements ActionListener{
-		
-		IAlarmManager manager;
-		ActionListenerAlarmRemove(IAlarmManager ia)
-		{
-			manager = ia;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			manager.removeAllAlarm();
-			setAlarm(manager,ic);
-			
-		}
-	}
 	
 	public class ActionListenerAlarmAdd implements ActionListener {
 
@@ -343,6 +312,22 @@ public class Displayer implements IDisplayer, IPlugin {
 			
 		}
 		
+	}
+	
+	public class ActionListenerAlarmRemove implements ActionListener{
+		
+		IAlarmManager manager;
+		ActionListenerAlarmRemove(IAlarmManager ia)
+		{
+			manager = ia;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			manager.removeAllAlarm();
+			setAlarm(manager,ic);
+			
+		}
 	}
 	
 	

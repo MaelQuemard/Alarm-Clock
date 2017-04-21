@@ -46,7 +46,6 @@ public class MonitorHandler implements InvocationHandler {
 		if (active && (m.getName().equals("getAttributsPlugin") || m.getName().equals("getAttribut") || m.getName().equals("modifyAttribut") || m.getName().equals("kill")))
 		{
 			if (m.getName().equals("getAttributsPlugin")) {
-				System.out.println("MonitorHandler::invoke");
 				Map<String, Class<?>> listAttribut = new HashMap<String, Class<?>>();
 				for(Method met : target.getClass().getMethods())
 				{
@@ -61,7 +60,6 @@ public class MonitorHandler implements InvocationHandler {
 			}
 			
 			if (m.getName().equals("getAttribut")) {
-				System.out.println("MonitorHandler::invoke::getAttribut:: " + args[0]);
 				for(Method met : target.getClass().getMethods())
 				{
 					if(met.getName().contains("get"+args[0])) return met.invoke(target);
@@ -71,7 +69,6 @@ public class MonitorHandler implements InvocationHandler {
 			
 			// Modifie dynamiquement les plugins
 			if (m.getName().equals("modifyAttribut")) {
-				System.out.println("MonitorHandler::invoke    args : "+args.toString()+"\n");
 				
 				for(Method met : target.getClass().getMethods())
 				{
@@ -87,7 +84,6 @@ public class MonitorHandler implements InvocationHandler {
 					// Recupère les plugins
 					List<DescriptionPlugin> dp = ExtensionLoader.getInstance().getListPlugins();
 					for (DescriptionPlugin d : dp) {
-						System.out.println("MonitorHandler::invoke::kill : args[0]" + args[0].toString() + " descriptionPlugin::getNom " + d.getNom());
 						
 						// Si la description est la même que ce qui est passé en parametre (nom du plugin)
 						if (d.getNom().equals(target.getClass().getMethod("get"+args[0]).invoke(target).getClass().getName()) && d.isKillable()) {
@@ -96,7 +92,6 @@ public class MonitorHandler implements InvocationHandler {
 							for(Method met : target.getClass().getMethods())
 							{
 								if(met.getName().contains("set"+args[0])){
-									System.out.println("MonitorHandler::invoke      kill : "+args[0].toString());
 									args[0]=null;
 									met.invoke(target, args[0]);
 									return null;
@@ -106,7 +101,6 @@ public class MonitorHandler implements InvocationHandler {
 							
 							// Parcours de cette liste pour verifier que le plugin de cette liste est bien celui passé en parametre
 							for (Object o : ((List<Object>) target.getClass().getMethod("get"+args[0]).invoke(target))) {
-								System.out.println("MonitorHandler::invoke      kill : "+args[0].toString() + "args[1] : "+args[1]);
 								if (o.getClass().getMethod("getName").invoke(o).equals(args[1]) && d.getNom().equals(o.getClass().getName()) && d.isKillable()) {
 									
 									// Recupere la methode pour qu'il le plugin
