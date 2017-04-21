@@ -127,7 +127,7 @@ Il se compose du bloc “Plugins”. C’est dans ce bloc que chaque plugins doi
 
 **Killable :** un booléen permettant de savoir si un plugin est killable en cours d'exécution, afin d'éviter des crashs éventuels.
 
-Axe d’évolution
+## Axe d’évolution
 
 Après les retours que nous avons eu sur notre applications, il nous apparaît que certaines fonctionnalités serait un plus pour notre framework. 
 En voici la liste : 
